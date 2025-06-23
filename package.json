@@ -13,7 +13,7 @@
   },
   "lint-staged": {
     "src/**/*.{js,jsx,ts,tsx}": [
-      "lint-fix"
+      "pnpm lint-fix"
     ]
   },
   "dependencies": {
