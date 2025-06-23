@@ -1,0 +1,4 @@
+#!/usr/bin/env sh
+. "$(dirname -- "$0")/_/husky.sh"
+
+pnpm lint-staged && echo "✅ eslint 형식에 맞게 코드를 수정했습니다."
