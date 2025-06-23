@@ -1,3 +1,5 @@
+import storybook from 'eslint-plugin-storybook';
+
 import { FlatCompat } from '@eslint/eslintrc';
 import { dirname } from 'path';
 import { fileURLToPath } from 'url';
@@ -43,4 +45,5 @@ export default tseslint.config(
       ...reactHooks.configs.recommended.rules,
     },
   },
+  storybook.configs['flat/recommended'],
 );
