@@ -1,1 +1,27 @@
 @import 'tailwindcss';
+
+@theme {
+  /* 색상 */
+  --color-gray-50: #383838;
+  --color-gray-40: #707070;
+  --color-gray-30: #9a9a9a;
+  --color-gray-20: #f1f1f1;
+  --color-gray-10: #f6f6f6;
+
+  --color-primary: #fbd424;
+  --color-primaryHover: #ffb300;
+
+  /* 폰트 크기 */
+  --text-6xs: 9px;
+  --text-5xs: 11px;
+  --text-4xs: 13px;
+
+  /* 그림자 */
+  --shadow-button: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+  --shadow-input: rgba(17, 17, 26, 0.1) 0px 0px 16px;
+  --shadow-textarea: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
+}
+
+@theme inline {
+  --font-pretendard: var(--font-pretendard);
+}
