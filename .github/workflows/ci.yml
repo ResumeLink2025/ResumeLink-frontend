@@ -14,4 +14,3 @@ jobs:
         with:
           assignees: ${{ github.actor }}
           reviewers: ksy90101, seoku9, lsj0202
-          skip-author: true
