@@ -13,6 +13,9 @@ interface RootLayoutProps {
 }
 
 const RootLayout = ({ children }: RootLayoutProps) => {
+  const 사용하지않는코드 = 'trash code';
+  console.log(사용하지않는코드);
+
   return (
     <html lang="kr">
       <body className={`${pretendard.variable} font-pretendard`}>{children}</body>
