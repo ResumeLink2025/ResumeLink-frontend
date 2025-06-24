@@ -14,7 +14,7 @@ interface RootLayoutProps {
 
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
-    <html lang="en">
+    <html lang="kr">
       <body className={`${pretendard.variable} font-pretendard`}>{children}</body>
     </html>
   );
