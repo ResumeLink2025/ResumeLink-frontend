@@ -32,10 +32,10 @@ export type fontType = VariantProps<typeof typographyVariants>['type'];
 
 type TypographyProps = {
   children: React.ReactNode;
-} & HTMLAttributes<HTMLParagraphElement> &
+} & HTMLAttributes<HTMLSpanElement> &
   VariantProps<typeof typographyVariants>;
 
-const Typography = forwardRef<HTMLParagraphElement, TypographyProps>(({ children, type, ...props }, ref) => {
+const Typography = forwardRef<HTMLSpanElement, TypographyProps>(({ children, type, ...props }, ref) => {
   const { className, ...restProps } = props;
 
   return (
