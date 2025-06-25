@@ -1,5 +1,4 @@
-import Footer from '@/features/layouts/Footer';
-import Header from '@/features/layouts/Header';
+import { Footer, Header } from '@/features/layouts';
 
 interface LayoutProviderProps {
   children: React.ReactNode;
