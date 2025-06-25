@@ -8,7 +8,7 @@ const Header = () => {
     <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
       <Container>
         <div className="flex justify-between h-15">
-          <Image src="/images/logo.svg" className="cursor-pointer" width={120} height={60} alt="logo" />
+          <Image src="/images/logo.svg" className="cursor-pointer" width={120} height={21} alt="logo" />
         </div>
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-5">

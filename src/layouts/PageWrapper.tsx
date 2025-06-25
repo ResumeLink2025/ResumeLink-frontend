@@ -11,8 +11,8 @@ const PageWrapper = ({ children, ...props }: PageWrapperProps) => {
   const { className, ...restProps } = props;
 
   return (
-    <Wrapper className={cn(`min-h-[calc(100dvh-60px)]`, className)} {...restProps}>
-      <Container className="pt-[95px]">{children}</Container>
+    <Wrapper className={cn('pt-[95px]', className)} {...restProps}>
+      <Container>{children}</Container>
     </Wrapper>
   );
 };
