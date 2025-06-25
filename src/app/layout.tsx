@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 
+import LayoutProvider from '@/providers/LayoutProvider';
 import { generateMetadata } from '@/utils/generateMetadata';
 
 import { pretendard } from './fonts';
@@ -15,7 +16,9 @@ interface RootLayoutProps {
 const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="ko">
-      <body className={`${pretendard.variable} font-pretendard`}>{children}</body>
+      <body className={`${pretendard.variable} font-pretendard`}>
+        <LayoutProvider>{children}</LayoutProvider>
+      </body>
     </html>
   );
 };
