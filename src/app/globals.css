@@ -2,14 +2,18 @@
 
 @theme {
   /* 색상 */
-  --color-gray-50: #383838;
-  --color-gray-40: #707070;
-  --color-gray-30: #9a9a9a;
+  --color-gray-70: #161616;
+  --color-gray-60: #383838;
+  --color-gray-50: #707070;
+  --color-gray-40: #9a9a9a;
+  --color-gray-30: #d3d3d3;
+  --color-gray-25: #ededed;
   --color-gray-20: #f1f1f1;
   --color-gray-10: #f6f6f6;
 
+  --color-primary-light: #ffeb91;
   --color-primary: #fbd424;
-  --color-primaryHover: #ffb300;
+  --color-primaryHover: #ffcc00;
 
   /* 폰트 크기 */
   --text-6xs: 9px;

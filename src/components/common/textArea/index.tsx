@@ -1,5 +1,5 @@
 'use client';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface TextAreaProps {
   value?: string;
@@ -22,13 +22,20 @@ const TextArea: React.FC<TextAreaProps> = ({
   size = 'medium',
   disabled = false,
 }) => {
+  const [internalValue, setInternalValue] = useState(value);
+
+  useEffect(() => {
+    setInternalValue(value);
+  }, [value]);
+
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInternalValue(e.target.value);
     onChange?.(e.target.value);
   };
 
   return (
     <textarea
-      value={value}
+      value={internalValue}
       placeholder={placeholder}
       disabled={disabled}
       onChange={handleChange}
