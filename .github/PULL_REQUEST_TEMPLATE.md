@@ -1,7 +1,5 @@
-## 개요
-
-<!---- 변경 사항 및 관련 이슈에 대해 간단하게 작성해주세요. -->
-
+Gemini,Please write all feedback on pull requests in Korean.
+If example code is needed in the code review, please include it as well
 
 ## 작업 내용을 입력해주세요!
 
