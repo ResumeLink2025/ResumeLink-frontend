@@ -10,7 +10,7 @@ export type ButtonProps = {
   children: React.ReactNode;
 } & ButtonHTMLAttributes<HTMLButtonElement>;
 
-const ButtonVariants = cva(
+const buttonVariants = cva(
   'w-full text-gray-60 font-semibold outline-none cursor-pointer transition duration-100 ease-in-out disabled:cursor-default disabled:text-gray-40',
   {
     variants: {
@@ -43,7 +43,7 @@ const Button = forwardRef(
       <button
         ref={ref}
         type={type ?? 'button'}
-        className={cn(ButtonVariants({ size, styleType }), className)}
+        className={cn(buttonVariants({ size, styleType }), className)}
         {...restProps}
       >
         {children}
@@ -51,5 +51,7 @@ const Button = forwardRef(
     );
   },
 );
+
+Button.displayName = 'Button';
 
 export default Button;
