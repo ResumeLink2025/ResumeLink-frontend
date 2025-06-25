@@ -25,7 +25,7 @@ const meta: Meta<typeof Button> = {
 export default meta;
 
 export const DefaultButton: StoryObj<ButtonType> = {
-  render: (args) => <Button {...args}>기본 버튼</Button>,
+  render: (args) => <Button {...args}>AI를 활용하여 이력서를 작성해보세요!</Button>,
 };
 
 export const DisabledButton: StoryObj<ButtonType> = {

@@ -1,5 +1,8 @@
 import { cva } from 'class-variance-authority';
 
+import Typography from '../Typography';
+import { getFontType } from '../Typography/utils';
+
 export type TagProps = {
   size?: 'small' | 'medium' | 'large';
   styleType?: 'primary' | 'gray' | 'outline' | 'outlinePrimary';
@@ -32,9 +35,11 @@ const tagVariants = cva('inline-flex items-center min-w-[40px] rounded-full text
 });
 
 const Tag = ({ size, styleType, isSelected, onClick, children }: TagProps) => {
+  const fontType = getFontType('tag', size);
+
   return (
     <div className={tagVariants({ size, styleType, isSelected })} onClick={onClick}>
-      {children}
+      <Typography type={fontType}>{children}</Typography>
     </div>
   );
 };
