@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 
-import TextArea from './index';
+import DefaultTextarea from './index';
 
-const meta: Meta<typeof TextArea> = {
-  title: 'Components/TextArea',
-  component: TextArea,
+const meta: Meta<typeof DefaultTextarea> = {
+  title: 'Components/DefaultTextarea',
+  component: DefaultTextarea,
   tags: ['autodocs'],
   argTypes: {
     placeholder: { control: 'text' },
@@ -18,49 +18,48 @@ const meta: Meta<typeof TextArea> = {
 };
 
 export default meta;
-type Story = StoryObj<typeof TextArea>;
+type Story = StoryObj<typeof DefaultTextarea>;
 
 export const Default: Story = {
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return <TextArea {...args} value={value} onChange={setValue} />;
-  },
   args: {
     placeholder: '내용을 입력하세요',
     size: 'medium',
     disabled: false,
   },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return <DefaultTextarea {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
+  },
 };
 
 export const Disabled: Story = {
-  render: (args) => {
-    return <TextArea {...args} value="비활성화 상태입니다" />;
-  },
   args: {
+    value: '비활성화 상태입니다',
     disabled: true,
+    size: 'medium',
   },
 };
 
 export const SmallSize: Story = {
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return <TextArea {...args} value={value} onChange={setValue} />;
-  },
   args: {
     placeholder: '작은 크기 텍스트 영역',
     size: 'small',
     disabled: false,
   },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return <DefaultTextarea {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
+  },
 };
 
 export const LargeSize: Story = {
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return <TextArea {...args} value={value} onChange={setValue} />;
-  },
   args: {
     placeholder: '큰 크기 텍스트 영역',
     size: 'large',
     disabled: false,
+  },
+  render: (args) => {
+    const [value, setValue] = useState('');
+    return <DefaultTextarea {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
   },
 };

@@ -1,14 +1,10 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { cn } from '@/utils/styleMerge';
 
-interface TextAreaProps {
-  value?: string;
-  placeholder?: string;
-  onChange?: (value: string) => void;
+interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
   size?: 'small' | 'medium' | 'large';
-  disabled?: boolean;
 }
 
 const sizeMap = {
@@ -17,38 +13,18 @@ const sizeMap = {
   large: 'h-[220px]',
 };
 
-const TextArea: React.FC<TextAreaProps> = ({
-  value = '',
-  placeholder = '',
-  onChange,
-  size = 'medium',
-  disabled = false,
-}) => {
-  const [internalValue, setInternalValue] = useState(value);
-
-  useEffect(() => {
-    setInternalValue(value);
-  }, [value]);
-
-  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    if (disabled) return;
-    setInternalValue(e.target.value);
-    onChange?.(e.target.value);
-  };
-
+const TextArea = ({ size = 'medium', disabled = false, className, ...props }: TextAreaProps) => {
   return (
     <textarea
-      value={internalValue}
-      placeholder={placeholder}
       disabled={disabled}
-      onChange={handleChange}
+      {...props}
       className={cn(
         'w-full px-3 py-2 box-border rounded-md bg-white resize-none focus:outline-none focus:ring-1 focus:ring-gray-200',
-        sizeMap[size],
-        'border',
-        'border-[color:var(--color-gray-40)]',
+        'border border-[color:var(--color-gray-40)]',
         'placeholder-[color:var(--color-gray-40)]',
         disabled ? 'text-[color:var(--color-gray-40)] bg-gray-10 cursor-not-allowed' : 'text-black',
+        sizeMap[size],
+        className,
       )}
     />
   );
