@@ -35,6 +35,7 @@ export default tseslint.config(
         'error',
         { prefer: 'type-imports', disallowTypeAnnotations: false },
       ],
+      'react/display-name': 'off',
       'simple-import-sort/imports': 'error',
       'simple-import-sort/exports': 'error',
       'unused-imports/no-unused-imports': 'error',
