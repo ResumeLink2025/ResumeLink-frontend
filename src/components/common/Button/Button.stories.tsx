@@ -4,7 +4,7 @@ import Button from '.';
 
 type ButtonType = typeof Button;
 
-const meta: Meta<typeof Button> = {
+const meta: Meta<ButtonType> = {
   title: 'common/Button',
   component: Button,
   argTypes: {

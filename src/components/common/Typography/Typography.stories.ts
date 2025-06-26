@@ -2,7 +2,9 @@ import type { Meta, StoryObj } from '@storybook/nextjs';
 
 import Typography from '.';
 
-const meta: Meta<typeof Typography> = {
+type TypographyType = typeof Typography;
+
+const meta: Meta<TypographyType> = {
   title: 'common/Typography',
   component: Typography,
   argTypes: {
@@ -29,7 +31,7 @@ const meta: Meta<typeof Typography> = {
 
 export default meta;
 
-type Story = StoryObj<typeof Typography>;
+type Story = StoryObj<TypographyType>;
 
 export const DefaultTypography: Story = {
   args: {

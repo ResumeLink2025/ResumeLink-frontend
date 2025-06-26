@@ -5,7 +5,7 @@ import Tag from '.';
 
 type TagType = typeof Tag;
 
-const meta: Meta<typeof Tag> = {
+const meta: Meta<TagType> = {
   title: 'common/Tag',
   component: Tag,
   argTypes: {
