@@ -50,10 +50,10 @@ const ImageUpload = ({ size, uploadFile, previewUrl, ...props }: ImageUploadProp
             onDrop={onDrop}
             onClick={handleClickRef}
             className={cn(
-              imageUploadVariants({ size }),
-              isDragging && 'border-primaryHover',
-              previewUrl && 'p-0',
               'bg-gray-25 border-2 border-dashed border-gray-50 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-30 transition duration-150',
+              imageUploadVariants({ size }),
+              isDragging && 'border-primary',
+              previewUrl && 'p-0',
             )}
           >
             <Image
