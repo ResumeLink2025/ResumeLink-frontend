@@ -37,7 +37,7 @@ const Toggle = ({ size = 'medium', checked, disabled = false, onChange }: Toggle
       role="switch"
       aria-checked={checked}
       disabled={disabled}
-      onClick={() => !disabled && onChange(!checked)}
+      onClick={() => onChange(!checked)}
       className={toggleVariants({ checked, disabled, size })}
     >
       <span
