@@ -52,12 +52,11 @@ const ImageUpload = ({ size, uploadFile, previewUrl, ...props }: ImageUploadProp
             className={cn(
               'bg-gray-25 border-2 border-dashed border-gray-50 flex flex-col items-center justify-center cursor-pointer hover:bg-gray-30 transition duration-150',
               imageUploadVariants({ size }),
-              isDragging && 'border-primary',
-              previewUrl && 'p-0',
+              { 'border-primary': isDragging, 'p-0': previewUrl },
             )}
           >
             <Image
-              size={size == 'medium' ? 45 : 52}
+              size={{ medium: 45, large: 52 }[size]}
               className={cn(isDragging ? 'text-primaryHover' : 'text-gray-50', 'duration-150')}
             />
             <p className="text-sm text-gray-50 mt-2">클릭 또는 드래그를 이용하여 업로드 해주세요.</p>
