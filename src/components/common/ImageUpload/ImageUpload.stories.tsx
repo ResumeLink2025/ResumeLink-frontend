@@ -1,13 +1,13 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 
-import ImageUploadButton from '.';
+import ImageUpload from '.';
 
-type ImageUploadButtonType = typeof ImageUploadButton;
+type ImageUploadType = typeof ImageUpload;
 
-const meta: Meta<ImageUploadButtonType> = {
-  title: 'common/ImageUploadButton',
-  component: ImageUploadButton,
+const meta: Meta<ImageUploadType> = {
+  title: 'common/ImageUpload',
+  component: ImageUpload,
   argTypes: {
     size: {
       control: 'inline-radio',
@@ -18,7 +18,7 @@ const meta: Meta<ImageUploadButtonType> = {
 
 export default meta;
 
-export const DefaultImageUploadButton: StoryObj<ImageUploadButtonType> = {
+export const DefaultImageUpload: StoryObj<ImageUploadType> = {
   render: (args) => {
     const [imageUrl, setImageUrl] = useState<string | null>(null);
 
@@ -37,10 +37,6 @@ export const DefaultImageUploadButton: StoryObj<ImageUploadButtonType> = {
       setImageUrl(imageUrl);
     };
 
-    return (
-      <div>
-        <ImageUploadButton {...args} previewUrl={imageUrl} uploadFile={handleUploadFile} />
-      </div>
-    );
+    return <ImageUpload {...args} previewUrl={imageUrl} uploadFile={handleUploadFile} />;
   },
 };
