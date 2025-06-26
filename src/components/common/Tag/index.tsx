@@ -14,8 +14,8 @@ export type TagProps = {
 const tagVariants = cva('inline-flex items-center min-w-[40px] rounded-full text-gray-60 cursor-pointer', {
   variants: {
     size: {
-      small: 'h-8 px-3',
-      medium: 'h-9 px-4',
+      small: 'h-6 px-2',
+      medium: 'h-8 px-3',
       large: 'h-10 px-4',
     },
     styleType: {
