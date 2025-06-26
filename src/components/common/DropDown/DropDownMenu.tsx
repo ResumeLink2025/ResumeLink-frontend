@@ -16,7 +16,7 @@ const DropDownMenu = ({
   children,
 }: DropDownMenuProps) => {
   const dropDownMenuVariants = cva(
-    'absolute border-1 border-gray-40 rounded-[10px] w-max z-10 bg-white shadow-button',
+    'absolute border border-gray-40 rounded-[10px] w-max z-10 bg-white shadow-button',
     {
       variants: {
         size: {

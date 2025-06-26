@@ -13,7 +13,7 @@ type DropDownTriggerProps = {
 
 const DropDownTrigger = ({ size, onClick, children }: DropDownTriggerProps) => {
   const dropDownTriggerVariants = cva(
-    'border-1 border-gray-40 bg-white cursor-pointer hover:bg-gray-25 transition',
+    'border border-gray-40 bg-white cursor-pointer hover:bg-gray-25 transition',
     {
       variants: {
         size: {

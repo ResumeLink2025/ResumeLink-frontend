@@ -60,7 +60,7 @@ export default function ProfileCard({
             alt={author}
             width={24}
             height={24}
-            className="rounded-full object-cover border-1 border-gray-30"
+            className="rounded-full object-cover border border-gray-30"
           />
           <div className="flex gap-1">
             <Typography type="body3" className="text-gray-40">
