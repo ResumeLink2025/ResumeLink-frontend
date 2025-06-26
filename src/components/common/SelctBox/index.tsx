@@ -1,13 +1,16 @@
 import type { SelectHTMLAttributes } from 'react';
+import { HiChevronDown } from 'react-icons/hi';
 
 interface CustomSelectProps {
   isValid?: boolean;
   errorMessage?: string;
 }
 
+type SelectOption = { label: string; value: string };
+
 type SelectBoxProps = SelectHTMLAttributes<HTMLSelectElement> &
   CustomSelectProps & {
-    options: { label: string; value: string }[];
+    options: SelectOption[];
   };
 
 export default function SelectBox({
@@ -45,16 +48,7 @@ export default function SelectBox({
         className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2"
         style={{ color: 'var(--color-gray-50)' }}
       >
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          className="h-4 w-4"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
-          strokeWidth={2}
-        >
-          <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
-        </svg>
+        <HiChevronDown className="w-4 h-4" />
       </div>
     </div>
   );
