@@ -29,10 +29,10 @@ export const DefaultTag: StoryObj<TagType> = {
   render: (args) => {
     const tags = ['React', 'Next', 'Express', 'Nest', 'Swift'];
 
-    const [selectedTags, setSelectedTags] = useState<string[]>();
+    const [selectedTags, setSelectedTags] = useState<string[]>([]);
 
     const onClickSelectTag = (tag: string) => {
-      setSelectedTags((prevState = []) => {
+      setSelectedTags((prevState) => {
         const isSelected = prevState?.includes(tag);
 
         if (isSelected) {

@@ -10,7 +10,7 @@ export const TypographyPresets: Record<componentType, Record<sizeType, fontType>
     large: 'body2',
   },
   button: {
-    small: 'title3',
+    small: 'title4',
     medium: 'title3',
     large: 'title2',
   },
