@@ -1,64 +1,62 @@
-import type { Meta, StoryObj } from '@storybook/nextjs';
+import { cva } from 'class-variance-authority';
+import type { ButtonHTMLAttributes, Ref } from 'react';
+import { forwardRef } from 'react';
 
-import Button from '.';
+import { cn } from '@/utils/styleMerge';
 
-type ButtonType = typeof Button;
+import Typography from '../Typography';
+import { getFontType } from '../Typography/utils';
 
-const meta: Meta<ButtonType> = {
-  title: 'common/Button',
-  component: Button,
-  argTypes: {
-    styleType: {
-      control: 'inline-radio',
-      options: ['gray20', 'gray25', 'primary', 'white', 'outline'],
+export type ButtonProps = {
+  size?: 'small' | 'medium' | 'large';
+  styleType?: 'gray20' | 'gray25' | 'primary' | 'white' | 'outline';
+  children: React.ReactNode;
+} & ButtonHTMLAttributes<HTMLButtonElement>;
+
+const buttonVariants = cva(
+  'w-full text-gray-60 font-semibold outline-none cursor-pointer transition duration-100 ease-in-out disabled:cursor-default disabled:text-gray-40',
+  {
+    variants: {
+      size: {
+        small: 'h-[40px] rounded-lg',
+        medium: 'h-[45px] rounded-[10px]',
+        large: 'h-[55px] rounded-[10px]',
+      },
+      styleType: {
+        gray20: 'bg-gray-20 hover:bg-gray-30 disabled:bg-gray-20',
+        gray25: 'bg-gray-25 hover:bg-gray-30 disabled:bg-gray-25',
+        primary: 'bg-primary hover:bg-primaryHover disabled:bg-primary-light',
+        white: 'bg-white hover:bg-gray-25 disabled:bg-gray-25',
+        outline:
+          'bg-white outline-solid outline-1 outline-gray-40 hover:bg-gray-20 disabled:bg-white disabled:outline-gray-30',
+      },
     },
-    size: {
-      control: 'inline-radio',
-      options: ['small', 'medium', 'large'],
-    },
-    disabled: {
-      control: 'boolean',
+    defaultVariants: {
+      size: 'medium',
+      styleType: 'primary',
     },
   },
-};
+);
 
-export default meta;
+const Button = forwardRef(
+  ({ size, styleType, children, ...props }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
+    const { className, type, ...restProps } = props;
 
-export const DefaultButton: StoryObj<ButtonType> = {
-  render: (args) => <Button {...args}>AI를 활용하여 이력서를 작성해보세요!</Button>,
-};
-
-export const DisabledButton: StoryObj<ButtonType> = {
-  render: (args) => (
-    <Button disabled {...args}>
-      disabled 된 버튼
-    </Button>
-  ),
-};
-
-export const ExampleToUseButton: StoryObj<ButtonType> = {
-  render: (args) => {
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-
-      const formData = new FormData(e.currentTarget);
-
-      const userName = formData.get('userName') as string;
-
-      alert(`사용자 이름: ${userName}`);
-    };
+    const fontType = getFontType('button', size);
 
     return (
-      <form className="flex flex-col gap-5 w-[350px]" onSubmit={handleSubmit}>
-        <input
-          name="userName"
-          placeholder="유저 이름을 입력해주세요"
-          className="border border-gray-40 rounded-lg p-3"
-        />
-        <Button {...args} type="submit">
-          제출하기
-        </Button>
-      </form>
+      <button
+        ref={ref}
+        type={type ?? 'button'}
+        className={cn(buttonVariants({ size, styleType }), className)}
+        {...restProps}
+      >
+        <Typography type={fontType}>{children}</Typography>
+      </button>
     );
   },
-};
+);
+
+Button.displayName = 'Button';
+
+export default Button;
