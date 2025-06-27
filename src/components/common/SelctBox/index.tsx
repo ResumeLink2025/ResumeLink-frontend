@@ -35,12 +35,12 @@ const selectVariants = cva(
   },
 );
 
-const iconVariants = cva('', {
+const selectIconVariants = cva('', {
   variants: {
     size: {
-      small: 'w-4 h-4',
-      medium: 'w-5 h-5',
-      large: 'w-6 h-6',
+      small: 'size-4',
+      medium: 'size-5',
+      large: 'size-6',
     },
     disabled: {
       true: 'text-gray-40',
@@ -85,7 +85,7 @@ const SelectBox = forwardRef(
             ))}
           </select>
 
-          <ChevronDown className={cn(iconVariants({ size, disabled }), 'absolute right-2')} />
+          <ChevronDown className={cn(selectIconVariants({ size, disabled }), 'absolute right-2')} />
         </div>
 
         {errorMessage && <Typography className="text-red-500">{errorMessage}</Typography>}
