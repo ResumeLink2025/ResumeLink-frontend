@@ -4,6 +4,9 @@ import { forwardRef } from 'react';
 
 import { cn } from '@/utils/styleMerge';
 
+import Typography from '../Typography';
+import { getFontType } from '../Typography/utils';
+
 export type ButtonProps = {
   size?: 'small' | 'medium' | 'large';
   styleType?: 'gray20' | 'gray25' | 'primary' | 'white' | 'outline';
@@ -39,6 +42,8 @@ const Button = forwardRef(
   ({ size, styleType, children, ...props }: ButtonProps, ref: Ref<HTMLButtonElement>) => {
     const { className, type, ...restProps } = props;
 
+    const fontType = getFontType('button', size);
+
     return (
       <button
         ref={ref}
@@ -46,7 +51,7 @@ const Button = forwardRef(
         className={cn(buttonVariants({ size, styleType }), className)}
         {...restProps}
       >
-        {children}
+        <Typography type={fontType}>{children}</Typography>
       </button>
     );
   },
