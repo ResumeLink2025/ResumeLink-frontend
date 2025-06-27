@@ -1,7 +1,9 @@
 import type { fontType } from '.';
 
 type sizeType = 'small' | 'medium' | 'large';
-type componentType = 'tag' | 'button' | 'dropDown';
+
+type componentType = 'tag' | 'button'| 'input' | 'dropDown';
+
 
 export const TypographyPresets: Record<componentType, Record<sizeType, fontType>> = {
   tag: {
@@ -13,6 +15,11 @@ export const TypographyPresets: Record<componentType, Record<sizeType, fontType>
     small: 'title4',
     medium: 'title3',
     large: 'title2',
+  },
+  input: {
+    small: 'body5',
+    medium: 'body4',
+    large: 'body3',
   },
   dropDown: {
     small: 'body3',
