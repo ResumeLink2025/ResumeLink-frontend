@@ -92,10 +92,7 @@ export const FormInputExample: Story = {
 
     return (
       <>
-        <form
-          style={{ display: 'flex', flexDirection: 'column', gap: '10px', width: '350px' }}
-          onSubmit={handleSubmit}
-        >
+        <form className="flex flex-col gap-1 w-[350px]" onSubmit={handleSubmit}>
           <Input label="아이디" name="id" errorMessage={errorState.id} {...args} />
           <Input
             label="비밀번호"
