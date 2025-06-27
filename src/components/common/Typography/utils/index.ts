@@ -1,4 +1,4 @@
-import type { fontType } from '.';
+import type { fontType } from '..';
 
 type sizeType = 'small' | 'medium' | 'large';
 
