@@ -14,8 +14,6 @@ const meta: Meta<typeof Input> = {
     disabled: { control: 'boolean' },
     isValid: { control: 'boolean' },
     errorMessage: { control: 'text' },
-    isSearch: { control: 'boolean' },
-    onSearchClick: { action: 'searchClicked' },
   },
 };
 
@@ -27,7 +25,6 @@ export const Default: Story = {
     placeholder: '입력해 주세요',
     value: '',
     isValid: true,
-    isSearch: false,
   },
 };
 
@@ -36,7 +33,6 @@ export const Disabled: Story = {
     placeholder: '입력 불가',
     value: '비활성화됨',
     disabled: true,
-    isSearch: false,
   },
 };
 
@@ -46,7 +42,6 @@ export const Invalid: Story = {
     value: 'test@',
     isValid: false,
     errorMessage: '올바르지 않은 이메일 형식입니다.',
-    isSearch: false,
   },
 };
 
@@ -55,7 +50,6 @@ export const SearchInput: Story = {
     placeholder: '검색어를 입력하세요',
     value: '',
     isValid: true,
-    isSearch: true,
   },
 };
 
@@ -88,7 +82,6 @@ export const FormExample: Story = {
           isValid={!error}
           errorMessage={error}
           type="email"
-          isSearch={false}
         />
         <button type="submit" style={{ marginTop: 12 }}>
           제출
