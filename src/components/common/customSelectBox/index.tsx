@@ -42,6 +42,7 @@ export default function SelectBox({
   const customStyles: StylesConfig<Option, false> = {
     control: (base, state) => ({
       ...base,
+      padding: '0 4px',
       backgroundColor: isDisabled ? 'var(--color-gray-10)' : 'white',
       borderColor: isDisabled
         ? 'var(--color-gray-30)'
