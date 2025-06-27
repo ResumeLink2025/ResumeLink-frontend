@@ -25,17 +25,18 @@ export default meta;
 type Story = StoryObj<typeof SelectBox>;
 
 export const Default: Story = {
-  args: {
-    options,
-    value: 'option1',
-    disabled: false,
+  render: (args) => {
+    const [selected, setSelected] = useState('option1');
+    return (
+      <SelectBox {...args} value={selected} onChange={(e) => setSelected(e.target.value)} options={options} />
+    );
   },
 };
 
 export const Disabled: Story = {
   args: {
     options,
-    value: 'option2',
+    defaultValue: 'option1',
     disabled: true,
   },
 };

@@ -1,5 +1,3 @@
-'use client';
-
 import { cva } from 'class-variance-authority';
 import { ChevronDown } from 'lucide-react';
 import type { Ref, SelectHTMLAttributes } from 'react';
@@ -23,9 +21,9 @@ const selectVariants = cva(
   {
     variants: {
       size: {
-        small: 'h-[35px]  text-5xs',
-        medium: 'h-[40px] text-4xs',
-        large: 'h-[45px] text-[18px]',
+        small: 'h-[40px] text-[15px]',
+        medium: 'h-[45px] text-[16px]',
+        large: 'h-[50px] text-[18px]',
       },
       disabled: {
         true: 'cursor-default bg-gray-10 text-gray-40',
@@ -37,6 +35,23 @@ const selectVariants = cva(
   },
 );
 
+const iconVariants = cva('', {
+  variants: {
+    size: {
+      small: 'w-4 h-4',
+      medium: 'w-5 h-5',
+      large: 'w-6 h-6',
+    },
+    disabled: {
+      true: 'text-gray-40',
+      false: 'text-gray-20',
+    },
+  },
+  defaultVariants: {
+    size: 'medium',
+  },
+});
+
 const SelectBox = forwardRef(
   (
     { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
@@ -45,10 +60,10 @@ const SelectBox = forwardRef(
     const selectId = useId();
 
     return (
-      <div className="w-full relative inline-flex flex-col gap-1 ">
+      <div className="w-full relative inline-flex flex-col gap-1">
         <div
           className={cn(
-            'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border',
+            'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border px-1',
             errorMessage
               ? 'border-red-600 focus-within:border-red-600'
               : 'border-gray-40 focus-within:border-gray-60',
@@ -70,9 +85,7 @@ const SelectBox = forwardRef(
             ))}
           </select>
 
-          <ChevronDown
-            className={cn('absolute right-2  size-4', disabled ? 'text-grey-40' : 'text-grey-20')}
-          />
+          <ChevronDown className={cn(iconVariants({ size, disabled }), 'absolute right-2')} />
         </div>
 
         {errorMessage && <Typography className="text-red-500">{errorMessage}</Typography>}
