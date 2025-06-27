@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
+import { useState } from 'react';
 
 import SelectBox from './index';
 
@@ -15,7 +16,6 @@ const meta: Meta<typeof SelectBox> = {
   argTypes: {
     value: { control: 'text' },
     disabled: { control: 'boolean' },
-    isValid: { control: 'boolean' },
     errorMessage: { control: 'text' },
     onChange: { action: 'changed' },
   },
@@ -29,7 +29,6 @@ export const Default: Story = {
     options,
     value: 'option1',
     disabled: false,
-    isValid: true,
   },
 };
 
@@ -38,7 +37,6 @@ export const Disabled: Story = {
     options,
     value: 'option2',
     disabled: true,
-    isValid: true,
   },
 };
 
@@ -47,16 +45,25 @@ export const Invalid: Story = {
     options,
     value: 'option3',
     disabled: false,
-    isValid: false,
     errorMessage: '잘못된 선택입니다.',
   },
 };
 
-export const NoValue: Story = {
-  args: {
-    options,
-    value: '',
-    disabled: false,
-    isValid: true,
+export const StateExample: Story = {
+  render: (args) => {
+    const [selectedValue, setSelectedValue] = useState(options[0].value);
+
+    const handleChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setSelectedValue(e.target.value);
+    };
+
+    return (
+      <div style={{ width: '300px' }}>
+        <SelectBox {...args} value={selectedValue} onChange={handleChange} options={options} />
+        <p style={{ marginTop: '8px' }}>
+          현재 선택된 값: <strong>{selectedValue || '(없음)'}</strong>
+        </p>
+      </div>
+    );
   },
 };

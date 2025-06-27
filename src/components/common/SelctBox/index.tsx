@@ -1,55 +1,86 @@
-import type { SelectHTMLAttributes } from 'react';
-import { HiChevronDown } from 'react-icons/hi';
+'use client';
 
-interface CustomSelectProps {
-  isValid?: boolean;
-  errorMessage?: string;
-}
+import { cva } from 'class-variance-authority';
+import { ChevronDown } from 'lucide-react';
+import type { Ref, SelectHTMLAttributes } from 'react';
+import { forwardRef, useId } from 'react';
+
+import { cn } from '@/utils/styleMerge';
+
+import Typography from '../Typography';
 
 type SelectOption = { label: string; value: string };
 
-type SelectBoxProps = SelectHTMLAttributes<HTMLSelectElement> &
-  CustomSelectProps & {
-    options: SelectOption[];
-  };
+type SelectBoxProps = {
+  size?: 'small' | 'medium' | 'large';
+  label?: string;
+  errorMessage?: string;
+  options: SelectOption[];
+} & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>;
 
-export default function SelectBox({
-  options,
-  isValid = true,
-  errorMessage,
-  className = '',
-  disabled = false,
-  ...rest
-}: SelectBoxProps) {
-  const baseClass =
-    'w-full py-1 px-3 box-border rounded-md border bg-white appearance-none focus:outline-none';
+const selectVariants = cva(
+  'w-full appearance-none border-transparent rounded-[10px] bg-white text-gray-70 focus:outline-none',
+  {
+    variants: {
+      size: {
+        small: 'h-[35px]  text-5xs',
+        medium: 'h-[40px] text-4xs',
+        large: 'h-[45px] text-[18px]',
+      },
+      disabled: {
+        true: 'cursor-default bg-gray-10 text-gray-40',
+      },
+    },
+    defaultVariants: {
+      size: 'medium',
+    },
+  },
+);
 
-  const disabledClass =
-    'bg-[var(--color-gray-10)] text-[var(--color-gray-30)] cursor-not-allowed border-[var(--color-gray-30)]';
-  const validClass =
-    'text-black border-[var(--color-gray-40)] focus:ring-1 focus:ring-[var(--color-gray-20)] focus:border-[var(--color-gray-70)]';
-  const invalidClass = 'text-red-600 border-red-500 focus:ring-1 focus:ring-red-300';
+const SelectBox = forwardRef(
+  (
+    { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
+    ref: Ref<HTMLSelectElement>,
+  ) => {
+    const selectId = useId();
 
-  const stateClass = disabled ? disabledClass : isValid ? validClass : invalidClass;
+    return (
+      <div className="w-full relative inline-flex flex-col gap-1 ">
+        <div
+          className={cn(
+            'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border',
+            errorMessage
+              ? 'border-red-600 focus-within:border-red-600'
+              : 'border-gray-40 focus-within:border-gray-60',
+            disabled && 'border-gray-40 bg-gray-10 text-gray-40 cursor-default',
+          )}
+        >
+          <select
+            id={selectId}
+            ref={ref}
+            disabled={disabled}
+            defaultValue={defaultValue}
+            className={cn(selectVariants({ size, disabled }), 'px-[10px]')}
+            {...props}
+          >
+            {options.map(({ label, value }) => (
+              <option key={value} value={value}>
+                {label}
+              </option>
+            ))}
+          </select>
 
-  return (
-    <div className="flex flex-col gap-1 relative">
-      <select disabled={disabled} className={`${baseClass} ${stateClass} ${className} pr-8`} {...rest}>
-        {options.map(({ label, value }) => (
-          <option key={value} value={value}>
-            {label}
-          </option>
-        ))}
-      </select>
+          <ChevronDown
+            className={cn('absolute right-2  size-4', disabled ? 'text-grey-40' : 'text-grey-20')}
+          />
+        </div>
 
-      {!isValid && errorMessage && <span className="text-xs text-red-500">{errorMessage}</span>}
-
-      <div
-        className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2"
-        style={{ color: 'var(--color-gray-50)' }}
-      >
-        <HiChevronDown className="w-4 h-4" />
+        {errorMessage && <Typography className="text-red-500">{errorMessage}</Typography>}
       </div>
-    </div>
-  );
-}
+    );
+  },
+);
+
+SelectBox.displayName = 'SelectBox';
+
+export default SelectBox;
