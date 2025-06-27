@@ -20,9 +20,9 @@ const TextArea = ({ size = 'medium', disabled = false, className, ...props }: Te
       {...props}
       className={cn(
         'w-full px-3 py-2 box-border rounded-md bg-white resize-none focus:outline-none focus:ring-1 focus:ring-gray-200',
-        'border border-[color:var(--color-gray-40)]',
-        'placeholder-[color:var(--color-gray-40)]',
-        disabled ? 'text-[color:var(--color-gray-40)] bg-gray-10 cursor-not-allowed' : 'text-black',
+        'border-gray-40',
+        'placeholder-gray-40 text-[16px]',
+        disabled ? 'text-gray-40 bg-gray-10 cursor-not-allowed' : 'text-black',
         sizeMap[size],
         className,
       )}
