@@ -1,3 +1,5 @@
+'use client';
+
 import useClickOutside from '@/hooks/useClickOutside';
 
 import DropDownMenu from './DropDownMenu';

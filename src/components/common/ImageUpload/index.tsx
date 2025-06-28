@@ -1,3 +1,5 @@
+'use client';
+
 import { cva } from 'class-variance-authority';
 import { Image, X } from 'lucide-react';
 import type { InputHTMLAttributes } from 'react';

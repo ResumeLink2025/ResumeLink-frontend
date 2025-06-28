@@ -1,5 +1,5 @@
-import { PageWrapper } from '@/layouts';
+import Landing from '@/features/landing';
 
 export default function Home() {
-  return <PageWrapper>메인 페이지</PageWrapper>;
+  return <Landing />;
 }
