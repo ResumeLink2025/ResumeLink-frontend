@@ -14,7 +14,7 @@ interface HowItWorksStepProps {
 
 const HowItWorksStep = ({ id, title, description, image }: HowItWorksStepProps) => {
   const { ref, inView } = useInView({ threshold: 0.35, triggerOnce: true });
-  const reverseItemOrder = id % 2 == 0;
+  const reverseItemOrder = id % 2 === 0;
 
   return (
     <div

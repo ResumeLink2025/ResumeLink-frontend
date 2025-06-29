@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { Button,Typography } from '@/components/common';
+import { Button, Typography } from '@/components/common';
 
 import { SlideUpMotion } from '../components';
 

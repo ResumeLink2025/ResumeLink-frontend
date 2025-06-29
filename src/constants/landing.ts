@@ -3,7 +3,7 @@ import { FileText, UserRoundPen, UserRoundSearch } from 'lucide-react';
 export const HOW_IT_WORKS_EXPLAIN = [
   {
     id: 1,
-    title: '로그인/회원가입 을 통해 ResumeLink에 가입하세요!',
+    title: '로그인/회원가입을 통해 ResumeLink에 가입하세요!',
     description:
       'Google이나 Kakao계정으로 간편하게 가입할 수 있어요! ResumeLink에서 제공하는 소셜 로그인을 이용한 가입도 가능해요!',
     image: '/images/login.png',
