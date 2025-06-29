@@ -1,5 +1,6 @@
 import Image from 'next/image';
 
+import { Typography } from '@/components/common';
 import Container from '@/layouts/Container';
 import Wrapper from '@/layouts/Wrapper';
 
@@ -12,11 +13,17 @@ const Header = () => {
         </div>
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-5">
-            <span className="cursor-pointer">개발자 허브</span>
+            <Typography type="body2" className="cursor-pointer">
+              개발자 허브
+            </Typography>
           </div>
           <div className="flex gap-5">
-            <span className="cursor-pointer">로그인</span>
-            <span className="cursor-pointer">회원가입</span>
+            <Typography type="body2" className="cursor-pointer">
+              로그인
+            </Typography>
+            <Typography type="body2" className="cursor-pointer">
+              회원가입
+            </Typography>
           </div>
         </div>
       </Container>

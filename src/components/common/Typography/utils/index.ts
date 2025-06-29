@@ -2,8 +2,7 @@ import type { fontType } from '..';
 
 type sizeType = 'small' | 'medium' | 'large';
 
-type componentType = 'tag' | 'button'| 'input' | 'dropDown';
-
+type componentType = 'tag' | 'button' | 'input' | 'dropDown';
 
 export const TypographyPresets: Record<componentType, Record<sizeType, fontType>> = {
   tag: {

@@ -8,6 +8,7 @@ import { cn } from '@/utils/styleMerge';
 const typographyVariants = cva('whitespace-pre-line text-wrap', {
   variants: {
     type: {
+      hero1: 'font-bold text-[38px] leading-[135%]',
       heading1: 'font-bold text-[24px] leading-[135%]',
       heading2: 'font-bold text-[22px] leading-[135%]',
       heading3: 'font-bold text-[20px] leading-[135%]',
