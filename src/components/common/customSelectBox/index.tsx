@@ -1,45 +1,42 @@
 import type { SingleValue, StylesConfig } from 'react-select';
 import Select from 'react-select';
 
-interface Option {
+interface OptionType {
   label: string;
   value: string;
 }
 
-type SelectSize = 'sm' | 'md' | 'lg';
-
-interface SelectBoxProps {
-  options: Option[];
+type SelectBoxProps = {
+  options: OptionType[];
   value?: string;
   onChange?: (value: string) => void;
   isDisabled?: boolean;
-  size?: SelectSize;
-}
+  size?: 'small' | 'medium' | 'large';
+};
 
 export default function SelectBox({
   options,
   value,
   onChange,
   isDisabled = false,
-  size = 'md',
+  size = 'medium',
 }: SelectBoxProps) {
-  const selectedOption = options.find((opt) => opt.value === value) ?? null;
+  const selectedOption = options.find((option) => option.value === value) ?? null;
 
-  const handleChange = (selected: SingleValue<Option>) => {
-    if (selected) {
-      onChange?.(selected.value);
+  const handleChange = (isSelected: SingleValue<OptionType>) => {
+    if (isSelected) {
+      onChange?.(isSelected.value);
     } else {
       onChange?.('');
     }
   };
 
   const sizeHeightMap = {
-    sm: '35px',
-    md: '40px',
-    lg: '45px',
+    small: '40px',
+    medium: '45px',
+    large: '50px',
   };
-
-  const customStyles: StylesConfig<Option, false> = {
+  const customStyles: StylesConfig<OptionType, false> = {
     control: (base, state) => ({
       ...base,
       padding: '0 4px',
@@ -63,10 +60,12 @@ export default function SelectBox({
     menu: (base) => ({
       ...base,
       backgroundColor: 'white',
+      borderRadius: '10px',
     }),
     option: (base, state) => ({
       ...base,
       backgroundColor: state.isFocused ? 'var(--color-gray-50)' : 'white',
+      borderRadius: '4px',
       color: state.isFocused ? 'white' : 'black',
       '&:hover': {
         backgroundColor: 'var(--color-gray-30)',
