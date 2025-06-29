@@ -1,5 +1,3 @@
-import { cn } from '@/utils/styleMerge';
-
 import Container from './Container';
 import Wrapper from './Wrapper';
 
@@ -11,8 +9,8 @@ const PageWrapper = ({ children, ...props }: PageWrapperProps) => {
   const { className, ...restProps } = props;
 
   return (
-    <Wrapper className={cn('pt-[95px]', className)} {...restProps}>
-      <Container>{children}</Container>
+    <Wrapper className="pt-[95px]" {...restProps}>
+      <Container className={className}>{children}</Container>
     </Wrapper>
   );
 };
