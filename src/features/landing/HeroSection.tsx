@@ -1,11 +1,14 @@
-import { Button, Typography } from '@/components/common';
+import Image from 'next/image';
+
+import { Button,Typography } from '@/components/common';
 
 import { SlideUpMotion } from '../components';
 
 const HeroSection = () => {
   return (
     <div className="p-10">
-      <div className="relative bg-[url('/images/landing-hero.png')] bg-cover bg-center h-150 p-5 rounded-lg">
+      <div className="relative h-150 p-5 rounded-lg overflow-hidden">
+        <Image src="/images/landing-hero.avif" alt="hero" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-black opacity-45 rounded-lg" />
         <div className="relative h-full z-5 flex flex-col gap-3 items-center justify-center text-white">
           <SlideUpMotion>

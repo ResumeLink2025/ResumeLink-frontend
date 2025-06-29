@@ -1,11 +1,8 @@
 import { motion } from 'motion/react';
 
-type SlideUpMotionProps = {
-  delay?: number;
-  children: React.ReactNode;
-};
+import type { MotionType } from './types';
 
-const SlideUpMotion = ({ delay = 0, children }: SlideUpMotionProps) => {
+const SlideUpMotion = ({ delay = 0, children }: MotionType) => {
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
