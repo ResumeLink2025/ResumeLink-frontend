@@ -1,4 +1,4 @@
-export type MotionType = {
+export interface MotionType {
   delay?: number;
   children: React.ReactNode;
-};
+}

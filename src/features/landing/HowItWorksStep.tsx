@@ -5,12 +5,12 @@ import { Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { cn } from '@/utils/styleMerge';
 
-type HowItWorksStepProps = {
+interface HowItWorksStepProps {
   id: number;
   title: string;
   description: string;
   image: string;
-};
+}
 
 const HowItWorksStep = ({ id, title, description, image }: HowItWorksStepProps) => {
   const { ref, inView } = useInView({ threshold: 0.35, triggerOnce: true });

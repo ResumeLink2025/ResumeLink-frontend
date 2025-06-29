@@ -2,12 +2,12 @@ import { Typography } from '@/components/common';
 
 import { SlideUpMotion } from '../components';
 
-type FeatureCardProps = {
+interface FeatureCardProps {
   title: string;
   icon: React.ElementType;
   description: string;
   delay?: number;
-};
+}
 
 const FeatureCard = ({ title, icon: Icon, description, delay = 0 }: FeatureCardProps) => {
   return (
