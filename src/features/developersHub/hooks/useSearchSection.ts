@@ -9,6 +9,8 @@ const useSearchSection = () => {
 
   const onClickSearchKeyword = () => {
     console.log(inputSearch);
+
+    setInputSearch('');
   };
 
   return {

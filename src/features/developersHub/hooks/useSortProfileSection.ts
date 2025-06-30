@@ -1,5 +1,5 @@
 import { usePathname, useRouter, useSearchParams } from 'next/navigation';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 const useSortProfileSection = () => {
   const router = useRouter();
@@ -30,6 +30,10 @@ const useSortProfileSection = () => {
     setSortProfile(newSortValue);
     router.push(`${pathname}?${createQueryString('sort', newSortValue)}`);
   };
+
+  useEffect(() => {
+    setSortProfile(searchParams.get('sort') || 'popular');
+  }, [searchParams]);
 
   return { currentType, sortProfile, onClickResume, onClickProject, onChangeSortProfile };
 };

@@ -7,7 +7,7 @@ import Wrapper from '@/layouts/Wrapper';
 
 import NavLink from './components/NavLink';
 
-const Header = async () => {
+const Header = () => {
   return (
     <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
       <Container>
