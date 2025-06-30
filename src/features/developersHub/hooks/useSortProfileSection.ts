@@ -16,12 +16,8 @@ const useSortProfileSection = () => {
     return params.toString();
   }, []);
 
-  const onClickResume = () => {
-    router.push(`${pathname}?${createQueryString('type', 'resume')}`);
-  };
-
-  const onClickProject = () => {
-    router.push(`${pathname}?${createQueryString('type', 'project')}`);
+  const onClickChangeType = (type: string) => {
+    router.push(`${pathname}?${createQueryString('type', type)}`);
   };
 
   const onChangeSortProfile = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -35,7 +31,7 @@ const useSortProfileSection = () => {
     setSortProfile(searchParams.get('sort') || 'popular');
   }, [searchParams]);
 
-  return { currentType, sortProfile, onClickResume, onClickProject, onChangeSortProfile };
+  return { currentType, sortProfile, onClickChangeType, onChangeSortProfile };
 };
 
 export default useSortProfileSection;

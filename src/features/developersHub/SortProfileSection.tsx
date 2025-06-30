@@ -4,15 +4,20 @@ import { FILTER_OPTIONS } from '@/constants/developersHub';
 import useSortProfileSection from './hooks/useSortProfileSection';
 
 const SortProfileSection = () => {
-  const { currentType, sortProfile, onClickResume, onClickProject, onChangeSortProfile } =
-    useSortProfileSection();
+  const { currentType, sortProfile, onClickChangeType, onChangeSortProfile } = useSortProfileSection();
 
   return (
     <div className="w-114 flex gap-3 mt-6">
-      <Button onClick={onClickResume} styleType={currentType === 'resume' ? 'primary' : 'outline'}>
+      <Button
+        onClick={() => onClickChangeType('resume')}
+        styleType={currentType === 'resume' ? 'primary' : 'outline'}
+      >
         이력서
       </Button>
-      <Button onClick={onClickProject} styleType={currentType === 'project' ? 'primary' : 'outline'}>
+      <Button
+        onClick={() => onClickChangeType('project')}
+        styleType={currentType === 'project' ? 'primary' : 'outline'}
+      >
         프로젝트
       </Button>
       <SelectBox
