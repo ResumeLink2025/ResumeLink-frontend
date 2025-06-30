@@ -1,5 +1,15 @@
+import { PageWrapper } from '@/layouts';
+
+import ProfileList from './ProfileList';
+import SearchSection from './SearchSection';
+
 const DevelopersHub = () => {
-  return <div></div>;
+  return (
+    <PageWrapper>
+      <SearchSection />
+      <ProfileList />
+    </PageWrapper>
+  );
 };
 
 export default DevelopersHub;

@@ -35,3 +35,7 @@
 @theme inline {
   --font-pretendard: var(--font-pretendard);
 }
+
+@utility hide-scrollbar {
+  @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
+}

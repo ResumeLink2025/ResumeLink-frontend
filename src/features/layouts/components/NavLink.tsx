@@ -19,7 +19,7 @@ const NavLink = ({ navHref, title }: NavLinkProps) => {
       href={navHref}
       className={cn('cursor-pointer py-[5px]', pathname.includes(navHref) && 'shadow-border-b')}
     >
-      <Typography type="body2" className="hover:bg-gray-10 p-[5px] rounded-md">
+      <Typography type="body2" className="hover:bg-gray-10 py-[5px] px-[6px] rounded-md">
         {title}
       </Typography>
     </Link>

@@ -2,6 +2,7 @@ import { Heart } from 'lucide-react';
 import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
+import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { cn } from '@/utils/styleMerge';
 
 export type ProfileType = {
@@ -38,6 +39,8 @@ export default function ProfileCard({
         alt={title}
         width={230}
         height={200}
+        placeholder="blur"
+        blurDataURL={IMAGE_BLUR}
         className="w-full h-50 object-cover rounded-t-[10px] box-border"
       />
       <div className="flex flex-col gap-2 h-36 border-t-1 border-gray-20 py-[6px] px-2 bg-white">

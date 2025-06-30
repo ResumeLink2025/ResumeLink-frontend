@@ -11,9 +11,9 @@ export const TypographyPresets: Record<componentType, Record<sizeType, fontType>
     large: 'body2',
   },
   button: {
-    small: 'title4',
-    medium: 'title3',
-    large: 'title2',
+    small: 'title3',
+    medium: 'title2',
+    large: 'title1',
   },
   input: {
     small: 'body5',

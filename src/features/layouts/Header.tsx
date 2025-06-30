@@ -18,7 +18,7 @@ const Header = async () => {
         </div>
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-2">
-            <NavLink navHref="/developersHub" title="개발자 허브" />
+            <NavLink navHref="/developersHub?type=resume&sort=popular" title="개발자 허브" />
           </div>
           <div className="flex gap-5">
             <Typography type="body2" className="cursor-pointer">
