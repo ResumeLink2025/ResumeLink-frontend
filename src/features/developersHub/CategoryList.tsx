@@ -2,22 +2,22 @@ import { Typography } from '@/components/common';
 import type { DevelopExperienceType, DevelopOccupationType } from '@/constants/developersHub';
 import { cn } from '@/utils/styleMerge';
 
-type Category = DevelopExperienceType | DevelopOccupationType;
+type CategoryType = DevelopExperienceType | DevelopOccupationType;
 
-interface CategoryListProps<T extends Category> {
+interface CategoryListProps<T extends CategoryType> {
   title: string;
   categories: T[];
   checkedList: T[];
   onClickCategory: (category: T) => void;
 }
 
-const CategoryList = <T extends Category>({
+const CategoryList = <T extends CategoryType>({
   title,
   categories,
   checkedList,
   onClickCategory,
 }: CategoryListProps<T>) => {
-  const isChecked = (category: Category) => {
+  const isChecked = (category: CategoryType) => {
     return checkedList.some((checkedList) => checkedList.id == category.id);
   };
 
