@@ -13,11 +13,12 @@ interface NavLinkProps {
 
 const NavLink = ({ navHref, title }: NavLinkProps) => {
   const pathname = usePathname();
+  const currentPath = navHref.split('?')[0];
 
   return (
     <Link
       href={navHref}
-      className={cn('cursor-pointer py-[5px]', pathname.includes(navHref) && 'shadow-border-b')}
+      className={cn('cursor-pointer py-[5px]', pathname.includes(currentPath) && 'shadow-border-b')}
     >
       <Typography type="body2" className="hover:bg-gray-10 py-[5px] px-[6px] rounded-md">
         {title}
