@@ -1,5 +1,5 @@
-import LoginSection from '@/features/login/LoginSection';
+import Landing from '@/features/landing';
 
 export default function Home() {
-  return <LoginSection />;
+  return <Landing />;
 }

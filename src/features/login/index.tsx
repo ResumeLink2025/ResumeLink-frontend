@@ -4,7 +4,7 @@ import { PageWrapper } from '@/layouts';
 
 import LoginSection from './LoginSection';
 
-const Landing = () => {
+const LoginPage = () => {
   return (
     <PageWrapper>
       <LoginSection />
@@ -12,4 +12,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default LoginPage;
