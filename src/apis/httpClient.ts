@@ -3,7 +3,7 @@ import axios from 'axios';
 
 const httpClient: AxiosInstance = axios.create({
   baseURL: process.env.NEXT_PUBLIC_SERVER_URL,
-  timeout: 100000,
+  timeout: 10000,
 });
 
 httpClient.interceptors.request.use(
