@@ -9,17 +9,18 @@ interface TanstackQueryProviderProps {
   children: React.ReactNode;
 }
 
-const TanstackQueryProvider = ({ children }: TanstackQueryProviderProps) => {
-  const queryOptions: QueryClientConfig = {
-    defaultOptions: {
-      queries: {
-        retry: false,
-        refetchOnMount: false,
-      },
+const queryOptions: QueryClientConfig = {
+  defaultOptions: {
+    queries: {
+      retry: false,
+      refetchOnMount: false,
     },
-  };
+  },
+};
 
+const TanstackQueryProvider = ({ children }: TanstackQueryProviderProps) => {
   const [queryClient] = useState(() => new QueryClient(queryOptions));
+
   return (
     <QueryClientProvider client={queryClient}>
       {children}
