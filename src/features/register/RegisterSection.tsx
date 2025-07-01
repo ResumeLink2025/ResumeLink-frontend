@@ -1,6 +1,7 @@
 'use client';
 
 import { Eye, EyeOff } from 'lucide-react';
+import Image from 'next/image';
 import { useState } from 'react';
 
 import { Button, Typography } from '@/components/common';
@@ -41,12 +42,10 @@ export default function RegisterSection() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="h-full min-h-[calc(100vh-155px)] flex items-center justify-center bg-white">
       <div className="flex flex-col items-center w-full max-w-md">
-        <Typography type="hero1" className=" text-yellow-400 mb-6">
-          RESUMELINK
-        </Typography>
-        <Typography type="title1" className="mb-6">
+        <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
+        <Typography type="title2" className="mb-6">
           회원 가입
         </Typography>
 
