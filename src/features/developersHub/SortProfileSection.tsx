@@ -20,12 +20,7 @@ const SortProfileSection = () => {
       >
         프로젝트
       </Button>
-      <SelectBox
-        className="ml-3"
-        options={FILTER_OPTIONS}
-        value={sortProfile || 'popular'}
-        onChange={onChangeSortProfile}
-      />
+      <SelectBox options={FILTER_OPTIONS} value={sortProfile || 'popular'} onChange={onChangeSortProfile} />
     </div>
   );
 };

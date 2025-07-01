@@ -78,7 +78,7 @@ export default function ProfileCard({
           <Heart
             size={15}
             fill={isLiked ? 'var(--color-primary)' : 'none'}
-            className={cn('transition mb-[2px]', isLiked ? 'text-primaryHover' : 'text-gray-50')}
+            className={cn('transition', isLiked ? 'text-primaryHover' : 'text-gray-50')}
           />
           <Typography type="body5" className="text-gray-60">
             {likeCount}
