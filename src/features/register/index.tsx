@@ -2,7 +2,7 @@
 
 import { PageWrapper } from '@/layouts';
 
-import RegisterSection from './registerSection';
+import RegisterSection from './RegisterSection';
 
 const Landing = () => {
   return (
