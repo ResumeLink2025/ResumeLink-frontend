@@ -12,5 +12,5 @@
   "[javascript, javascriptreact, typescript, typescriptreact]": {
     "editor.defaultFormatter": "esbenp.prettier-vscode"
   },
-  "cSpell.words": ["fastly", "picsum", "pretendard"]
+  "cSpell.words": ["fastly", "picsum", "pretendard", "RESUMELINK"]
 }
