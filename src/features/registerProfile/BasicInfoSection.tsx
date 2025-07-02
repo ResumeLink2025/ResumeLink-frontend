@@ -1,34 +1,30 @@
+import { useRef } from 'react';
+
+import { Typography } from '@/components/common';
+import Input from '@/components/common/Input';
+import SelectBox from '@/components/common/SelctBox';
+
+import { genderList } from './types';
+
 export default function BasicInfoSection() {
+  const inputRef = useRef<HTMLInputElement>(null);
   return (
-    <div className="col-span-1 flex flex-col gap-2">
-      <label htmlFor="name" className="text-sm font-medium text-black">
-        닉네임
-      </label>
-      <input
-        id="name"
-        placeholder="닉네임"
-        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-      />
+    <div className="col-span-1 flex flex-col gap-3">
+      <Input label="닉네임" name="nickName" size="medium" placeholder="닉네임" className="rounded-md" />
 
-      <label htmlFor="gender" className="text-sm font-medium text-black mt-2">
+      <Typography type="body4" className="text-gray-70">
         성별
-      </label>
-      <select
-        id="gender"
-        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-      >
-        <option value="">선택</option>
-        <option value="male">남성</option>
-        <option value="female">여성</option>
-      </select>
+      </Typography>
+      <SelectBox id="gender" size="medium" options={genderList} selectClassName=""></SelectBox>
 
-      <label htmlFor="birth" className="text-sm font-medium text-black mt-2">
+      <Typography type="body4" className="text-gray-70">
         생일
-      </label>
+      </Typography>
       <input
-        id="birth"
+        ref={inputRef}
         type="date"
-        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+        onClick={() => inputRef.current?.showPicker?.()}
+        className="appearance-auto border border-gray-40 rounded-[10px] cursor-pointer h-[45px] px-3 py-2  focus:ring-yellow-300"
       />
     </div>
   );

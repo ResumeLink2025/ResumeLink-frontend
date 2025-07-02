@@ -1,19 +1,54 @@
+import { Tag } from '@/components/common';
+import Input from '@/components/common/Input';
 import { skillList } from '@/constants/skill';
 
-export default function AddSkillInfoSection() {
+interface AddSkillInfoSectionProps {
+  selectedSkills: string[];
+  setSelectedSkills: (skills: string[]) => void;
+  searchKeyword: string;
+  setSearchKeyword: (keyword: string) => void;
+}
+
+export default function AddSkillInfoSection({
+  selectedSkills,
+  setSelectedSkills,
+  searchKeyword,
+  setSearchKeyword,
+}: AddSkillInfoSectionProps) {
+  const toggleSkill = (skill: string) => {
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills(selectedSkills.filter((s) => s !== skill));
+    } else {
+      setSelectedSkills([...selectedSkills, skill]);
+    }
+  };
+
+  const filteredSkills = skillList.filter((skill) =>
+    skill.value.toLowerCase().includes(searchKeyword.toLowerCase()),
+  );
+
   return (
     <div className="col-span-2 flex flex-col gap-2">
-      <label className="text-sm font-medium text-black">기술 스택</label>
-      <input
-        placeholder="기술 스택을 입력하세요"
-        className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+      <Input
+        label="기술 스택"
+        size="medium"
+        placeholder="기술 스택을 검색하세요"
+        value={searchKeyword}
+        onChange={(e) => setSearchKeyword(e.target.value)}
+        className="focus:outline-none"
       />
 
       <div className="flex flex-wrap gap-2 mt-2">
-        {skillList.map((skill, idx) => (
-          <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">
-            {skill.value}
-          </span>
+        {filteredSkills.map((skill, idx) => (
+          <button key={idx} type="button" onClick={() => toggleSkill(skill.value)}>
+            <Tag
+              styleType={selectedSkills.includes(skill.value) ? 'primary' : 'outline'}
+              isSelected={selectedSkills.includes(skill.value)}
+              size="medium"
+            >
+              {skill.value}
+            </Tag>
+          </button>
         ))}
       </div>
     </div>
