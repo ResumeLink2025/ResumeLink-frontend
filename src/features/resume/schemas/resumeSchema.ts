@@ -25,7 +25,7 @@ export const resumeFormSchema = z.object({
   experience: z
     .string()
     .min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.')
-    .nonempty('개발 관련 경험 작성은 필수이니다.'),
+    .nonempty('개발 관련 경험 작성은 필수입니다.'),
   activities: z
     .array(
       z.object({
@@ -46,6 +46,7 @@ export const resumeFormSchema = z.object({
       }),
     )
     .optional(),
+  theme: z.string(),
   isPublic: z.boolean(),
 });
 

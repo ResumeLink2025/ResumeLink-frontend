@@ -7,21 +7,24 @@ import Textarea from '@/components/common/Textarea';
 
 import ActivityField from './ActivityField';
 import CategoryField from './CategoryField';
-import CertificationField from './CertificateField';
+import CertificateField from './CertificateField';
 import ExperienceField from './ExperienceField';
 import useResumeFormSection from './hooks/useResumeFormSection';
 import PrivateField from './PrivateField';
 import ProjectField from './ProjectField';
+import ThemeField from './ThemeField';
 
 const ResumeFormSection = () => {
   const {
     methods,
     selectedCategories,
     selectedProjects,
+    selectedThemeOption,
     isPublic,
     errors,
     onClickCategory,
     onClickProject,
+    onChangeThemeOption,
     setIsPublic,
     register,
     handleSubmit,
@@ -35,7 +38,7 @@ const ResumeFormSection = () => {
           label="자기 소개"
           placeholder="자신이 어떤 개발자인지 작성해 주세요. (최소 50글자 이상)"
           {...register('introduction')}
-          errorMessage={errors.introduction && errors.introduction.message}
+          errorMessage={errors.introduction?.message}
         />
         <CategoryField
           selectedCategories={selectedCategories}
@@ -49,7 +52,8 @@ const ResumeFormSection = () => {
         />
         <ExperienceField register={register} errorMessage={errors.experience?.message} />
         <ActivityField />
-        <CertificationField />
+        <CertificateField />
+        <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />
         <PrivateField isPublic={isPublic} onChangePrivateToggle={setIsPublic} />
         <Button size="large" type="submit">
           AI를 활용하여 이력서 작성하기

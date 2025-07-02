@@ -23,7 +23,7 @@ const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: Ca
           <Tag
             key={category.id}
             onClick={() => onClickCategory(category)}
-            isSelected={selectedCategories.includes(category)}
+            isSelected={selectedCategories.some((selectedCategory) => selectedCategory.id === category.id)}
             styleType="outline"
             size="large"
           >

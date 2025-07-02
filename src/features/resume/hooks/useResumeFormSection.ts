@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import type { DeveloperCategoryType, UserProjectType } from '@/constants/resume';
+import { type DeveloperCategoryType, THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
@@ -20,6 +20,7 @@ const useResumeFormSection = () => {
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<DeveloperCategoryType[]>([]);
   const [selectedProjectsState, setSelectedProjectsState] = useState<UserProjectType[]>([]);
+  const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
@@ -29,6 +30,10 @@ const useResumeFormSection = () => {
   useEffect(() => {
     setValue('selectedProjects', selectedProjectsState);
   }, [selectedProjectsState, setValue]);
+
+  useEffect(() => {
+    setValue('theme', selectedThemeOption);
+  }, [selectedThemeOption, setValue]);
 
   useEffect(() => {
     setValue('isPublic', isPublic);
@@ -69,6 +74,10 @@ const useResumeFormSection = () => {
     setSelectedProjectsState(newProjects);
   };
 
+  const onChangeThemeOption = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    setSelectedThemeOption(e.target.value);
+  };
+
   const onSubmitResume = (data: ResumeFormDataType) => {
     console.log('data', data);
   };
@@ -77,11 +86,13 @@ const useResumeFormSection = () => {
     methods,
     selectedCategories: selectedCategoriesState,
     selectedProjects: selectedProjectsState,
+    selectedThemeOption,
     isPublic,
     errors,
     setIsPublic,
     onClickCategory,
     onClickProject,
+    onChangeThemeOption,
     register,
     handleSubmit,
     onSubmitResume,

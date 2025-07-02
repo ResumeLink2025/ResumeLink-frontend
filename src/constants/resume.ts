@@ -40,3 +40,8 @@ export const USER_PROJECT_LIST = [
   { id: 1, title: 'BSM ROADMAP (학교 근처에있는 IT 회사 채용 정보 제공 서비스)' },
   { id: 2, title: 'BSM.GG (교내 리그오브레전드 전적 검색 서비스)' },
 ];
+
+export const THEME_OPTIONS = [
+  { label: '밝은 화면의 이력서', value: 'light' },
+  { label: '어두운 화면의 이력서', value: 'dark' },
+];

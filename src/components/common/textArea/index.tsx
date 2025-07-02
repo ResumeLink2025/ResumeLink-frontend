@@ -39,6 +39,6 @@ const Textarea = forwardRef(
   },
 );
 
-Textarea.displayName = 'textarea';
+Textarea.displayName = 'Textarea';
 
 export default Textarea;

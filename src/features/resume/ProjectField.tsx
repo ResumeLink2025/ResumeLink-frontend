@@ -23,7 +23,8 @@ const ProjectField = ({ selectedProjects, onClickProject, errorMessage }: Projec
             onClick={() => onClickProject(project)}
             className={cn(
               'p-3 border border-gray-40 rounded-[10px] cursor-pointer',
-              selectedProjects.includes(project) && 'bg-primary border-transparent',
+              selectedProjects.some((selectedProject) => selectedProject.id === project.id) &&
+                'bg-primary border-transparent',
             )}
           >
             {project.title}
