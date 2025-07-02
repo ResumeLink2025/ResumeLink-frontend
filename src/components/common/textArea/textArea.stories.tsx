@@ -9,10 +9,6 @@ const meta: Meta<typeof Textarea> = {
   tags: ['autodocs'],
   argTypes: {
     placeholder: { control: 'text' },
-    size: {
-      control: 'inline-radio',
-      options: ['small', 'medium', 'large'],
-    },
     disabled: { control: 'boolean' },
   },
 };
@@ -23,8 +19,8 @@ type Story = StoryObj<typeof Textarea>;
 export const DefaultTextarea: Story = {
   args: {
     placeholder: '내용을 입력하세요',
-    size: 'medium',
     disabled: false,
+    label: '라벨',
   },
   render: (args) => {
     const [value, setValue] = useState('');
@@ -36,27 +32,14 @@ export const DisabledTextarea: Story = {
   args: {
     value: '비활성화 상태입니다',
     disabled: true,
-    size: 'medium',
   },
 };
 
-export const SmallSizeTextarea: Story = {
+export const ErrorTextarea: Story = {
   args: {
-    placeholder: '작은 크기 텍스트 영역',
-    size: 'small',
+    placeholder: '텍스트를 입력해주세요',
     disabled: false,
-  },
-  render: (args) => {
-    const [value, setValue] = useState('');
-    return <Textarea {...args} value={value} onChange={(e) => setValue(e.target.value)} />;
-  },
-};
-
-export const LargeSizeTextarea: Story = {
-  args: {
-    placeholder: '큰 크기 텍스트 영역',
-    size: 'large',
-    disabled: false,
+    errorMessage: '50글자 이상 작성해 주세요.'
   },
   render: (args) => {
     const [value, setValue] = useState('');
