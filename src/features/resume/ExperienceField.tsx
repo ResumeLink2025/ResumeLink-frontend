@@ -5,12 +5,12 @@ import Textarea from '@/components/common/Textarea';
 
 import type { ResumeFormDataType } from './schemas/resumeSchema';
 
-interface ResumeExperienceFieldProps {
+interface ExperienceFieldProps {
   register: UseFormRegister<ResumeFormDataType>;
   errorMessage?: string;
 }
 
-const ResumeExperienceField = ({ register, errorMessage }: ResumeExperienceFieldProps) => {
+const ExperienceField = ({ register, errorMessage }: ExperienceFieldProps) => {
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -26,4 +26,4 @@ const ResumeExperienceField = ({ register, errorMessage }: ResumeExperienceField
   );
 };
 
-export default ResumeExperienceField;
+export default ExperienceField;

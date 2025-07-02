@@ -26,6 +26,27 @@ export const resumeFormSchema = z.object({
     .string()
     .min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.')
     .nonempty('개발 관련 경험 작성은 필수이니다.'),
+  activities: z
+    .array(
+      z.object({
+        title: z.string(),
+        startDate: z.string(),
+        endDate: z.string(),
+        description: z.string(),
+      }),
+    )
+    .optional(),
+  certificates: z
+    .array(
+      z.object({
+        name: z.string(),
+        date: z.string(),
+        grade: z.string(),
+        issuer: z.string(),
+      }),
+    )
+    .optional(),
+  isPublic: z.boolean(),
 });
 
 export type ResumeFormDataType = z.infer<typeof resumeFormSchema>;

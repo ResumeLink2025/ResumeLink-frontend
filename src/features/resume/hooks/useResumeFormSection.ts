@@ -5,21 +5,22 @@ import toast from 'react-hot-toast';
 
 import type { DeveloperCategoryType, UserProjectType } from '@/constants/resume';
 
-import type { ResumeFormDataType} from '../schemas/resumeSchema';
+import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
 const useResumeFormSection = () => {
+  const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
+
   const {
     register,
     handleSubmit,
     setValue,
     formState: { errors },
-  } = useForm<ResumeFormDataType>({
-    resolver: zodResolver(resumeFormSchema),
-  });
+  } = methods;
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<DeveloperCategoryType[]>([]);
   const [selectedProjectsState, setSelectedProjectsState] = useState<UserProjectType[]>([]);
+  const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
     setValue('selectedCategories', selectedCategoriesState);
@@ -28,6 +29,10 @@ const useResumeFormSection = () => {
   useEffect(() => {
     setValue('selectedProjects', selectedProjectsState);
   }, [selectedProjectsState, setValue]);
+
+  useEffect(() => {
+    setValue('isPublic', isPublic);
+  }, [isPublic, setValue]);
 
   const onClickCategory = (category: DeveloperCategoryType) => {
     const isSelected = selectedCategoriesState.some(
@@ -69,9 +74,12 @@ const useResumeFormSection = () => {
   };
 
   return {
+    methods,
     selectedCategories: selectedCategoriesState,
     selectedProjects: selectedProjectsState,
+    isPublic,
     errors,
+    setIsPublic,
     onClickCategory,
     onClickProject,
     register,

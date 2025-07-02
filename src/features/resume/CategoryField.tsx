@@ -2,17 +2,13 @@ import { Tag, Typography } from '@/components/common';
 import type { DeveloperCategoryType } from '@/constants/resume';
 import { DEVELOPER_CATEGORY } from '@/constants/resume';
 
-interface ResumeCategoryFieldProps {
+interface CategoryFieldProps {
   selectedCategories: DeveloperCategoryType[];
   onClickCategory: (category: DeveloperCategoryType) => void;
   errorMessage?: string;
 }
 
-const ResumeCategoryField = ({
-  selectedCategories,
-  onClickCategory,
-  errorMessage,
-}: ResumeCategoryFieldProps) => {
+const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: CategoryFieldProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-2">
@@ -40,4 +36,4 @@ const ResumeCategoryField = ({
   );
 };
 
-export default ResumeCategoryField;
+export default CategoryField;

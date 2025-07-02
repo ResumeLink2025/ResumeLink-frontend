@@ -3,13 +3,13 @@ import type { UserProjectType } from '@/constants/resume';
 import { USER_PROJECT_LIST } from '@/constants/resume';
 import { cn } from '@/utils/styleMerge';
 
-interface ResumeProjectFieldProps {
+interface ProjectFieldProps {
   selectedProjects: UserProjectType[];
   onClickProject: (project: UserProjectType) => void;
   errorMessage?: string;
 }
 
-const ResumeProjectField = ({ selectedProjects, onClickProject, errorMessage }: ResumeProjectFieldProps) => {
+const ProjectField = ({ selectedProjects, onClickProject, errorMessage }: ProjectFieldProps) => {
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -35,4 +35,4 @@ const ResumeProjectField = ({ selectedProjects, onClickProject, errorMessage }: 
   );
 };
 
-export default ResumeProjectField;
+export default ProjectField;
