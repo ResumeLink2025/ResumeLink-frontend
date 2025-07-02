@@ -19,6 +19,7 @@ const Header = () => {
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-2">
             <NavLink navHref="/developersHub?type=resume&sort=popular" title="개발자 허브" />
+            <NavLink navHref="/resume/create" title="이력서 생성" />
           </div>
           <div className="flex gap-5">
             <Typography type="body2" className="cursor-pointer">
