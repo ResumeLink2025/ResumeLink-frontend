@@ -20,7 +20,7 @@ const Textarea = forwardRef(
       <div className={cn('w-full relative inline-flex flex-col gap-1', className)}>
         {label && (
           <label htmlFor={textareaId} className="color w-fit text-gray-70">
-            <Typography type="body2">{label}</Typography>
+            <Typography type="body1">{label}</Typography>
           </label>
         )}
         <textarea
