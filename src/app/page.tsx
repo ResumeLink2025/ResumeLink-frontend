@@ -1,7 +1,7 @@
-import Landing from '@/features/landing';
+import ChatModal from '@/features/chat/Chat';
 
 const HomePage = () => {
-  return <Landing />;
+  return <ChatModal />;
 };
 
 export default HomePage;
