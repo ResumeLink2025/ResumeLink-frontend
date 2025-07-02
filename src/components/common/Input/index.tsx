@@ -1,5 +1,5 @@
 import { cva } from 'class-variance-authority';
-import type { InputHTMLAttributes, Ref} from 'react';
+import type { InputHTMLAttributes, Ref } from 'react';
 import { forwardRef, useId } from 'react';
 
 import { cn } from '@/utils/styleMerge';
@@ -79,7 +79,7 @@ const Input = forwardRef(
         >
           <input
             ref={ref}
-            className={cn(inputVariants({ size, disabled }))}
+            className={cn(inputVariants({ size, disabled }), className)}
             id={inputId}
             type={type || 'text'}
             disabled={disabled}

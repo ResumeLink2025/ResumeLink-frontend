@@ -1,97 +1,125 @@
+'use client';
+import Image from 'next/image';
+import { useRef, useState } from 'react';
+
+import { ImageUpload, Tag, Typography } from '@/components/common';
+import CustomSelectBox from '@/components/common/customSelectBox';
+import Input from '@/components/common/Input';
+import SelectBox from '@/components/common/SelctBox';
+import { skillList } from '@/constants/skill';
+
+import { developerList, genderList, yearList } from './types';
+
 export default function RegisterProfileSection() {
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  const [searchKeyword, setSearchKeyword] = useState('');
+  const [selectJob, setSelectJob] = useState<string>(developerList[0].value);
+  const [selectYear, setSelectYear] = useState<string>(yearList[0].value);
+  const inputRef = useRef<HTMLInputElement>(null);
+
+  const handleUploadFile = (files?: FileList | null) => {
+    console.log('check');
+    if (!files || files.length === 0) {
+      setImageUrl(null); // X버튼 클릭시 이미지 제거하기 위해서 이부분이 꼭 필요함
+
+      return;
+    }
+
+    const file = files[0];
+
+    console.log('file', file);
+    const imageUrl = URL.createObjectURL(file);
+
+    setImageUrl(imageUrl);
+  };
+
+  const toggleSkill = (skill: string) => {
+    if (selectedSkills.includes(skill)) {
+      setSelectedSkills(selectedSkills.filter((s) => s !== skill));
+    } else {
+      setSelectedSkills([...selectedSkills, skill]);
+    }
+  };
+
+  const filteredSkills = skillList.filter((skill) =>
+    skill.value.toLowerCase().includes(searchKeyword.toLowerCase()),
+  );
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-white">
+    <div className="flex items-center justify-center bg-white w-full h-full flex-grow pt-40 pb-20">
       <div className="w-full max-w-2xl flex flex-col items-center px-4">
-        {/* Logo */}
-        <h1 className="text-3xl font-bold text-yellow-400 mb-2">RESUMELINK</h1>
-        <h2 className="text-base font-semibold text-black mb-6">추가 정보 입력</h2>
+        <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
+        <Typography type="title2" className="text-black mb-6">
+          추가 정보 입력
+        </Typography>
 
         <form className="grid grid-cols-2 gap-4 w-full">
-          {/* 프로필 사진 */}
           <div className="col-span-1 flex flex-col gap-2">
             <label className="text-sm font-medium text-black">프로필 사진</label>
-            <div className="w-full aspect-square bg-gray-200 rounded-md flex items-center justify-center">
-              <span className="text-gray-500 text-sm">사진 업로드</span>
-            </div>
+            <ImageUpload size="profile" previewUrl={imageUrl} uploadFile={handleUploadFile} />
           </div>
 
-          {/* 오른쪽 필드 */}
-          <div className="col-span-1 flex flex-col gap-2">
-            <label htmlFor="name" className="text-sm font-medium text-black">
-              닉네임
-            </label>
-            <input
-              id="name"
+          <div className="col-span-1 flex flex-col gap-3">
+            <Input
+              label="닉네임"
+              name="nickName"
+              size="medium"
               placeholder="닉네임"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              className="focus:ring-2 focus:ring-yellow-300 rounded-md"
             />
 
-            <label htmlFor="gender" className="text-sm font-medium text-black mt-2">
+            <Typography type="body4" className="text-gray-70">
               성별
-            </label>
-            <select
-              id="gender"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-            >
-              <option value="">선택</option>
-              <option value="male">남성</option>
-              <option value="female">여성</option>
-            </select>
+            </Typography>
+            <SelectBox id="gender" size="medium" options={genderList}></SelectBox>
 
-            <label htmlFor="birth" className="text-sm font-medium text-black mt-2">
+            <Typography type="body4" className="text-gray-70">
               생일
-            </label>
+            </Typography>
             <input
-              id="birth"
+              ref={inputRef}
               type="date"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+              onClick={() => inputRef.current?.showPicker?.()}
+              className="appearance-auto border border-gray-40 rounded-[10px] cursor-pointer h-[45px] px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
             />
           </div>
 
-          {/* 희망 직무 */}
           <div className="col-span-1 flex flex-col gap-2">
-            <label htmlFor="position" className="text-sm font-medium text-black">
-              희망 직무
-            </label>
-            <input
-              id="position"
-              placeholder="희망 직무"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-            />
+            <Typography type="body4">희망 직무</Typography>
+            <CustomSelectBox options={developerList} value={selectJob} onChange={setSelectJob} />
           </div>
 
-          {/* 연락처 */}
           <div className="col-span-1 flex flex-col gap-2">
-            <label htmlFor="contact" className="text-sm font-medium text-black">
-              연락처
-            </label>
-            <input
-              id="contact"
-              placeholder="연락처"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
-            />
+            <Typography type="body4">연차</Typography>
+            <CustomSelectBox options={yearList} value={selectYear} onChange={setSelectYear} />
           </div>
 
-          {/* 기술 스택 */}
           <div className="col-span-2 flex flex-col gap-2">
-            <label className="text-sm font-medium text-black">기술 스택</label>
-            <input
-              placeholder="기술 스택을 입력하세요"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-yellow-300"
+            <Input
+              label="기술 스택"
+              size="medium"
+              placeholder="기술 스택을 검색하세요"
+              value={searchKeyword}
+              onChange={(e) => setSearchKeyword(e.target.value)}
+              className="focus:outline-none focus:ring-2 focus:ring-yellow-300"
             />
 
             <div className="flex flex-wrap gap-2 mt-2">
-              {Array(10)
-                .fill('javascript')
-                .map((skill, idx) => (
-                  <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">
-                    {skill}
-                  </span>
-                ))}
+              {filteredSkills.map((skill, idx) => (
+                <button key={idx} type="button" onClick={() => toggleSkill(skill.value)}>
+                  <Tag
+                    styleType={selectedSkills.includes(skill.value) ? 'primary' : 'outline'}
+                    isSelected={selectedSkills.includes(skill.value) ? true : false}
+                    size="medium"
+                  >
+                    {skill.value}
+                  </Tag>
+                </button>
+              ))}
             </div>
           </div>
 
-          {/* 버튼 */}
           <div className="col-span-2 flex justify-between mt-4">
             <button
               type="button"

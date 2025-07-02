@@ -9,7 +9,7 @@ import { cn } from '@/utils/styleMerge';
 import useUploadImage from './hooks/useUploadImage';
 
 type ImageUploadProps = {
-  size: 'medium' | 'large';
+  size: 'medium' | 'large' | 'profile';
   uploadFile: (files?: FileList | null) => void;
   previewUrl?: string | null;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
@@ -32,6 +32,7 @@ const ImageUpload = ({ size, uploadFile, previewUrl, ...props }: ImageUploadProp
       size: {
         medium: 'size-42 p-3',
         large: 'size-45 p-3',
+        profile: 'size-70 p-8',
       },
     },
     defaultVariants: {
@@ -56,7 +57,7 @@ const ImageUpload = ({ size, uploadFile, previewUrl, ...props }: ImageUploadProp
             )}
           >
             <Image
-              size={{ medium: 45, large: 52 }[size]}
+              size={{ medium: 45, large: 52, profile: 64 }[size]}
               className={cn(isDragging ? 'text-primaryHover' : 'text-gray-50', 'duration-150')}
             />
             <p className="text-sm text-gray-50 mt-2">클릭 또는 드래그를 이용하여 업로드 해주세요.</p>

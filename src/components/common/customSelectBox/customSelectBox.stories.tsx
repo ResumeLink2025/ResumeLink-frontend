@@ -4,7 +4,7 @@ import { useState } from 'react';
 import SelectBox from './index';
 
 const meta: Meta<typeof SelectBox> = {
-  title: 'Components/SelectBox',
+  title: 'Components/customSelectBox',
   component: SelectBox,
   tags: ['autodocs'],
   argTypes: {
@@ -13,7 +13,7 @@ const meta: Meta<typeof SelectBox> = {
     isDisabled: { control: 'boolean' },
     size: {
       control: 'inline-radio',
-      options: ['sm', 'md', 'lg'],
+      options: ['small', 'medium', 'large'],
     },
   },
 };
@@ -30,7 +30,7 @@ const defaultOptions = [
 export const Default: Story = {
   args: {
     options: defaultOptions,
-    size: 'md',
+    size: 'medium',
     isDisabled: false,
   },
   render: (args) => {
@@ -51,7 +51,7 @@ export const Disabled: Story = {
 export const SmallSize: Story = {
   args: {
     options: defaultOptions,
-    size: 'sm',
+    size: 'small',
   },
   render: (args) => {
     const [value, setValue] = useState('');
@@ -62,7 +62,7 @@ export const SmallSize: Story = {
 export const LargeSize: Story = {
   args: {
     options: defaultOptions,
-    size: 'lg',
+    size: 'large',
   },
   render: (args) => {
     const [value, setValue] = useState('');

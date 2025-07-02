@@ -25,7 +25,7 @@ const tagVariants = cva('inline-flex items-center min-w-[40px] rounded-full text
       outlinePrimary: 'border border-primaryHover',
     },
     isSelected: {
-      true: 'bg-primary border-primaryHover',
+      true: 'bg-primary border border-primaryHover',
     },
   },
   defaultVariants: {
