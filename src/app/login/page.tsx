@@ -1,5 +1,5 @@
-import LoginPage from '@/features/login';
+import Login from '@/features/login';
 
-export default function Home() {
-  return <LoginPage />;
+export default function LoginPage() {
+  return <Login />;
 }
