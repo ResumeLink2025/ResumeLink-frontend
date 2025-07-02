@@ -1,8 +1,6 @@
 'use client';
 import { useState } from 'react';
 
-import Input from '@/components/common/Input';
-
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
 import AddSkillInfoSection from './AddSkillInfoSection';
@@ -35,7 +33,7 @@ export default function RegisterProfileSection() {
   };
 
   return (
-    <div className="flex items-center justify-center bg-white w-full h-full flex-grow pt-40 pb-20">
+    <div className="flex items-center justify-center bg-white w-full h-full flex-grow py-20">
       <div className="w-full max-w-2xl flex flex-col items-center px-4">
         <ProfileHederSection />
 
@@ -51,22 +49,12 @@ export default function RegisterProfileSection() {
             setSelectYear={setSelectYear}
           />
 
-          <div className="col-span-2 flex flex-col gap-2">
-            <Input
-              label="기술 스택"
-              size="medium"
-              placeholder="기술 스택을 검색하세요"
-              value={searchKeyword}
-              onChange={(e) => setSearchKeyword(e.target.value)}
-              className="focus:outline-none "
-            />
-            <AddSkillInfoSection
-              selectedSkills={selectedSkills}
-              setSelectedSkills={setSelectedSkills}
-              searchKeyword={searchKeyword}
-              setSearchKeyword={setSearchKeyword}
-            />
-          </div>
+          <AddSkillInfoSection
+            selectedSkills={selectedSkills}
+            setSelectedSkills={setSelectedSkills}
+            searchKeyword={searchKeyword}
+            setSearchKeyword={setSearchKeyword}
+          />
 
           <ActionButtonSection />
         </form>

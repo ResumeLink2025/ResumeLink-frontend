@@ -1,5 +1,5 @@
-import RegisterProfileSection from '@/features/registerProfile/RegisterProfileSection';
+import RegisterInfoPage from '@/features/registerProfile';
 
 export default function Home() {
-  return <RegisterProfileSection />;
+  return <RegisterInfoPage />;
 }
