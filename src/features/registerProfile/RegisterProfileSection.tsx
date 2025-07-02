@@ -120,7 +120,7 @@ export default function RegisterProfileSection() {
             </div>
           </div>
 
-          <div className="col-span-2 flex justify-between mt-4">
+          <div className="col-span-2 flex justify-between mt-4 w-full">
             <button
               type="button"
               className="w-1/3 py-2 bg-gray-200 text-black font-semibold rounded-md hover:bg-gray-300 transition"
