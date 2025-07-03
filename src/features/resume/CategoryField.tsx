@@ -4,11 +4,17 @@ import { DEVELOPER_CATEGORY } from '@/constants/resume';
 
 interface CategoryFieldProps {
   selectedCategories: DeveloperCategoryType[];
-  onClickCategory: (category: DeveloperCategoryType) => void;
+  isSubmitted: boolean;
   errorMessage?: string;
+  onClickCategory: (category: DeveloperCategoryType) => void;
 }
 
-const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: CategoryFieldProps) => {
+const CategoryField = ({
+  selectedCategories,
+  isSubmitted,
+  errorMessage,
+  onClickCategory,
+}: CategoryFieldProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-2">
@@ -31,7 +37,7 @@ const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: Ca
           </Tag>
         ))}
       </div>
-      {errorMessage && <Typography className="text-red-600 mt-4">{errorMessage}</Typography>}
+      {isSubmitted && errorMessage && <Typography className="text-red-600 mt-4">{errorMessage}</Typography>}
     </div>
   );
 };

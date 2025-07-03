@@ -21,6 +21,7 @@ const ResumeFormSection = () => {
     selectedProjects,
     selectedThemeOption,
     isPublic,
+    isSubmitted,
     errors,
     onClickCategory,
     onClickProject,
@@ -44,11 +45,13 @@ const ResumeFormSection = () => {
           selectedCategories={selectedCategories}
           onClickCategory={onClickCategory}
           errorMessage={errors.selectedCategories?.message}
+          isSubmitted={isSubmitted}
         />
         <ProjectField
           selectedProjects={selectedProjects}
           onClickProject={onClickProject}
           errorMessage={errors.selectedProjects?.message}
+          isSubmitted={isSubmitted}
         />
         <ExperienceField register={register} errorMessage={errors.experience?.message} />
         <ActivityField />
