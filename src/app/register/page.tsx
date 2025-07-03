@@ -1,5 +1,5 @@
-import RegisterPage from '@/features/register';
+import Register from '@/features/register';
 
-export default function Home() {
-  return <RegisterPage />;
+export default function RegisterPage() {
+  return <Register />;
 }
