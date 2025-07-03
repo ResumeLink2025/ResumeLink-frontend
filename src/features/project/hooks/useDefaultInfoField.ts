@@ -23,7 +23,8 @@ const useDefaultInfoField = () => {
     const imageFile = files[0];
     const imageURL = URL.createObjectURL(imageFile);
 
-    setValue('projectImage', imageFile);
+    setValue('projectImage', imageFile, { shouldDirty: true, shouldValidate: true });
+
     setImageUrl(imageURL);
   };
 

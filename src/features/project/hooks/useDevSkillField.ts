@@ -8,8 +8,8 @@ import type { ProjectFormDataType } from '../schemas/projectSchema';
 
 const useDevSkillField = () => {
   const {
-    formState: { errors },
     setValue,
+    formState: { errors },
   } = useFormContext<ProjectFormDataType>();
 
   const [viewAllSkills, setViewAllSkills] = useState(SKILL_CATEGORY.slice(0, 65));
@@ -18,7 +18,7 @@ const useDevSkillField = () => {
   const [customSkills, setCustomSkills] = useState<string[]>([]);
 
   useEffect(() => {
-    setValue('skill.generalSkills', generalSkills);
+    setValue('skill.generalSkills', generalSkills, { shouldDirty: true, shouldValidate: true });
   }, [setValue, generalSkills]);
 
   useEffect(() => {

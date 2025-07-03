@@ -19,7 +19,7 @@ const useProjectFormSection = () => {
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
-    setValue('status', projectStatus);
+    setValue('status', projectStatus, { shouldDirty: true, shouldValidate: true });
   }, [projectStatus, setValue]);
 
   useEffect(() => {

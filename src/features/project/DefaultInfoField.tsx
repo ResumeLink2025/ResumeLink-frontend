@@ -28,6 +28,7 @@ const DefaultInfoField = () => {
           <Input label="종료일" type="date" {...register('endDate')} errorMessage={errors.endDate?.message} />
         </div>
       </div>
+      <Typography className="text-red-600">{errors.projectImage?.message}</Typography>
     </div>
   );
 };
