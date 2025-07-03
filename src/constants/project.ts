@@ -1,4 +1,4 @@
-export const SKILL_CATEGORY = [
+export const SKILL_CATEGORIES = [
   { id: 1, name: 'JavaScript' },
   { id: 2, name: 'TypeScript' },
   { id: 3, name: 'Python' },
@@ -160,6 +160,8 @@ export const SKILL_CATEGORY = [
   { id: 159, name: 'Kafka' },
   { id: 160, name: 'MQTT' },
 ];
+
+export const INITIAL_SKILLS_COUNT = SKILL_CATEGORIES.slice(0, 65);
 
 export const PROJECT_STATUS_OPTIONS = [
   { label: '진행중인 상태', value: 'onGoing' },

@@ -2,17 +2,17 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { SKILL_CATEGORY } from '@/constants/project';
+import { INITIAL_SKILLS_COUNT, SKILL_CATEGORIES } from '@/constants/project';
 
 import type { ProjectFormDataType } from '../schemas/projectSchema';
 
 const useDevSkillField = () => {
   const {
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = useFormContext<ProjectFormDataType>();
 
-  const [viewAllSkills, setViewAllSkills] = useState(SKILL_CATEGORY.slice(0, 65));
+  const [viewAllSkills, setViewAllSkills] = useState(INITIAL_SKILLS_COUNT);
   const [typingSkill, setTypingSkill] = useState('');
   const [generalSkills, setGeneralSkills] = useState<string[]>([]);
   const [customSkills, setCustomSkills] = useState<string[]>([]);
@@ -26,7 +26,7 @@ const useDevSkillField = () => {
   }, [setValue, customSkills]);
 
   const onClickViewAllSkills = () => {
-    setViewAllSkills(SKILL_CATEGORY);
+    setViewAllSkills(SKILL_CATEGORIES);
   };
 
   const onClickSkill = (skill: string) => {
@@ -67,6 +67,7 @@ const useDevSkillField = () => {
 
   return {
     errors,
+    isSubmitted,
     generalSkills,
     viewAllSkills,
     typingSkill,

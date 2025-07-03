@@ -3,11 +3,12 @@ import { PROJECT_STATUS_OPTIONS } from '@/constants/project';
 
 interface StatusFieldProps {
   projectStatus: string;
-  onChangeStatus: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+  isSubmitted: boolean;
   errorMessage?: string;
+  onChangeStatus: (e: React.ChangeEvent<HTMLSelectElement>) => void;
 }
 
-const StatusField = ({ projectStatus, onChangeStatus, errorMessage }: StatusFieldProps) => {
+const StatusField = ({ projectStatus, isSubmitted, errorMessage, onChangeStatus }: StatusFieldProps) => {
   return (
     <div className="flex flex-col gap-1 mt-4">
       <Typography type="body2">프로젝트 진행 상태</Typography>
@@ -16,7 +17,7 @@ const StatusField = ({ projectStatus, onChangeStatus, errorMessage }: StatusFiel
         onChange={onChangeStatus}
         options={PROJECT_STATUS_OPTIONS}
         placeholder="-"
-        errorMessage={errorMessage}
+        errorMessage={isSubmitted ? errorMessage : undefined}
       />
     </div>
   );

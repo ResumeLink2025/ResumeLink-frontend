@@ -2,12 +2,14 @@ import { X } from 'lucide-react';
 
 import { Button, Tag, Typography } from '@/components/common';
 import Input from '@/components/common/Input';
+import { INITIAL_SKILLS_COUNT } from '@/constants/project';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
 const DevSkillField = () => {
   const {
     errors,
+    isSubmitted,
     generalSkills,
     viewAllSkills,
     typingSkill,
@@ -36,7 +38,7 @@ const DevSkillField = () => {
             </Tag>
           ))}
         </div>
-        {viewAllSkills.length <= 65 && (
+        {viewAllSkills.length <= INITIAL_SKILLS_COUNT.length && (
           <div className="flex justify-center">
             <Button onClick={onClickViewAllSkills} styleType="gray25" className="w-40 mt-3">
               카테고리 모두보기
@@ -44,7 +46,7 @@ const DevSkillField = () => {
           </div>
         )}
       </div>
-      {errors?.skill?.generalSkills && (
+      {isSubmitted && errors?.skill?.generalSkills && (
         <Typography className="text-red-600">{errors?.skill?.generalSkills?.message}</Typography>
       )}
       <div className="flex flex-col gap-1">

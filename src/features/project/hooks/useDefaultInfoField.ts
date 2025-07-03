@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
 import type { ProjectFormDataType } from '../schemas/projectSchema';
@@ -27,6 +27,12 @@ const useDefaultInfoField = () => {
 
     setImageUrl(imageURL);
   };
+
+  useEffect(() => {
+    return () => {
+      if (imageUrl) URL.revokeObjectURL(imageUrl);
+    };
+  }, [imageUrl]);
 
   return { imageUrl, errors, handleUploadImageFile, register };
 };

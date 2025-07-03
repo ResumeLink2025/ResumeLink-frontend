@@ -17,6 +17,7 @@ const ProjectFormSection = () => {
     projectStatus,
     isPublic,
     errors,
+    isSubmitted,
     setIsPublic,
     onChangeStatus,
     register,
@@ -29,6 +30,7 @@ const ProjectFormSection = () => {
       <form className="flex flex-col gap-10" onSubmit={handleSubmit(onSubmitProject)}>
         <DefaultInfoField />
         <StatusField
+          isSubmitted={isSubmitted}
           projectStatus={projectStatus}
           onChangeStatus={onChangeStatus}
           errorMessage={errors.status?.message}

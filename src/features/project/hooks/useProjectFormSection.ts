@@ -12,7 +12,7 @@ const useProjectFormSection = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = methods;
 
   const [projectStatus, setProjectStatus] = useState('');
@@ -39,6 +39,7 @@ const useProjectFormSection = () => {
     projectStatus,
     isPublic,
     errors,
+    isSubmitted,
     setIsPublic,
     register,
     onChangeStatus,
