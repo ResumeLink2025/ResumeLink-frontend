@@ -14,6 +14,7 @@ type SelectBoxProps = {
   label?: string;
   errorMessage?: string;
   options: SelectOption[];
+  selectClassName?: string;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>;
 
 const selectVariants = cva(
@@ -66,6 +67,7 @@ const SelectBox = forwardRef(
         <div
           className={cn(
             'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border px-1',
+
             errorMessage
               ? 'border-red-600 focus-within:border-red-600'
               : 'border-gray-40 focus-within:border-gray-60',

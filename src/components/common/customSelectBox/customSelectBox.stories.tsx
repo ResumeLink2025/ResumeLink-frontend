@@ -5,6 +5,7 @@ import SelectBox from './index';
 
 const meta: Meta<typeof SelectBox> = {
   title: 'common/CustomSelectBox',
+
   component: SelectBox,
   tags: ['autodocs'],
   argTypes: {

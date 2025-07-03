@@ -1,3 +1,5 @@
+'use client';
+
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import { useRouter } from 'next/router';
