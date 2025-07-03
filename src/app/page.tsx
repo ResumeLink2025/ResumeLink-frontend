@@ -1,7 +1,5 @@
-import ChatModal from '@/features/chat/Chat';
+import Landing from '@/features/landing';
 
-const HomePage = () => {
-  return <ChatModal />;
-};
-
-export default HomePage;
+export default function Home() {
+  return <Landing />;
+}
