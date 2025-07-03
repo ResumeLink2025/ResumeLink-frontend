@@ -4,7 +4,7 @@ import { PageWrapper } from '@/layouts';
 
 import LoginSection from './LoginSection';
 
-const LoginPage = () => {
+const Login = () => {
   return (
     <PageWrapper>
       <LoginSection />
@@ -12,4 +12,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default Login;

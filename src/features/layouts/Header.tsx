@@ -1,7 +1,6 @@
 import Image from 'next/image';
 import Link from 'next/link';
 
-import { Typography } from '@/components/common';
 import Container from '@/layouts/Container';
 import Wrapper from '@/layouts/Wrapper';
 
@@ -22,12 +21,12 @@ const Header = () => {
             <NavLink navHref="/resume/create" title="이력서 생성" />
           </div>
           <div className="flex gap-5">
-            <Typography type="body2" className="cursor-pointer">
+            <Link href="/login" className="cursor-pointer">
               로그인
-            </Typography>
-            <Typography type="body2" className="cursor-pointer">
+            </Link>
+            <Link href="/register" type="body2" className="cursor-pointer">
               회원가입
-            </Typography>
+            </Link>
           </div>
         </div>
       </Container>
