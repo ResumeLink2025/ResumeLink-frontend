@@ -9,12 +9,12 @@ import { cn } from '@/utils/styleMerge';
 import useUploadImage from './hooks/useUploadImage';
 
 type ImageUploadProps = {
-  size: 'medium' | 'large';
+  size?: 'medium' | 'large';
   uploadFile: (files?: FileList | null) => void;
   previewUrl?: string | null;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
 
-const ImageUpload = ({ size, uploadFile, previewUrl, ...props }: ImageUploadProps) => {
+const ImageUpload = ({ size = 'medium', uploadFile, previewUrl, ...props }: ImageUploadProps) => {
   const {
     handleClickRef,
     ref,
