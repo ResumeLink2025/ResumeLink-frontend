@@ -57,10 +57,12 @@ const SelectBox = forwardRef(
     { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
     ref: Ref<HTMLSelectElement>,
   ) => {
+    const { className, ...restProps } = props;
+
     const selectId = useId();
 
     return (
-      <div className="w-full relative inline-flex flex-col gap-1">
+      <div className={cn('w-full relative inline-flex flex-col gap-1', className)}>
         <div
           className={cn(
             'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border px-1',
@@ -76,7 +78,7 @@ const SelectBox = forwardRef(
             disabled={disabled}
             defaultValue={defaultValue}
             className={cn(selectVariants({ size, disabled }), 'px-[10px]')}
-            {...props}
+            {...restProps}
           >
             {options.map(({ label, value }) => (
               <option key={value} value={value}>

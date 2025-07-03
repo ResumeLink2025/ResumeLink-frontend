@@ -3,7 +3,7 @@ import { cva } from 'class-variance-authority';
 import { cn } from '@/utils/styleMerge';
 
 type ToggleProps = {
-  size: 'small' | 'medium' | 'large';
+  size?: 'small' | 'medium' | 'large';
   checked: boolean;
   onChange: (checked: boolean) => void;
   disabled?: boolean;

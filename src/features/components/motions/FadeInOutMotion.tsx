@@ -2,9 +2,10 @@ import { motion } from 'motion/react';
 
 import type { MotionType } from './types';
 
-const FadeInOutMotion = ({ delay = 0, children }: MotionType) => {
+const FadeInOutMotion = ({ delay = 0, motionKey, children }: MotionType) => {
   return (
     <motion.div
+      key={motionKey}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}

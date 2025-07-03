@@ -4,7 +4,7 @@ import { useState } from 'react';
 import SelectBox from './index';
 
 const meta: Meta<typeof SelectBox> = {
-  title: 'Components/SelectBox',
+  title: 'common/CustomSelectBox',
   component: SelectBox,
   tags: ['autodocs'],
   argTypes: {
@@ -13,7 +13,7 @@ const meta: Meta<typeof SelectBox> = {
     isDisabled: { control: 'boolean' },
     size: {
       control: 'inline-radio',
-      options: ['sm', 'md', 'lg'],
+      options: ['small', 'medium', 'large'],
     },
   },
 };
@@ -27,10 +27,10 @@ const defaultOptions = [
   { label: '선택 3', value: '3' },
 ];
 
-export const Default: Story = {
+export const DefaultCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
-    size: 'md',
+    size: 'medium',
     isDisabled: false,
   },
   render: (args) => {
@@ -39,7 +39,7 @@ export const Default: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const DisabledCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
     isDisabled: true,
@@ -48,10 +48,10 @@ export const Disabled: Story = {
   render: (args) => <SelectBox {...args} />,
 };
 
-export const SmallSize: Story = {
+export const SmallSizeCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
-    size: 'sm',
+    size: 'small',
   },
   render: (args) => {
     const [value, setValue] = useState('');
@@ -59,10 +59,10 @@ export const SmallSize: Story = {
   },
 };
 
-export const LargeSize: Story = {
+export const LargeSizeCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
-    size: 'lg',
+    size: 'large',
   },
   render: (args) => {
     const [value, setValue] = useState('');

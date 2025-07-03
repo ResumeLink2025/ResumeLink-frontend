@@ -1,8 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 
+import useDropDown from '@/hooks/useDropDown';
+
 import Typography from '../Typography';
 import DropDown from '.';
-import useDropDown from './hooks/useDropDown';
 
 type DropDownType = typeof DropDown;
 
