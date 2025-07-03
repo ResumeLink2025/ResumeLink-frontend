@@ -14,7 +14,7 @@ type SelectBoxProps = {
   size?: 'small' | 'medium' | 'large';
 };
 
-export default function SelectBox({
+export default function CustomSelectBox({
   options,
   value,
   onChange,

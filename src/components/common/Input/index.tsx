@@ -78,7 +78,7 @@ const Input = forwardRef(
         >
           <input
             ref={ref}
-            className={cn(inputVariants({ size, disabled }))}
+            className={cn(inputVariants({ size, disabled }), className)}
             id={inputId}
             type={type || 'text'}
             disabled={disabled}
