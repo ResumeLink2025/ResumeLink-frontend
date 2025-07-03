@@ -1,19 +1,14 @@
 'use client';
 
-import { jwtDecode } from 'jwt-decode';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
-interface JwtPayload {
-  userId: string;
-  iat: number;
-  exp: number;
-}
+import { useAuthStore } from '../store/useAuthStore';
 
 export default function SuccessPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
-
+  const setLogin = useAuthStore((state) => state.setLogin);
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('accessToken');
@@ -25,25 +20,9 @@ export default function SuccessPage() {
     }
 
     try {
-      const decoded = jwtDecode<JwtPayload>(accessToken);
-      console.log(decoded, 'decoded');
-      console.log(accessToken, 'accessToken');
-
-      const now = Date.now() / 1000;
-      if (decoded.exp < now) {
-        setError('토큰이 만료되었습니다. 다시 로그인 해주세요.');
-        return;
-      }
-
-      if (decoded.userId !== userId) {
-        setError('토큰 정보와 사용자 ID가 일치하지 않습니다.');
-        return;
-      }
-
-      // 저장
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userId', userId);
-
+      setLogin(userId);
       router.replace('/developersHub?type=resume&sort=popular');
     } catch {
       setError('유효하지 않은 토큰입니다.');

@@ -1,12 +1,22 @@
+'use client';
+
 import Image from 'next/image';
 import Link from 'next/link';
 
+import { useAuthStore } from '@/app/store/useAuthStore';
 import Container from '@/layouts/Container';
 import Wrapper from '@/layouts/Wrapper';
 
 import NavLink from './components/NavLink';
 
 const Header = () => {
+  const { isLoggedIn, setLogout } = useAuthStore();
+
+  const handleLogout = () => {
+    localStorage.removeItem('accessToken');
+    localStorage.removeItem('userId');
+    setLogout();
+  };
   return (
     <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
       <Container>
@@ -21,12 +31,24 @@ const Header = () => {
             <NavLink navHref="/resume/create" title="이력서 생성" />
           </div>
           <div className="flex gap-5">
-            <Link href="/login" className="cursor-pointer">
-              로그인
-            </Link>
-            <Link href="/register" type="body2" className="cursor-pointer">
-              회원가입
-            </Link>
+            {!isLoggedIn ? (
+              <>
+                <Link href="/login" className="cursor-pointer font-medium text-[16px] leading-[145%]">
+                  로그인
+                </Link>
+                <Link href="/register" className="cursor-pointer font-medium text-[16px] leading-[145%]">
+                  회원가입
+                </Link>
+              </>
+            ) : (
+              <Link
+                href="/"
+                className="cursor-pointer font-medium text-[16px] leading-[145%]"
+                onClick={handleLogout}
+              >
+                로그아웃
+              </Link>
+            )}
           </div>
         </div>
       </Container>
