@@ -1,3 +1,5 @@
+'use client';
+
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
 import { useState } from 'react';
@@ -5,8 +7,11 @@ import { useState } from 'react';
 import { Button, Typography } from '@/components/common';
 import Input from '@/components/common/Input';
 
-const LoginSection = () => {
-  const [errorState, setErrorState] = useState({ id: '', password: '' });
+export default function RegisterSection() {
+  const [errorState, setErrorState] = useState({
+    id: '',
+    password: '',
+  });
   const [isTypePassword, setIsTypePassword] = useState(true);
 
   const onClickChangeType = () => {
@@ -37,18 +42,23 @@ const LoginSection = () => {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[calc(100vh-155px)] bg-white">
-      <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
+    <div className="h-full min-h-[calc(100vh-155px)] flex items-center justify-center bg-white">
+      <div className="flex flex-col items-center w-full max-w-md">
+        <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
+        <Typography type="title2" className="mb-6">
+          회원 가입
+        </Typography>
 
-      <form className="w-full max-w-sm flex flex-col gap-3" onSubmit={handleSubmit}>
-        <div className="flex flex-col gap-2">
+        <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
           <Input
             label="아이디"
             name="id"
-            errorMessage={errorState.id}
             size="small"
+            errorMessage={errorState.id}
             placeholder="이메일을 입력해주세요."
+            className="mb-2"
           />
+
           <Input
             label="비밀번호"
             type={isTypePassword ? 'password' : 'text'}
@@ -56,7 +66,7 @@ const LoginSection = () => {
             name="password"
             placeholder="비밀번호"
             errorMessage={errorState.password}
-            className="cursor-pointer"
+            className="cursor-pointer mb-1"
             icon={
               isTypePassword ? (
                 <EyeOff size={20} onClick={onClickChangeType} />
@@ -65,43 +75,16 @@ const LoginSection = () => {
               )
             }
           />
-        </div>
 
-        <Button
-          type="submit"
-          className="text-white hover:bg-yellow-500 transition-colors mt-1"
-          styleType="primary"
-          size="small"
-        >
-          로그인
-        </Button>
-
-        <div className="flex gap-2 mt-4">
-          <button
-            type="button"
-            className="flex-1 border border-gray-300 rounded-[10px] py-2 flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
+          <Button
+            type="submit"
+            className="w-full mt-2 py-2 bg-yellow-400 text-white font-semibold rounded-md hover:bg-yellow-500 transition"
+            size="small"
           >
-            <Image src="/images/google.png" alt="Google" width={16} height={16} />
-            <Typography type="body5">Sign in with Google</Typography>
-          </button>
-          <button
-            type="button"
-            className="flex-1 border border-gray-300 rounded-[10px] flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
-          >
-            <Image src="/images/kakao-talk.png" alt="Kakao" width={20} height={20} />
-            <Typography type="body5">Sign in with Kakao</Typography>
-          </button>
-        </div>
-
-        <button
-          type="submit"
-          className="mt-3 text-[14px] text-gray-500 hover:underline underline-offset-2 cursor-pointer"
-        >
-          회원가입
-        </button>
-      </form>
+            다음
+          </Button>
+        </form>
+      </div>
     </div>
   );
-};
-
-export default LoginSection;
+}

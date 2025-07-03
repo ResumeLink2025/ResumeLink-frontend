@@ -1,3 +1,5 @@
+import { Toaster } from 'react-hot-toast';
+
 import LayoutProvider from './LayoutProvider';
 import TanstackQueryProvider from './TanstackQueryProvider';
 
@@ -8,7 +10,10 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <TanstackQueryProvider>
-      <LayoutProvider>{children}</LayoutProvider>
+      <LayoutProvider>
+        {children}
+        <Toaster />
+      </LayoutProvider>
     </TanstackQueryProvider>
   );
 };
