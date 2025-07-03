@@ -4,7 +4,7 @@ import { PageWrapper } from '@/layouts';
 
 import RegisterSection from './RegisterSection';
 
-const RegisterPage = () => {
+const Register = () => {
   return (
     <PageWrapper>
       <RegisterSection />
@@ -12,4 +12,4 @@ const RegisterPage = () => {
   );
 };
 
-export default RegisterPage;
+export default Register;
