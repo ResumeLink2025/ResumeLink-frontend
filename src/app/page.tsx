@@ -1,5 +1,5 @@
-import Landing from '@/features/landing';
+import RegisterPage from './register/page';
 
 export default function Home() {
-  return <Landing />;
+  return <RegisterPage />;
 }

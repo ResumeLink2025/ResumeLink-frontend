@@ -1,5 +1,6 @@
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/router';
 import { useState } from 'react';
 
 import { Button, Typography } from '@/components/common';
@@ -34,6 +35,12 @@ const LoginSection = () => {
     } else {
       setErrorState((prevState) => ({ ...prevState, password: '' }));
     }
+  };
+
+  const router = useRouter();
+
+  const handleRegister = () => {
+    router.push('/register');
   };
 
   return (
@@ -94,8 +101,9 @@ const LoginSection = () => {
         </div>
 
         <button
-          type="submit"
+          type="button"
           className="mt-3 text-[14px] text-gray-500 hover:underline underline-offset-2 cursor-pointer"
+          onClick={handleRegister}
         >
           회원가입
         </button>
