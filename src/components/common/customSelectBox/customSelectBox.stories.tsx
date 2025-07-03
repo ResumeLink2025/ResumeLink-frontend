@@ -4,7 +4,8 @@ import { useState } from 'react';
 import SelectBox from './index';
 
 const meta: Meta<typeof SelectBox> = {
-  title: 'Components/customSelectBox',
+  title: 'common/CustomSelectBox',
+
   component: SelectBox,
   tags: ['autodocs'],
   argTypes: {
@@ -27,7 +28,7 @@ const defaultOptions = [
   { label: '선택 3', value: '3' },
 ];
 
-export const Default: Story = {
+export const DefaultCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
     size: 'medium',
@@ -39,7 +40,7 @@ export const Default: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const DisabledCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
     isDisabled: true,
@@ -48,7 +49,7 @@ export const Disabled: Story = {
   render: (args) => <SelectBox {...args} />,
 };
 
-export const SmallSize: Story = {
+export const SmallSizeCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
     size: 'small',
@@ -59,7 +60,7 @@ export const SmallSize: Story = {
   },
 };
 
-export const LargeSize: Story = {
+export const LargeSizeCustomSelectBox: Story = {
   args: {
     options: defaultOptions,
     size: 'large',

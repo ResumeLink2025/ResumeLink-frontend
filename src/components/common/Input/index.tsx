@@ -19,9 +19,9 @@ const inputVariants = cva(
   {
     variants: {
       size: {
-        small: 'h-[40px] px-3 text-[15px]',
-        medium: 'h-[45px] px-[14px] text-[17px]',
-        large: 'h-[50px] px-4 text-[18px]',
+        small: 'h-[38px] px-3 text-[15px]',
+        medium: 'h-[43px] px-[14px] text-[16px]',
+        large: 'h-[48px] px-4 text-[17px]',
       },
       disabled: {
         true: 'cursor-default',
@@ -61,7 +61,7 @@ const Input = forwardRef(
     const fontType = getFontType('input', size);
 
     return (
-      <div className="w-full relative inline-flex flex-col gap-1">
+      <div className={cn('w-full relative inline-flex flex-col gap-1', className)}>
         {label && (
           <label htmlFor={inputId} className="color w-fit text-gray-70">
             <Typography type={fontType}>{label}</Typography>
@@ -74,7 +74,6 @@ const Input = forwardRef(
               ? 'border-red-600 focus-within:border-red-600 focus:outline-red-600'
               : 'border-gray-40 focus-within:border-gray-60',
             disabled && 'border-gray-40 text-gray-40 bg-gray-10 cursor-default',
-            className,
           )}
         >
           <input

@@ -1,18 +1,20 @@
-import React from 'react';
+import type { TextareaHTMLAttributes } from 'react';
 
 import { cn } from '@/utils/styleMerge';
 
-interface TextAreaProps extends React.TextareaHTMLAttributes<HTMLTextAreaElement> {
-  size?: 'small' | 'medium' | 'large';
-}
+type TextareaSizeType = 'small' | 'medium' | 'large';
 
-const sizeMap: Record<'small' | 'medium' | 'large', string> = {
+type TextareaProps = {
+  size?: TextareaSizeType;
+} & TextareaHTMLAttributes<HTMLTextAreaElement>;
+
+const sizeMap: Record<TextareaSizeType, string> = {
   small: 'h-[180px] text-[14px]',
   medium: 'h-[200px] text-[16px]',
   large: 'h-[220px] text-[18px]',
 };
 
-const TextArea = ({ size = 'medium', disabled = false, className, ...props }: TextAreaProps) => {
+const Textarea = ({ size = 'medium', disabled = false, className, ...props }: TextareaProps) => {
   return (
     <textarea
       disabled={disabled}
@@ -29,4 +31,4 @@ const TextArea = ({ size = 'medium', disabled = false, className, ...props }: Te
   );
 };
 
-export default TextArea;
+export default Textarea;
