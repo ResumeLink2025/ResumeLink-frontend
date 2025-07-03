@@ -27,8 +27,6 @@ const useDefaultInfoField = () => {
     setImageUrl(imageURL);
   };
 
-  register('projectImage');
-
   return { imageUrl, errors, handleUploadImageFile, register };
 };
 

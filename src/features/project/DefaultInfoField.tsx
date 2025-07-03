@@ -8,8 +8,8 @@ const DefaultInfoField = () => {
 
   return (
     <div className="flex flex-col mt-12 gap-3">
-      <Typography type="title1">기본 정보</Typography>
-      <div className="flex gap-6">
+      <Typography type="heading2">기본 정보</Typography>
+      <div className="flex items-center gap-6">
         <ImageUpload size="large" previewUrl={imageUrl} uploadFile={handleUploadImageFile} />
         <div className="flex-1 grid grid-cols-2 gap-4">
           <Input
