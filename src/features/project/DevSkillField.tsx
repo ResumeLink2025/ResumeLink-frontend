@@ -1,8 +1,8 @@
 import { X } from 'lucide-react';
 
-import { Button, Tag, Typography } from '@/components/common';
+import { Tag, Typography } from '@/components/common';
 import Input from '@/components/common/Input';
-import { INITIAL_SKILLS_COUNT } from '@/constants/project';
+import { SKILL_CATEGORIES } from '@/constants/project';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
@@ -11,11 +11,9 @@ const DevSkillField = () => {
     errors,
     isSubmitted,
     generalSkills,
-    viewAllSkills,
     typingSkill,
     customSkills,
     onClickSkill,
-    onClickViewAllSkills,
     onChangeTypingSkill,
     onEnterAddSkill,
     onClickDeleteCustomSkill,
@@ -25,8 +23,8 @@ const DevSkillField = () => {
     <div className="flex flex-col gap-10">
       <div className="flex flex-col gap-3">
         <Typography type="body1">기술스택 선택</Typography>
-        <div className="flex flex-wrap gap-2">
-          {viewAllSkills.map((skill) => (
+        <div className="flex flex-wrap gap-2 h-70 overflow-y-scroll custom-scrollbar">
+          {SKILL_CATEGORIES.map((skill) => (
             <Tag
               key={skill.id}
               onClick={() => onClickSkill(skill.name)}
@@ -38,13 +36,6 @@ const DevSkillField = () => {
             </Tag>
           ))}
         </div>
-        {viewAllSkills.length <= INITIAL_SKILLS_COUNT.length && (
-          <div className="flex justify-center">
-            <Button onClick={onClickViewAllSkills} styleType="gray25" className="w-40 mt-3">
-              카테고리 모두보기
-            </Button>
-          </div>
-        )}
       </div>
       {isSubmitted && errors?.skill?.generalSkills && (
         <Typography className="text-red-600">{errors?.skill?.generalSkills?.message}</Typography>

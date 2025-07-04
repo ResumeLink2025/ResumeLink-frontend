@@ -161,8 +161,6 @@ export const SKILL_CATEGORIES = [
   { id: 160, name: 'MQTT' },
 ];
 
-export const INITIAL_SKILLS_COUNT = SKILL_CATEGORIES.slice(0, 65);
-
 export const PROJECT_STATUS_OPTIONS = [
   { label: '진행중인 상태', value: 'onGoing' },
   { label: '완료된 상태', value: 'completed' },
