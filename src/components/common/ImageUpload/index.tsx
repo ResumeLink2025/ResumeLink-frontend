@@ -9,8 +9,7 @@ import { cn } from '@/utils/styleMerge';
 import useUploadImage from './hooks/useUploadImage';
 
 type ImageUploadProps = {
-  size: 'medium' | 'large' | 'profile';
-
+  size?: 'medium' | 'large' | 'profile';
   uploadFile: (files?: FileList | null) => void;
   previewUrl?: string | null;
 } & Omit<InputHTMLAttributes<HTMLInputElement>, 'size'>;
@@ -46,6 +45,7 @@ const ImageUpload = ({ size = 'medium', uploadFile, previewUrl, ...props }: Imag
       {!previewUrl ? (
         <>
           <button
+            type="button"
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}

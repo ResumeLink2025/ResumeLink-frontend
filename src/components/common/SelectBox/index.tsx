@@ -15,6 +15,7 @@ type SelectBoxProps = {
   errorMessage?: string;
   options: SelectOption[];
   selectClassName?: string;
+  placeholder?: string;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>;
 
 const selectVariants = cva(
@@ -55,7 +56,7 @@ const selectIconVariants = cva('', {
 
 const SelectBox = forwardRef(
   (
-    { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
+    { size = 'medium', errorMessage, options, disabled, placeholder, ...props }: SelectBoxProps,
     ref: Ref<HTMLSelectElement>,
   ) => {
     const { className, ...restProps } = props;
@@ -78,10 +79,14 @@ const SelectBox = forwardRef(
             id={selectId}
             ref={ref}
             disabled={disabled}
-            defaultValue={defaultValue}
             className={cn(selectVariants({ size, disabled }), 'px-[10px]')}
             {...restProps}
           >
+            {placeholder && (
+              <option value="" disabled>
+                {placeholder}
+              </option>
+            )}
             {options.map(({ label, value }) => (
               <option key={value} value={value}>
                 {label}

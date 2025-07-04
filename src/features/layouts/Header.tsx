@@ -19,6 +19,7 @@ const Header = () => {
           <div className="flex gap-2">
             <NavLink navHref="/developersHub?type=resume&sort=popular" title="개발자 허브" />
             <NavLink navHref="/resume/create" title="이력서 생성" />
+            <NavLink navHref="/project/create" title="프로젝트 작성" />
           </div>
           <div className="flex gap-5">
             <Link href="/login" className="font-medium text-[16px] leading-[145%]">
