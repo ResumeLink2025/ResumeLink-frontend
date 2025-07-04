@@ -16,7 +16,7 @@ const ProjectDetail = () => {
           src={PROJECT_INFO.imageUrl}
           width={230}
           height={230}
-          alt="project-image"
+          alt={PROJECT_INFO.imageUrl}
           className="rounded-[10px] shrink-0"
           placeholder="blur"
           blurDataURL={IMAGE_BLUR}
@@ -28,7 +28,7 @@ const ProjectDetail = () => {
             <div className="flex gap-3">
               <div className="rounded-[10px] px-3 py-2 bg-gray-10">
                 <Typography type="body2" className="text-gray-60">
-                  {PROJECT_INFO.startDate} ~ {PROJECT_INFO.endData ? PROJECT_INFO.endData : '진행중'}
+                  {PROJECT_INFO.startDate} ~ {PROJECT_INFO.endDate ? PROJECT_INFO.endDate : '진행중'}
                 </Typography>
               </div>
               <Tag size="large">{PROJECT_INFO.status}</Tag>

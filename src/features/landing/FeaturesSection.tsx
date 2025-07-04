@@ -3,6 +3,7 @@ import { useInView } from 'react-intersection-observer';
 
 import { Button, Typography } from '@/components/common';
 import { FEATURES_EXPLAIN } from '@/constants/landing';
+import { routeMainPage } from '@/constants/routes';
 
 import { SlideUpMotion } from '../components';
 import FadeInOutMotion from '../components/motions/FadeInOutMotion';
@@ -34,11 +35,7 @@ const FeaturesSection = () => {
 
           <SlideUpMotion delay={2}>
             <div className="mb-20 flex items-center justify-center">
-              <Button
-                onClick={() => router.push('/developersHub?type=resume&sort=popular')}
-                size="large"
-                className="w-42"
-              >
+              <Button onClick={() => router.push(routeMainPage)} size="large" className="w-42">
                 시작하기
               </Button>
             </div>
