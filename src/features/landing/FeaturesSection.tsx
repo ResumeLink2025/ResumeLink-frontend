@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useInView } from 'react-intersection-observer';
 
 import { Button, Typography } from '@/components/common';
@@ -9,6 +10,7 @@ import FeatureCard from './FeatureCard';
 
 const FeaturesSection = () => {
   const { ref: featuresRef, inView } = useInView({ threshold: 0.35, triggerOnce: true });
+  const router = useRouter();
 
   return (
     <>
@@ -32,7 +34,11 @@ const FeaturesSection = () => {
 
           <SlideUpMotion delay={2}>
             <div className="mb-20 flex items-center justify-center">
-              <Button size="large" className="w-42">
+              <Button
+                onClick={() => router.push('/developersHub?type=resume&sort=popular')}
+                size="large"
+                className="w-42"
+              >
                 시작하기
               </Button>
             </div>
