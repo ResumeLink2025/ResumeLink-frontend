@@ -25,7 +25,7 @@ export default function GoogleCallback() {
         return res.json();
       })
       .then((data) => {
-        localStorage.setItem('accessToken', data.accessToken);
+        console.log(data, 'data');
 
         router.push('/http://localhost:3000/developersHub?type=resume&sort=popular');
       })
