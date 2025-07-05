@@ -1,6 +1,6 @@
 import Image from 'next/image';
 
-import { Tag, Typography } from '@/components/common';
+import { Button, Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { PROJECT_INFO } from '@/fixtures/project';
 import { PageWrapper } from '@/layouts';
@@ -21,8 +21,13 @@ const ProjectDetail = () => {
           placeholder="blur"
           blurDataURL={IMAGE_BLUR}
         />
-        <div className="flex flex-col gap-5">
-          <Typography type="heading1">{PROJECT_INFO.projectName}</Typography>
+        <div className="flex flex-col w-full gap-5">
+          <div className="flex items-center justify-between">
+            <Typography type="heading1">{PROJECT_INFO.projectName}</Typography>
+            <Button size="small" className="w-32">
+              커피팻 신청하기
+            </Button>
+          </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>
             <div className="flex gap-3">
