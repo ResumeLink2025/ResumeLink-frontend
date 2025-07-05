@@ -55,6 +55,10 @@
     --color-current-mode: white;
   }
 
+  img {
+    @apply inline-block;
+  }
+
   .text-current-mode {
     color: var(--color-current-mode);
   }
