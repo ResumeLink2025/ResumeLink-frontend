@@ -18,8 +18,8 @@ const DropDownTrigger = ({ size, onClick, children }: DropDownTriggerProps) => {
       variants: {
         size: {
           small: 'h-[40px] rounded-[10px] px-6',
-          medium: 'h-[45px] rounded-[10px] px-8',
-          large: 'h-[50px] rounded-[10px] px-10',
+          medium: 'h-[45px] rounded-[10px] px-6',
+          large: 'h-[50px] rounded-[10px] px-8',
         },
       },
       defaultVariants: {

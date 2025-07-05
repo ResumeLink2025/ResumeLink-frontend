@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/nextjs';
 import { useState } from 'react';
 
-import SelectBox from './index';
+import SelectBox from '.';
 
 const options = [
   { label: '옵션 1', value: 'option1' },
@@ -10,7 +10,7 @@ const options = [
 ];
 
 const meta: Meta<typeof SelectBox> = {
-  title: 'Components/SelectBox',
+  title: 'common/SelectBox',
   component: SelectBox,
   tags: ['autodocs'],
   argTypes: {
@@ -24,7 +24,7 @@ const meta: Meta<typeof SelectBox> = {
 export default meta;
 type Story = StoryObj<typeof SelectBox>;
 
-export const Default: Story = {
+export const DefaultSelectBox: Story = {
   render: (args) => {
     const [selected, setSelected] = useState('option1');
     return (
@@ -33,7 +33,7 @@ export const Default: Story = {
   },
 };
 
-export const Disabled: Story = {
+export const DisabledSelectBox: Story = {
   args: {
     options,
     defaultValue: 'option1',
@@ -41,7 +41,7 @@ export const Disabled: Story = {
   },
 };
 
-export const Invalid: Story = {
+export const InvalidSelectBox: Story = {
   args: {
     options,
     value: 'option3',
@@ -50,7 +50,7 @@ export const Invalid: Story = {
   },
 };
 
-export const StateExample: Story = {
+export const ExampleToUseSelectBox: Story = {
   render: (args) => {
     const [selectedValue, setSelectedValue] = useState(options[0].value);
 
