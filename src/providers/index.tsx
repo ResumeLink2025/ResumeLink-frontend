@@ -1,5 +1,6 @@
 import { Toaster } from 'react-hot-toast';
 
+import AuthProvider from './AuthProvider';
 import LayoutProvider from './LayoutProvider';
 import TanstackQueryProvider from './TanstackQueryProvider';
 
@@ -11,8 +12,10 @@ const Providers = ({ children }: ProvidersProps) => {
   return (
     <TanstackQueryProvider>
       <LayoutProvider>
-        {children}
-        <Toaster />
+        <AuthProvider>
+          {children}
+          <Toaster />
+        </AuthProvider>
       </LayoutProvider>
     </TanstackQueryProvider>
   );

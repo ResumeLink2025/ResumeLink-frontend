@@ -20,8 +20,6 @@ export default function SuccessPage() {
     }
 
     try {
-      localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userId', userId);
       setLogin(userId);
       router.replace('/developersHub?type=resume&sort=popular');
     } catch {

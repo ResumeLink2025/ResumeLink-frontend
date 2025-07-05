@@ -52,26 +52,32 @@ const LoginSection = () => {
     if (hasError) return;
   };
 
-  const handleGoogleLogin = () => {
-    const params = new URLSearchParams({
-      client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '',
-      redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ?? '',
-      response_type: 'code',
-      scope: 'openid email profile',
-      access_type: 'offline',
-      prompt: 'consent',
-    });
+  const handleSocialLogin = (provider: 'google' | 'kakao') => {
+    let url = '';
+    let params = new URLSearchParams();
 
-    window.location.href = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
-  };
+    if (provider === 'google') {
+      params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '',
+        redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ?? '',
+        response_type: 'code',
+        scope: 'openid email profile',
+        access_type: 'offline',
+        prompt: 'consent',
+      });
+      url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+    }
 
-  const handleKakaoLogin = () => {
-    const params = new URLSearchParams({
-      client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID!,
-      redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI!,
-      response_type: 'code',
-    });
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
+    if (provider === 'kakao') {
+      params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID ?? '',
+        redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI ?? '',
+        response_type: 'code',
+      });
+      url = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
+    }
+
+    window.location.href = url;
   };
 
   const goToRegister = () => {
@@ -120,7 +126,7 @@ const LoginSection = () => {
         <div className="flex gap-2 mt-4">
           <button
             type="button"
-            onClick={handleGoogleLogin}
+            onClick={() => handleSocialLogin('google')}
             className="flex-1 border border-gray-300 rounded-[10px] py-2 flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
           >
             <Image src="/images/google.png" alt="Google" width={16} height={16} />
@@ -129,7 +135,7 @@ const LoginSection = () => {
 
           <button
             type="button"
-            onClick={handleKakaoLogin}
+            onClick={() => handleSocialLogin('kakao')}
             className="flex-1 border border-gray-300 rounded-[10px] py-2 flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
           >
             <Image src="/images/kakao-talk.png" alt="Kakao" width={20} height={20} />
