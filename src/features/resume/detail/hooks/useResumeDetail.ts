@@ -1,16 +1,17 @@
 import html2canvas from 'html2canvas';
 import jsPDF from 'jspdf';
+import { useRef } from 'react';
 
 import { RESUME_RESPONSE } from '@/fixtures/resume';
 
 const useResumeDetail = () => {
   const isThemeBlack = RESUME_RESPONSE.theme === 'black';
+  const resumeRef = useRef<HTMLDivElement | null>(null);
 
   const onClickDownLoadResume = async () => {
-    const resumeElement = document.getElementById('pdf-content');
-    if (!resumeElement) return;
+    if (!resumeRef.current) return;
 
-    const canvas = await html2canvas(resumeElement, {
+    const canvas = await html2canvas(resumeRef.current, {
       scale: 2,
       backgroundColor: isThemeBlack ? '#161616' : '#ffffff',
     });
@@ -28,10 +29,14 @@ const useResumeDetail = () => {
     let heightLeft = imgHeight;
     let position = 0;
 
-    if (isThemeBlack) {
-      pdf.setFillColor(22, 22, 22);
-      pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
-    }
+    const fillBackgroundBlack = () => {
+      if (isThemeBlack) {
+        pdf.setFillColor(22, 22, 22);
+        pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
+      }
+    };
+
+    fillBackgroundBlack();
 
     pdf.addImage(imgData, 'PNG', 0, position, imgWidth, imgHeight);
     heightLeft -= pdfHeight;
@@ -40,10 +45,7 @@ const useResumeDetail = () => {
       position += pdfHeight;
       pdf.addPage();
 
-      if (isThemeBlack) {
-        pdf.setFillColor(22, 22, 22);
-        pdf.rect(0, 0, pdfWidth, pdfHeight, 'F');
-      }
+      fillBackgroundBlack();
 
       pdf.addImage(imgData, 'PNG', 0, -position, imgWidth, imgHeight);
       heightLeft -= pdfHeight;
@@ -52,7 +54,7 @@ const useResumeDetail = () => {
     pdf.save('이력서.pdf');
   };
 
-  return { isThemeBlack, onClickDownLoadResume };
+  return { isThemeBlack, resumeRef, onClickDownLoadResume };
 };
 
 export default useResumeDetail;

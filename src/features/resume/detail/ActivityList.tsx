@@ -27,7 +27,8 @@ const ActivityList = ({ title, activities, isThemeBlack }: ActivityListProps) =>
               {activity.title}
             </Typography>
             <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
-              {activity.startDate} ~ {activity.endDate && activity.endDate}
+              {activity.startDate}
+              {activity.endDate && ` ~ ${activity.endDate}`}
             </Typography>
             <Typography type="body1" className={cn('mt-4', isThemeBlack ? 'text-gray-30' : 'text-gray-60')}>
               {activity.description}

@@ -14,13 +14,13 @@ import ActionButtons from './HeaderSection';
 import useResumeDetail from './hooks/useResumeDetail';
 
 const ResumeDetail = () => {
-  const { isThemeBlack, onClickDownLoadResume } = useResumeDetail();
+  const { isThemeBlack, resumeRef, onClickDownLoadResume } = useResumeDetail();
 
   return (
     <PageWrapper className="max-w-4xl my-12">
       <ActionButtons onClickDownLoadResume={onClickDownLoadResume} />
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
-        <div id="pdf-content" className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
+        <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
           <div className="flex gap-8">
             <Image
               src={RESUME_RESPONSE.imageUrl}

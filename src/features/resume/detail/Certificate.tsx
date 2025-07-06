@@ -10,13 +10,13 @@ interface CertificateProps {
 
 const Certificate = ({ title, date, issuer, grade, isThemeBlack }: CertificateProps) => {
   return (
-    <div key={title} className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2">
       <Typography type="title1" className="text-current-mode">
         {title}
       </Typography>
       <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>{date}</Typography>
       <Typography className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
-        {issuer} | {grade}
+        {[issuer, grade].filter(Boolean).join(' | ')}
       </Typography>
     </div>
   );
