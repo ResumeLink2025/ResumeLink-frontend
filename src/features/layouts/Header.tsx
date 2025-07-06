@@ -2,6 +2,7 @@
 
 import Image from 'next/image';
 import Link from 'next/link';
+import { useEffect } from 'react';
 
 import { useAuthStore } from '@/app/store/useAuthStore';
 import Container from '@/layouts/Container';
@@ -10,13 +11,23 @@ import Wrapper from '@/layouts/Wrapper';
 import NavLink from './components/NavLink';
 
 const Header = () => {
-  const { isLoggedIn, setLogout } = useAuthStore();
+  const { isLoggedIn, setLogout, setLogin } = useAuthStore();
+
+  useEffect(() => {
+    const storedAccessToken = localStorage.getItem('accessToken');
+    const storedUserId = localStorage.getItem('userId');
+
+    if (storedAccessToken && storedUserId) {
+      setLogin(storedUserId);
+    } else {
+      setLogout();
+    }
+  }, [setLogin, setLogout]);
 
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
-    localStorage.removeItem('userId');
     setLogout();
   };
+
   return (
     <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
       <Container>
