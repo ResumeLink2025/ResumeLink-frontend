@@ -30,12 +30,12 @@ const ActivityList = ({ title, activities, isThemeBlack }: ActivityListProps) =>
             </Typography>
             {activity.startDate && (
               <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
-                {activity.startDate && formatDate(activity.startDate)}
+                {formatDate(activity.startDate)}
                 {activity.endDate && ` ~ ${formatDate(activity.endDate)}`}
               </Typography>
             )}
             <Typography type="body1" className={cn('mt-3', isThemeBlack ? 'text-gray-30' : 'text-gray-60')}>
-              {activity.description ? activity.description : activity.aiDescription}
+              {activity.description ?? activity.aiDescription}
             </Typography>
           </div>
         ))}
