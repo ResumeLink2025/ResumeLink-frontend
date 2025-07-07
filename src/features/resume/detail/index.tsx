@@ -24,7 +24,7 @@ const ResumeDetail = () => {
           <div className="flex gap-8">
             <Image
               src={RESUME_RESPONSE.imageUrl}
-              className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50')}
+              className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50 object-cover')}
               width={170}
               height={170}
               placeholder="blur"
