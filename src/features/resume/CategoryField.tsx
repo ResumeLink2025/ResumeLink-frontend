@@ -1,12 +1,11 @@
 import { Tag, Typography } from '@/components/common';
-import type { DeveloperCategoryType } from '@/constants/resume';
 import { DEVELOPER_CATEGORY } from '@/constants/resume';
 
 interface CategoryFieldProps {
-  selectedCategories: DeveloperCategoryType[];
+  selectedCategories: string[];
   isSubmitted: boolean;
   errorMessage?: string;
-  onClickCategory: (category: DeveloperCategoryType) => void;
+  onClickCategory: (category: string) => void;
 }
 
 const CategoryField = ({
@@ -27,13 +26,13 @@ const CategoryField = ({
       <div className="flex flex-wrap gap-2 mt-5">
         {DEVELOPER_CATEGORY.map((category) => (
           <Tag
-            key={category.id}
+            key={category}
             onClick={() => onClickCategory(category)}
-            isSelected={selectedCategories.some((selectedCategory) => selectedCategory.id === category.id)}
+            isSelected={selectedCategories.includes(category)}
             styleType="outline"
             size="large"
           >
-            {category.title}
+            {category}
           </Tag>
         ))}
       </div>

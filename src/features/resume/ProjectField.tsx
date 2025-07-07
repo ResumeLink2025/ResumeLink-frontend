@@ -28,7 +28,7 @@ const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProj
                 'bg-primary border-transparent',
             )}
           >
-            {project.title}
+            {project.projectName}
           </div>
         ))}
       </div>

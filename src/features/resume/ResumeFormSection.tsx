@@ -13,6 +13,8 @@ import useResumeFormSection from './hooks/useResumeFormSection';
 import PrivateField from './PrivateField';
 import ProjectField from './ProjectField';
 import ThemeField from './ThemeField';
+import TitleField from './TitleField';
+import UserInfoSection from './UserInfoSection';
 
 const ResumeFormSection = () => {
   const {
@@ -35,25 +37,27 @@ const ResumeFormSection = () => {
   return (
     <FormProvider {...methods}>
       <form className="mt-6 flex flex-col gap-14" onSubmit={handleSubmit(onSubmitResume)}>
+        <UserInfoSection />
+        <TitleField register={register} errorMessage={errors.title?.message} />
         <Textarea
           label="자기 소개"
           placeholder="자신이 어떤 개발자인지 작성해 주세요. (최소 50글자 이상)"
-          {...register('introduction')}
-          errorMessage={errors.introduction?.message}
+          {...register('summary')}
+          errorMessage={errors.summary?.message}
         />
         <CategoryField
           selectedCategories={selectedCategories}
           onClickCategory={onClickCategory}
-          errorMessage={errors.selectedCategories?.message}
+          errorMessage={errors.categories?.message}
           isSubmitted={isSubmitted}
         />
         <ProjectField
           selectedProjects={selectedProjects}
           onClickProject={onClickProject}
-          errorMessage={errors.selectedProjects?.message}
+          errorMessage={errors.projects?.message}
           isSubmitted={isSubmitted}
         />
-        <ExperienceField register={register} errorMessage={errors.experience?.message} />
+        <ExperienceField register={register} errorMessage={errors.experienceNote?.message} />
         <ActivityField />
         <CertificateField />
         <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />

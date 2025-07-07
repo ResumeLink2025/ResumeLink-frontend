@@ -1,31 +1,29 @@
 import { z } from 'zod';
 
 export const resumeFormSchema = z.object({
-  introduction: z
-    .string()
-    .min(50, '자기 소개는 최소 50글자 이상이어야 합니다.')
-    .nonempty('자기 소개는 필수입니다.'),
-  selectedCategories: z
-    .array(
-      z.object({
-        id: z.number(),
-        title: z.string(),
-      }),
-    )
+  title: z.string().min(1, '제목을 입력해야 합니다.'),
+  summary: z.string().min(50, '자기 소개는 최소 50글자 이상이어야 합니다.'),
+  experienceNote: z.string().min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.'),
+  categories: z
+    .array(z.string())
     .min(1, '개발자 카테고리는 1개 이상 선택해야 합니다.')
     .max(5, '개발자 카테고리는 5개까지만 선택 가능합니다.'),
-  selectedProjects: z
+  skills: z.array(z.string()),
+  positions: z.array(z.string()),
+  projects: z
     .array(
       z.object({
         id: z.number(),
-        title: z.string(),
+        projectName: z.string(),
+        projectDesc: z.string(),
+        startDate: z.string(),
+        endDate: z.string(),
+        role: z.string(),
+        generalSkills: z.array(z.string()),
+        customSkills: z.array(z.string()),
       }),
     )
     .min(1, '프로젝트는 1개 이상 선택해야 합니다.'),
-  experience: z
-    .string()
-    .min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.')
-    .nonempty('개발 관련 경험 작성은 필수입니다.'),
   activities: z
     .array(
       z.object({
