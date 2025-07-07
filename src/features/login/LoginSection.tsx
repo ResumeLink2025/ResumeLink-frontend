@@ -13,9 +13,48 @@ const LoginSection = () => {
 
   const [errorState, setErrorState] = useState({ id: '', password: '' });
   const [isTypePassword, setIsTypePassword] = useState(true);
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+  });
 
   const togglePasswordType = () => {
     setIsTypePassword((prev) => !prev);
+  };
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://320d-121-88-197-63.ngrok-free.app/api/auth/login/local', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userInfo.email,
+          password: userInfo.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '로그인 실패');
+      }
+
+      const data = await response.json();
+
+      const accessToken = data.data?.accessToken;
+      const userId = data.data?.userId;
+
+      if (!accessToken || !userId) {
+        return;
+      }
+
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userId', userId);
+
+      router.replace('/developersHub?type=resume&sort=popular');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -94,6 +133,12 @@ const LoginSection = () => {
             label="아이디"
             name="id"
             errorMessage={errorState.id}
+            onChange={(e) =>
+              setUserInfo({
+                ...userInfo,
+                email: e.target.value,
+              })
+            }
             size="small"
             placeholder="이메일을 입력해주세요."
           />
@@ -102,6 +147,12 @@ const LoginSection = () => {
             type={isTypePassword ? 'password' : 'text'}
             name="password"
             size="small"
+            onChange={(e) =>
+              setUserInfo({
+                ...userInfo,
+                password: e.target.value,
+              })
+            }
             placeholder="비밀번호"
             errorMessage={errorState.password}
             icon={
@@ -119,6 +170,7 @@ const LoginSection = () => {
           styleType="primary"
           size="small"
           className="text-white hover:bg-yellow-500 transition-colors mt-1"
+          onClick={handleLogin}
         >
           로그인
         </Button>
