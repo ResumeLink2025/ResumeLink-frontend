@@ -17,7 +17,10 @@ const RootLayout = ({ children }: RootLayoutProps) => {
   return (
     <html lang="ko">
       <body className={`${pretendard.variable} font-pretendard`}>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <div id="portal-root" />
+        </Providers>
       </body>
     </html>
   );
