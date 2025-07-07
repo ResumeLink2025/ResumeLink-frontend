@@ -1,6 +1,5 @@
 'use client';
 
-import { OverlayProvider } from '@toss/use-overlay';
 import { Toaster } from 'react-hot-toast';
 
 import AuthProvider from './AuthProvider';

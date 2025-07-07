@@ -5,12 +5,13 @@ import Image from 'next/image';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 
+import { useAuthStore } from '@/app/store/useAuthStore';
 import { Button, Typography } from '@/components/common';
 import Input from '@/components/common/Input';
 
 const LoginSection = () => {
   const router = useRouter();
-
+  const setLogin = useAuthStore((state) => state.setLogin);
   // 입력 유효성 검사 상태
   const [errorState, setErrorState] = useState({ id: '', password: '' });
   // 전역 에러 메시지 상태 (모달/알림용)
@@ -52,15 +53,14 @@ const LoginSection = () => {
 
       const data = await response.json();
       const accessToken = data.accessToken;
-      const userId = data.userId;
 
-      if (!accessToken || !userId) {
+      if (!accessToken) {
         setGlobalError('로그인 응답에 문제가 있습니다. 다시 시도해주세요.');
         return;
       }
 
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userId', userId);
+      setLogin(accessToken);
 
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {

@@ -15,18 +15,16 @@ export default function SuccessPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('accessToken');
-    const userId = params.get('userId');
 
-    if (!accessToken || !userId) {
+    if (!accessToken) {
       setError('로그인 정보가 유효하지 않습니다. 다시 시도해주세요.');
       return;
     }
 
     try {
       localStorage.setItem('accessToken', accessToken);
-      localStorage.setItem('userId', userId);
 
-      setLogin(userId);
+      setLogin(accessToken);
 
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (e) {
