@@ -3,7 +3,6 @@
 import { OverlayProvider } from '@toss/use-overlay';
 import { Toaster } from 'react-hot-toast';
 
-import AuthProvider from './AuthProvider';
 import LayoutProvider from './LayoutProvider';
 import TanstackQueryProvider from './TanstackQueryProvider';
 
@@ -14,14 +13,12 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <TanstackQueryProvider>
-
-      <LayoutProvider>
-        <AuthProvider>
+      <OverlayProvider>
+        <LayoutProvider>
           {children}
           <Toaster />
-        </AuthProvider>
-      </LayoutProvider>
-
+        </LayoutProvider>
+      </OverlayProvider>
     </TanstackQueryProvider>
   );
 };
