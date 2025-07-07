@@ -13,16 +13,21 @@ import Input from '@/components/common/Input';
 const LoginSection = () => {
   const router = useRouter();
 
+  // 입력 유효성 검사 상태
   const [errorState, setErrorState] = useState({ id: '', password: '' });
+  // 전역 에러 메시지 상태 (모달/알림용)
+  const [globalError, setGlobalError] = useState('');
   const [isTypePassword, setIsTypePassword] = useState(true);
+
   const [userInfo, setUserInfo] = useState({
-    email: '',
+    id: '',
     password: '',
   });
 
   const togglePasswordType = () => {
     setIsTypePassword((prev) => !prev);
   };
+
   const handleLogin = async () => {
     try {
       const response = await fetch('https://3a9c-121-88-197-63.ngrok-free.app/api/auth/login/local', {
@@ -31,35 +36,44 @@ const LoginSection = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          email: userInfo.email,
+          email: userInfo.id,
           password: userInfo.password,
         }),
       });
 
       if (!response.ok) {
         const errorData = await response.json();
-        throw new Error(errorData.message || '로그인 실패');
+
+        if (response.status === 401) {
+          setGlobalError('이메일 또는 비밀번호가 올바르지 않습니다.');
+        } else {
+          setGlobalError(errorData.message || '로그인 실패');
+        }
+        return;
       }
 
       const data = await response.json();
-      // console.log(data);
       const accessToken = data.accessToken;
       const userId = data.userId;
 
       if (!accessToken || !userId) {
+        setGlobalError('로그인 응답에 문제가 있습니다. 다시 시도해주세요.');
         return;
       }
+
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userId', userId);
 
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
       console.error(err);
+      setGlobalError('네트워크 오류가 발생했습니다.');
     }
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setGlobalError(''); // 제출 시 기존 글로벌 에러 초기화
 
     const formData = new FormData(e.currentTarget);
     const id = formData.get('id') as string;
@@ -90,6 +104,8 @@ const LoginSection = () => {
     }
 
     if (hasError) return;
+
+    await handleLogin();
   };
 
   const handleSocialLogin = (provider: 'google' | 'kakao') => {
@@ -134,6 +150,13 @@ const LoginSection = () => {
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-155px)] bg-white">
       <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
 
+      {/* 글로벌 에러 알림 */}
+      {globalError && (
+        <div className="mb-4 w-full max-w-sm p-3 bg-red-100 border border-red-300 text-red-700 rounded">
+          {globalError}
+        </div>
+      )}
+
       <form className="w-full max-w-sm flex flex-col gap-3" onSubmit={handleSubmit}>
         <div className="flex flex-col gap-2">
           <Input
@@ -143,7 +166,7 @@ const LoginSection = () => {
             onChange={(e) =>
               setUserInfo({
                 ...userInfo,
-                email: e.target.value,
+                id: e.target.value,
               })
             }
             size="small"
@@ -177,7 +200,6 @@ const LoginSection = () => {
           styleType="primary"
           size="small"
           className="text-white hover:bg-yellow-500 transition-colors mt-1"
-          onClick={handleLogin}
         >
           로그인
         </Button>
