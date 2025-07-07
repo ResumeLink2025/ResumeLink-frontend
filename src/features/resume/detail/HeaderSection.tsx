@@ -10,8 +10,8 @@ const ActionButtons = ({ onClickDownLoadResume }: ActionButtonsProps) => {
     <div className="flex items-center justify-between mb-4">
       <div className="flex gap-3">
         {RESUME_RESPONSE.categories.map((category) => (
-          <Tag key={category.name} styleType="outline">
-            # {category.name}
+          <Tag key={category} styleType="outline">
+            # {category}
           </Tag>
         ))}
       </div>

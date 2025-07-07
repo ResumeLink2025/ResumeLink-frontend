@@ -19,7 +19,7 @@ const ExperienceField = ({ register, errorMessage }: ExperienceFieldProps) => {
       </div>
       <Textarea
         placeholder="개발 관련 경험을 작성해주세요. (공부했던 언어, 참여했던 헤커톤 등등)"
-        {...register('experience')}
+        {...register('experienceNote')}
         errorMessage={errorMessage}
       />
     </div>
