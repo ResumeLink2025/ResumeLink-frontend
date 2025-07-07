@@ -1,10 +1,11 @@
 import Image from 'next/image';
 
-import { Button, Tag, Typography } from '@/components/common';
+import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { PROJECT_INFO } from '@/fixtures/project';
 import { PageWrapper } from '@/layouts';
 
+import ActionButtons from './ActionButtons';
 import ContentField from './ContentField';
 import TagField from './TagField';
 
@@ -24,9 +25,7 @@ const ProjectDetail = () => {
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
             <Typography type="heading1">{PROJECT_INFO.projectName}</Typography>
-            <Button size="small" className="w-32">
-              커피팻 신청하기
-            </Button>
+            <ActionButtons />
           </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>
