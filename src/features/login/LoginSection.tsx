@@ -2,41 +2,126 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+
+import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 
 import { Button, Typography } from '@/components/common';
 import Input from '@/components/common/Input';
 
 const LoginSection = () => {
+  const router = useRouter();
+
   const [errorState, setErrorState] = useState({ id: '', password: '' });
   const [isTypePassword, setIsTypePassword] = useState(true);
+  const [userInfo, setUserInfo] = useState({
+    email: '',
+    password: '',
+  });
 
-  const onClickChangeType = () => {
-    setIsTypePassword(!isTypePassword);
+  const togglePasswordType = () => {
+    setIsTypePassword((prev) => !prev);
+  };
+  const handleLogin = async () => {
+    try {
+      const response = await fetch('https://3a9c-121-88-197-63.ngrok-free.app/api/auth/login/local', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: userInfo.email,
+          password: userInfo.password,
+        }),
+      });
+
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || '로그인 실패');
+      }
+
+      const data = await response.json();
+      // console.log(data);
+      const accessToken = data.accessToken;
+      const userId = data.userId;
+
+      if (!accessToken || !userId) {
+        return;
+      }
+      localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('userId', userId);
+
+      router.replace('/developersHub?type=resume&sort=popular');
+    } catch (err) {
+      console.error(err);
+    }
   };
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     const formData = new FormData(e.currentTarget);
-
     const id = formData.get('id') as string;
     const password = formData.get('password') as string;
 
     const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
+    let hasError = false;
+
     if (!regexEmail.test(id)) {
-      setErrorState((prevState) => ({ ...prevState, id: '올바른 형식의 이메일 주소를 입력해주세요.' }));
+      setErrorState((prev) => ({
+        ...prev,
+        id: '올바른 이메일 형식을 입력해주세요.',
+      }));
+      hasError = true;
     } else {
-      setErrorState((prevState) => ({ ...prevState, id: '' }));
+      setErrorState((prev) => ({ ...prev, id: '' }));
     }
 
     if (password.length < 8) {
-      setErrorState((prevState) => ({ ...prevState, password: '8글자 이상 입력해주세요.' }));
+      setErrorState((prev) => ({
+        ...prev,
+        password: '비밀번호를 8자 이상 입력해주세요.',
+      }));
+      hasError = true;
     } else {
-      setErrorState((prevState) => ({ ...prevState, password: '' }));
+      setErrorState((prev) => ({ ...prev, password: '' }));
     }
+
+    if (hasError) return;
+  };
+
+  const handleSocialLogin = (provider: 'google' | 'kakao') => {
+    let url = '';
+    let params = new URLSearchParams();
+
+    if (provider === 'google') {
+      params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID ?? '',
+        redirect_uri: process.env.NEXT_PUBLIC_GOOGLE_REDIRECT_URI ?? '',
+        response_type: 'code',
+        scope: 'openid email profile',
+        access_type: 'offline',
+        prompt: 'consent',
+      });
+      url = `https://accounts.google.com/o/oauth2/v2/auth?${params.toString()}`;
+    }
+
+    if (provider === 'kakao') {
+      params = new URLSearchParams({
+        client_id: process.env.NEXT_PUBLIC_KAKAO_CLIENT_ID ?? '',
+        redirect_uri: process.env.NEXT_PUBLIC_KAKAO_REDIRECT_URI ?? '',
+        response_type: 'code',
+      });
+      url = `https://kauth.kakao.com/oauth/authorize?${params.toString()}`;
+    }
+
+    window.location.href = url;
+  };
+
+  const goToRegister = () => {
+    router.push('/register');
   };
 
   const router = useRouter();
@@ -55,22 +140,33 @@ const LoginSection = () => {
             label="아이디"
             name="id"
             errorMessage={errorState.id}
+            onChange={(e) =>
+              setUserInfo({
+                ...userInfo,
+                email: e.target.value,
+              })
+            }
             size="small"
             placeholder="이메일을 입력해주세요."
           />
           <Input
             label="비밀번호"
             type={isTypePassword ? 'password' : 'text'}
-            size="small"
             name="password"
+            size="small"
+            onChange={(e) =>
+              setUserInfo({
+                ...userInfo,
+                password: e.target.value,
+              })
+            }
             placeholder="비밀번호"
             errorMessage={errorState.password}
-            className="cursor-pointer"
             icon={
               isTypePassword ? (
-                <EyeOff size={20} onClick={onClickChangeType} />
+                <EyeOff size={20} onClick={togglePasswordType} />
               ) : (
-                <Eye size={20} onClick={onClickChangeType} />
+                <Eye size={20} onClick={togglePasswordType} />
               )
             }
           />
@@ -78,9 +174,10 @@ const LoginSection = () => {
 
         <Button
           type="submit"
-          className="text-white hover:bg-yellow-500 transition-colors mt-1"
           styleType="primary"
           size="small"
+          className="text-white hover:bg-yellow-500 transition-colors mt-1"
+          onClick={handleLogin}
         >
           로그인
         </Button>
@@ -88,14 +185,17 @@ const LoginSection = () => {
         <div className="flex gap-2 mt-4">
           <button
             type="button"
+            onClick={() => handleSocialLogin('google')}
             className="flex-1 border border-gray-300 rounded-[10px] py-2 flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
           >
             <Image src="/images/google.png" alt="Google" width={16} height={16} />
             <Typography type="body5">Sign in with Google</Typography>
           </button>
+
           <button
             type="button"
-            className="flex-1 border border-gray-300 rounded-[10px] flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
+            onClick={() => handleSocialLogin('kakao')}
+            className="flex-1 border border-gray-300 rounded-[10px] py-2 flex items-center justify-center gap-2 hover:bg-gray-25 cursor-pointer"
           >
             <Image src="/images/kakao-talk.png" alt="Kakao" width={20} height={20} />
             <Typography type="body5">Sign in with Kakao</Typography>
@@ -104,6 +204,9 @@ const LoginSection = () => {
 
         <button
           type="button"
+
+          onClick={goToRegister}
+
           className="mt-3 text-[14px] text-gray-500 hover:underline underline-offset-2 cursor-pointer"
           onClick={handleRegister}
         >
