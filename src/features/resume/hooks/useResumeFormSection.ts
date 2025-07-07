@@ -15,7 +15,7 @@ const useResumeFormSection = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = methods;
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<DeveloperCategoryType[]>([]);
@@ -24,11 +24,11 @@ const useResumeFormSection = () => {
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
-    setValue('selectedCategories', selectedCategoriesState);
+    setValue('selectedCategories', selectedCategoriesState, { shouldDirty: true, shouldValidate: true });
   }, [selectedCategoriesState, setValue]);
 
   useEffect(() => {
-    setValue('selectedProjects', selectedProjectsState);
+    setValue('selectedProjects', selectedProjectsState, { shouldDirty: true, shouldValidate: true });
   }, [selectedProjectsState, setValue]);
 
   useEffect(() => {
@@ -88,6 +88,7 @@ const useResumeFormSection = () => {
     selectedProjects: selectedProjectsState,
     selectedThemeOption,
     isPublic,
+    isSubmitted,
     errors,
     setIsPublic,
     onClickCategory,

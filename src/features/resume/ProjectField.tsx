@@ -5,11 +5,12 @@ import { cn } from '@/utils/styleMerge';
 
 interface ProjectFieldProps {
   selectedProjects: UserProjectType[];
-  onClickProject: (project: UserProjectType) => void;
+  isSubmitted: boolean;
   errorMessage?: string;
+  onClickProject: (project: UserProjectType) => void;
 }
 
-const ProjectField = ({ selectedProjects, onClickProject, errorMessage }: ProjectFieldProps) => {
+const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProject }: ProjectFieldProps) => {
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -31,7 +32,7 @@ const ProjectField = ({ selectedProjects, onClickProject, errorMessage }: Projec
           </div>
         ))}
       </div>
-      {errorMessage && <Typography className="text-red-600">{errorMessage}</Typography>}
+      {errorMessage && isSubmitted && <Typography className="text-red-600">{errorMessage}</Typography>}
     </div>
   );
 };

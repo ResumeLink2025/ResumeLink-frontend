@@ -2,7 +2,9 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
+
 import { useRouter } from 'next/navigation';
+
 import { useState } from 'react';
 
 import { Button, Typography } from '@/components/common';
@@ -122,6 +124,12 @@ const LoginSection = () => {
     router.push('/register');
   };
 
+  const router = useRouter();
+
+  const handleRegister = () => {
+    router.push('/register');
+  };
+
   return (
     <div className="flex flex-col items-center justify-center min-h-[calc(100vh-155px)] bg-white">
       <Image src="/images/RESUMELINK.png" alt="RESUMELINK" width={200} height={40} className="mb-8" />
@@ -196,8 +204,11 @@ const LoginSection = () => {
 
         <button
           type="button"
+
           onClick={goToRegister}
+
           className="mt-3 text-[14px] text-gray-500 hover:underline underline-offset-2 cursor-pointer"
+          onClick={handleRegister}
         >
           회원가입
         </button>

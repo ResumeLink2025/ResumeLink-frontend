@@ -4,7 +4,9 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect } from 'react';
 
+
 import { useAuthStore } from '@/app/store/useAuthStore';
+
 import Container from '@/layouts/Container';
 import Wrapper from '@/layouts/Wrapper';
 
@@ -38,10 +40,12 @@ const Header = () => {
         </div>
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-2">
-            <NavLink navHref="/developersHub?type=resume&sort=popular" title="개발자 허브" />
+            <NavLink navHref={routeMainPage} title="개발자 허브" />
             <NavLink navHref="/resume/create" title="이력서 생성" />
+            <NavLink navHref="/project/create" title="프로젝트 작성" />
           </div>
           <div className="flex gap-5">
+
             {!isLoggedIn ? (
               <>
                 <Link href="/login" className="cursor-pointer font-medium text-[16px] leading-[145%]">
@@ -60,6 +64,7 @@ const Header = () => {
                 로그아웃
               </Link>
             )}
+
           </div>
         </div>
       </Container>
