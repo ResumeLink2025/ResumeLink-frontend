@@ -1,4 +1,5 @@
 import { Typography } from '@/components/common';
+import { formatDate } from '@/utils/date';
 
 interface CertificateProps {
   title: string;
@@ -14,7 +15,9 @@ const Certificate = ({ title, date, issuer, grade, isThemeBlack }: CertificatePr
       <Typography type="title1" className="text-current-mode">
         {title}
       </Typography>
-      <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>{date}</Typography>
+      <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
+        {date && formatDate(date)}
+      </Typography>
       <Typography className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
         {[issuer, grade].filter(Boolean).join(' | ')}
       </Typography>

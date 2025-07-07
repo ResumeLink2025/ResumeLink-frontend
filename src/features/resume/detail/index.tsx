@@ -31,17 +31,12 @@ const ResumeDetail = () => {
               blurDataURL={IMAGE_BLUR}
               alt="user-image"
             />
-            <div className="flex flex-col justify-between">
-              <div className="flex flex-col gap-3">
-                <Typography type="hero2" className="text-current-mode">
-                  {RESUME_RESPONSE.title}
-                </Typography>
-                <Typography type="title1" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
-                  {RESUME_RESPONSE.positions.map((position) => position.name).join(', ')}
-                </Typography>
-              </div>
-              <Typography type="body1" className={isThemeBlack ? 'text-gray-30' : 'text-gray-40'}>
-                {RESUME_RESPONSE.email}
+            <div className="flex flex-col justify-center gap-3">
+              <Typography type="hero2" className="text-current-mode">
+                {RESUME_RESPONSE.title}
+              </Typography>
+              <Typography type="title1" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
+                {RESUME_RESPONSE.positions.map((position) => position).join(', ')}
               </Typography>
             </div>
           </div>
@@ -67,8 +62,8 @@ const ResumeDetail = () => {
             </Typography>
             <div className="flex flex-wrap gap-3">
               {RESUME_RESPONSE.skills.map((skill) => (
-                <Tag key={skill.name} size="large" styleType={isThemeBlack ? 'primary' : 'outline'}>
-                  {skill.name}
+                <Tag key={skill} size="large" styleType={isThemeBlack ? 'primary' : 'outline'}>
+                  {skill}
                 </Tag>
               ))}
             </div>

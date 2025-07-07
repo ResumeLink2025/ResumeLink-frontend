@@ -1,11 +1,13 @@
 import { Typography } from '@/components/common';
+import { formatDate } from '@/utils/date';
 import { cn } from '@/utils/styleMerge';
 
 type ActivitiesType = {
   title: string;
-  startDate: string;
+  startDate?: string;
   endDate?: string;
-  description: string;
+  description?: string;
+  aiDescription?: string;
 };
 
 interface ActivityListProps {
@@ -26,12 +28,14 @@ const ActivityList = ({ title, activities, isThemeBlack }: ActivityListProps) =>
             <Typography type="title1" className="text-current-mode">
               {activity.title}
             </Typography>
-            <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
-              {activity.startDate}
-              {activity.endDate && ` ~ ${activity.endDate}`}
-            </Typography>
-            <Typography type="body1" className={cn('mt-4', isThemeBlack ? 'text-gray-30' : 'text-gray-60')}>
-              {activity.description}
+            {activity.startDate && (
+              <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
+                {activity.startDate && formatDate(activity.startDate)}
+                {activity.endDate && ` ~ ${formatDate(activity.endDate)}`}
+              </Typography>
+            )}
+            <Typography type="body1" className={cn('mt-3', isThemeBlack ? 'text-gray-30' : 'text-gray-60')}>
+              {activity.description ? activity.description : activity.aiDescription}
             </Typography>
           </div>
         ))}
