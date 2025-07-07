@@ -12,7 +12,9 @@ export default function SuccessPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('accessToken');
+
     const userId = params.get('userId');
+    console.log(accessToken, userId);
 
     if (!accessToken || !userId) {
       setError('토큰이나 사용자 ID가 없습니다.');
@@ -25,7 +27,8 @@ export default function SuccessPage() {
 
       setLogin(userId);
       router.replace('/developersHub?type=resume&sort=popular');
-    } catch {
+    } catch (e) {
+      console.log(e);
       setError('유효하지 않은 토큰입니다.');
     }
   }, [router]);

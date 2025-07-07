@@ -23,7 +23,7 @@ const LoginSection = () => {
   };
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://320d-121-88-197-63.ngrok-free.app/api/auth/login/local', {
+      const response = await fetch('https://3a9c-121-88-197-63.ngrok-free.app/api/auth/login/local', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -40,14 +40,13 @@ const LoginSection = () => {
       }
 
       const data = await response.json();
-
-      const accessToken = data.data?.accessToken;
-      const userId = data.data?.userId;
+      // console.log(data);
+      const accessToken = data.accessToken;
+      const userId = data.userId;
 
       if (!accessToken || !userId) {
         return;
       }
-
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('userId', userId);
 
