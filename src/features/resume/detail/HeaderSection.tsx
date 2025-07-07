@@ -29,7 +29,7 @@ const ActionButtons = ({ onClickDownLoadResume }: ActionButtonsProps) => {
         </div>
       ) : (
         <Button size="small" className="w-32">
-          커피팻 신청하기
+          커피챗 신청하기
         </Button>
       )}
     </div>

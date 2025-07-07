@@ -3,7 +3,7 @@ import { Button } from '@/components/common';
 const ActionButtons = () => {
   return (
     <>
-      {true ? (
+      {false ? (
         <div className="flex items-center">
           <Button size="small" styleType="white" className="w-15">
             수정
@@ -14,7 +14,7 @@ const ActionButtons = () => {
         </div>
       ) : (
         <Button size="small" className="w-32">
-          커피팻 신청하기
+          커피챗 신청하기
         </Button>
       )}
     </>
