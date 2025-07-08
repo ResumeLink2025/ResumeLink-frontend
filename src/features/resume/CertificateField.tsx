@@ -28,10 +28,10 @@ const CertificateField = () => {
           <div className="flex gap-3">
             <Input label="취득일" type="date" {...register(`certificates.${idx}.date`)} />
             <Input
-              label="급수"
+              label="점수 / 급수"
               type="number"
-              min={1}
-              placeholder="자격증에 급수가 있다면 입력해주세요."
+              step={0.1}
+              placeholder="자격증 점수 혹은 급수를 입력해주세요."
               {...register(`certificates.${idx}.grade`)}
             />
           </div>

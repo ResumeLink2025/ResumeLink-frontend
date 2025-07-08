@@ -14,6 +14,8 @@ type SelectBoxProps = {
   label?: string;
   errorMessage?: string;
   options: SelectOption[];
+  selectClassName?: string;
+  placeholder?: string;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>;
 
 const selectVariants = cva(
@@ -54,7 +56,7 @@ const selectIconVariants = cva('', {
 
 const SelectBox = forwardRef(
   (
-    { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
+    { size = 'medium', errorMessage, options, disabled, placeholder, ...props }: SelectBoxProps,
     ref: Ref<HTMLSelectElement>,
   ) => {
     const { className, ...restProps } = props;
@@ -66,6 +68,7 @@ const SelectBox = forwardRef(
         <div
           className={cn(
             'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border px-1',
+
             errorMessage
               ? 'border-red-600 focus-within:border-red-600'
               : 'border-gray-40 focus-within:border-gray-60',
@@ -76,10 +79,14 @@ const SelectBox = forwardRef(
             id={selectId}
             ref={ref}
             disabled={disabled}
-            defaultValue={defaultValue}
             className={cn(selectVariants({ size, disabled }), 'px-[10px]')}
             {...restProps}
           >
+            {placeholder && (
+              <option value="" disabled>
+                {placeholder}
+              </option>
+            )}
             {options.map(({ label, value }) => (
               <option key={value} value={value}>
                 {label}

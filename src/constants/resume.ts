@@ -2,43 +2,76 @@ export const USER_INFO = {
   id: 2,
   name: '이상진',
   image: 'https://fastly.picsum.photos/id/616/200/200.jpg?hmac=QEzyEzU6nVn4d_vdALhsT9UAtTUEVhwrT-kM5ogBqKM',
-  interested: ['프론트엔드 개발', '풀스택 개발'],
+  positions: ['프론트엔드 개발', '풀스택 개발'],
   skills: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'React', 'Next', 'Express'],
 };
 
-type CategoryType = { id: number; title: string };
-
-export type DeveloperCategoryType = CategoryType;
-
 export const DEVELOPER_CATEGORY = [
-  { id: 0, title: '문제 해결사' },
-  { id: 1, title: '꼼꼼한 디버거' },
-  { id: 2, title: '빠른 학습자' },
-  { id: 3, title: '팀 플레이어' },
-  { id: 4, title: '리더십 보유자' },
-  { id: 5, title: '창의적인 사고' },
-  { id: 6, title: '사용자 중심 사고' },
-  { id: 7, title: '기술 혁신 추구자' },
-  { id: 8, title: '커뮤니케이션 능력 우수' },
-  { id: 9, title: '문서화 철저자' },
-  { id: 10, title: '자동화 애호가' },
-  { id: 11, title: '오픈소스 참여자' },
-  { id: 12, title: '지속적 통합/배포 경험자' },
-  { id: 13, title: '테스트 주도 개발자' },
-  { id: 14, title: '보안 의식 강한 개발자' },
-  { id: 15, title: '자기 주도적 학습자' },
-  { id: 16, title: '새로운 기술 탐험가' },
-  { id: 17, title: '성능 최적화 전문가' },
-  { id: 18, title: '유지보수 용이성 중시' },
-  { id: 19, title: '코드 품질 중시' },
+  '문제 해결사',
+  '꼼꼼한 디버거',
+  '빠른 학습자',
+  '팀 플레이어',
+  '리더십 보유자',
+  '창의적인 사고',
+  '사용자 중심 사고',
+  '기술 혁신 추구자',
+  '커뮤니케이션 능력 우수',
+  '문서화 철저자',
+  '자동화 애호가',
+  '오픈소스 참여자',
+  '지속적 통합/배포 경험자',
+  '테스트 주도 개발자',
+  '보안 의식 강한 개발자',
+  '자기 주도적 학습자',
+  '새로운 기술 탐험가',
+  '성능 최적화 전문가',
+  '유지보수 용이성 중시',
+  '코드 품질 중시',
 ];
 
-export type UserProjectType = CategoryType;
+export type UserProjectType = {
+  id: number;
+  projectName: string;
+  projectDesc: string;
+  startDate: string;
+  endDate: string;
+  role: string;
+  generalSkills: string[];
+  customSkills: string[];
+};
 
 export const USER_PROJECT_LIST = [
-  { id: 0, title: '쪼잉 (사이드 프로젝트 모집 서비스)' },
-  { id: 1, title: 'BSM ROADMAP (학교 근처에있는 IT 회사 채용 정보 제공 서비스)' },
-  { id: 2, title: 'BSM.GG (교내 리그오브레전드 전적 검색 서비스)' },
+  {
+    id: 0,
+    projectName: '쪼잉 (사이드 프로젝트 모집 서비스)',
+    projectDesc: '쪼잉은 사이드 프로젝트 모집 서비스입니다.',
+    startDate: '2023-06-01',
+    endDate: '2023-10-21',
+    role: '유저 팔로워 팔로잉 기능과 프로젝트 모집 관련 기능을 구현하였습니다.',
+    generalSkills: ['React', 'TypeScript'],
+    customSkills: ['react-hook-form'],
+  },
+  {
+    id: 1,
+    projectName: 'BSM ROADMAP (학교 근처에 있는 IT 회사 채용 정보 제공 서비스)',
+    projectDesc:
+      'BSM ROADMAP은 재학생들을 위해 학교 근처 IT 기업들의 채용 정보를 한눈에 확인할 수 있도록 만든 서비스입니다.',
+    startDate: '2023-11-01',
+    endDate: '2024-01-15',
+    role: '채용 공고 크롤링 및 목록 조회, 필터 기능을 구현하였습니다.',
+    generalSkills: ['Next.js', 'TypeScript'],
+    customSkills: ['React Query', 'Tailwind CSS'],
+  },
+  {
+    id: 2,
+    projectName: 'BSM.GG (교내 리그오브레전드 전적 검색 서비스)',
+    projectDesc: 'BSM.GG는 교내 리그오브레전드 유저들의 전적을 검색하고 랭킹을 확인할 수 있는 서비스입니다.',
+    startDate: '2024-03-01',
+    endDate: '2024-05-10',
+    role: '소환사 전적 검색 및 랭킹 시스템, Riot API 연동 기능을 구현하였습니다.',
+    generalSkills: ['React', 'TypeScript'],
+    customSkills: ['Riot API', 'Zustand'],
+  },
 ];
 
 export const THEME_OPTIONS = [
