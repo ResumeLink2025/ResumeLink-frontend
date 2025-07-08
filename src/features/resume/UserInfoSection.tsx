@@ -4,9 +4,12 @@ import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { USER_INFO } from '@/constants/resume';
 
+import useUserInfoSection from './hooks/useUserInfoSection';
 import UserInfoField from './UserInfoField';
 
 const UserInfoSection = () => {
+  const { skills, positions } = useUserInfoSection();
+
   return (
     <div className="flex flex-col">
       <div className="flex flex-col gap-1">
@@ -30,10 +33,10 @@ const UserInfoSection = () => {
         />
         <div className="flex-1 grid grid-cols-2">
           <UserInfoField label="이름" value={USER_INFO.name} />
-          <UserInfoField label="관심 직군" value={USER_INFO.interested.join(', ')} />
+          <UserInfoField label="관심 직군" value={positions.join(', ')} />
           <UserInfoField label="기술 스택">
             <div className="flex flex-wrap gap-1">
-              {USER_INFO.skills.map((skill) => (
+              {skills.map((skill) => (
                 <Tag key={skill} styleType="gray" size="small">
                   {skill}
                 </Tag>

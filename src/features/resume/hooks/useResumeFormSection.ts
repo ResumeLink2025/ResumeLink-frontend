@@ -3,7 +3,7 @@ import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { type DeveloperCategoryType, THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
+import { THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
@@ -15,20 +15,20 @@ const useResumeFormSection = () => {
     register,
     handleSubmit,
     setValue,
-    formState: { errors },
+    formState: { errors, isSubmitted },
   } = methods;
 
-  const [selectedCategoriesState, setSelectedCategoriesState] = useState<DeveloperCategoryType[]>([]);
+  const [selectedCategoriesState, setSelectedCategoriesState] = useState<string[]>([]);
   const [selectedProjectsState, setSelectedProjectsState] = useState<UserProjectType[]>([]);
   const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
-    setValue('selectedCategories', selectedCategoriesState);
+    setValue('categories', selectedCategoriesState, { shouldDirty: true, shouldValidate: true });
   }, [selectedCategoriesState, setValue]);
 
   useEffect(() => {
-    setValue('selectedProjects', selectedProjectsState);
+    setValue('projects', selectedProjectsState, { shouldDirty: true, shouldValidate: true });
   }, [selectedProjectsState, setValue]);
 
   useEffect(() => {
@@ -39,15 +39,13 @@ const useResumeFormSection = () => {
     setValue('isPublic', isPublic);
   }, [isPublic, setValue]);
 
-  const onClickCategory = (category: DeveloperCategoryType) => {
-    const isSelected = selectedCategoriesState.some(
-      (selectedCategory) => selectedCategory.id === category.id,
-    );
+  const onClickCategory = (category: string) => {
+    const isSelected = selectedCategoriesState.some((selectedCategory) => selectedCategory === category);
 
     let newCategories;
 
     if (isSelected) {
-      newCategories = selectedCategoriesState.filter((prevCategory) => prevCategory.id !== category.id);
+      newCategories = selectedCategoriesState.filter((prevCategory) => prevCategory !== category);
     } else {
       if (selectedCategoriesState.length >= 5) {
         toast.error('카테고리는 최대 5개까지만 선택 가능합니다.', { duration: 2000 });
@@ -88,6 +86,7 @@ const useResumeFormSection = () => {
     selectedProjects: selectedProjectsState,
     selectedThemeOption,
     isPublic,
+    isSubmitted,
     errors,
     setIsPublic,
     onClickCategory,
