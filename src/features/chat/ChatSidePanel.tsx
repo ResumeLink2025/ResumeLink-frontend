@@ -2,14 +2,40 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+
+import type { CoffeeChat } from '@/constants/chat';
+import { getCoffeeChatDetail, getCoffeeChats } from '@/hooks/chat/chatApi';
 
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
 
 export default function ChatSidePanel() {
   const [isOpen, setIsOpen] = useState(false);
-  const [selectedChatId, setSelectedChatId] = useState<number | null>(null);
+  const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
+
+  const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
+  const fetchAllChatsWithDetails = async () => {
+    try {
+      const baseList: CoffeeChat[] = await getCoffeeChats();
+
+      const detailPromises: Promise<CoffeeChat>[] = baseList.map((chat) => getCoffeeChatDetail(chat.id));
+
+      const detailResults: CoffeeChat[] = await Promise.all(detailPromises);
+
+      const merged: CoffeeChat[] = baseList.map((chat, index) => ({
+        ...chat,
+        ...detailResults[index],
+      }));
+
+      setCoffeeChats(merged);
+    } catch (err) {
+      console.error('전체 커피챗 목록 + 상세 조회 실패:', err);
+    }
+  };
+  useEffect(() => {
+    fetchAllChatsWithDetails();
+  }, []);
 
   return (
     <>
@@ -60,7 +86,11 @@ export default function ChatSidePanel() {
 
             {/* 채팅 리스트 or 채팅방 UI */}
             {!selectedChatId ? (
-              <ChatList onSelectChat={setSelectedChatId} />
+              <ChatList
+                onSelectChat={setSelectedChatId}
+                chats={coffeeChats}
+                onUpdate={fetchAllChatsWithDetails}
+              />
             ) : (
               <ChatRoom
                 chatId={selectedChatId}

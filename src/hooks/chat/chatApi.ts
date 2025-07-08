@@ -1,4 +1,4 @@
-import { ChatRoom, CoffeeChat, Message, Pagination } from '@/features/chat/types';
+import type { ChatRoom, CoffeeChat, Message, Pagination } from '@/constants/chat';
 
 const API_BASE_URL = 'http://localhost:8080/api';
 
@@ -7,6 +7,8 @@ const API_BASE_URL = 'http://localhost:8080/api';
  */
 async function fetchApi<T>(url: string, options: RequestInit = {}): Promise<T> {
   const token = localStorage.getItem('accessToken');
+  console.log('토큰:', token);
+
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -14,26 +16,42 @@ async function fetchApi<T>(url: string, options: RequestInit = {}): Promise<T> {
   };
 
   const res = await fetch(url, { ...options, headers });
+  console.log('응답 상태:', res.status);
 
-  if (!res.ok) {
-    let errorMessage = 'API 요청 실패';
-    try {
-      const errorData = await res.json();
-      errorMessage = errorData.message || errorMessage;
-    } catch (_) {
-      // 응답 JSON이 아니면 무시
-    }
-    throw new Error(errorMessage);
+  let json: unknown;
+
+  try {
+    json = await res.clone().json();
+  } catch (err) {
+    const text = await res.text();
+    console.error('응답이 JSON이 아님:', text, err);
+    throw new Error('응답을 JSON으로 파싱할 수 없습니다.');
   }
 
-  return res.json();
+  if (typeof json === 'object' && json !== null) {
+    // json을 객체로 타입 단언
+    const obj = json as { message?: string; data?: T };
+
+    if (!res.ok) {
+      const errorMessage = obj.message || 'API 요청 실패';
+      throw new Error(errorMessage);
+    }
+
+    if (obj.data === undefined) {
+      throw new Error('응답에 데이터가 없습니다.');
+    }
+
+    return obj.data;
+  } else {
+    throw new Error('응답 형식이 올바르지 않습니다.');
+  }
 }
 
 /**
  * 커피챗 생성
  */
 export const createCoffeeChat = (receiverId: string, message: string) =>
-  fetchApi<CoffeeChat>(`${API_BASE_URL}/coffeechat`, {
+  fetchApi<CoffeeChat>(`${API_BASE_URL}/coffee-chats`, {
     method: 'POST',
     body: JSON.stringify({ receiverId, message }),
   });
@@ -41,27 +59,26 @@ export const createCoffeeChat = (receiverId: string, message: string) =>
 /**
  * 커피챗 목록 조회
  */
-export const getCoffeeChats = () => fetchApi<CoffeeChat[]>(`${API_BASE_URL}/coffeechat`);
+export const getCoffeeChats = () => fetchApi<CoffeeChat[]>(`${API_BASE_URL}/coffee-chats`);
 
 /**
  * 커피챗 상세 조회
  */
-export const getCoffeeChatDetail = (id: string) => fetchApi<CoffeeChat>(`${API_BASE_URL}/coffeechat/${id}`);
+export const getCoffeeChatDetail = (id: string) => fetchApi<CoffeeChat>(`${API_BASE_URL}/coffee-chats/${id}`);
 
 /**
  * 커피챗 상태 변경
  */
-export const updateCoffeeChatStatus = (id: string, status: 'ACCEPTED' | 'REJECTED') =>
-  fetchApi<CoffeeChat>(`${API_BASE_URL}/coffeechat/${id}/status`, {
-    method: 'PUT',
+export const updateCoffeeChatStatus = (id: string, status: 'ACCEPTED' | 'rejected') =>
+  fetchApi<CoffeeChat>(`${API_BASE_URL}/coffee-chats/${id}/status`, {
+    method: 'PATCH',
     body: JSON.stringify({ status }),
   });
-
 /**
  * 커피챗 취소
  */
 export const cancelCoffeeChat = (id: string) =>
-  fetchApi<void>(`${API_BASE_URL}/coffeechat/${id}`, {
+  fetchApi<void>(`${API_BASE_URL}/coffee-chats/${id}`, {
     method: 'DELETE',
   });
 

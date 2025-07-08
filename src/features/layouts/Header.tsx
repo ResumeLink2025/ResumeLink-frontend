@@ -12,19 +12,15 @@ import NavLink from './components/NavLink';
 
 const Header = () => {
   const { isLoggedIn, setLogout, setLogin } = useAuthStore();
-
   useEffect(() => {
-    const storedAccessToken = localStorage.getItem('accessToken');
-    const storedUserId = localStorage.getItem('userId');
-
-    if (storedAccessToken && storedUserId) {
-      setLogin(storedUserId);
-    } else {
-      setLogout();
+    const token = localStorage.getItem('accessToken');
+    if (token) {
+      setLogin(token);
     }
-  }, [setLogin, setLogout]);
+  }, []);
 
   const handleLogout = () => {
+    localStorage.removeItem('accessToken');
     setLogout();
   };
 

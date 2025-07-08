@@ -29,7 +29,7 @@ const LoginSection = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://3a9c-121-88-197-63.ngrok-free.app/api/auth/login/local', {
+      const response = await fetch('http://localhost:8080/api/auth/login/local', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -53,7 +53,8 @@ const LoginSection = () => {
 
       const data = await response.json();
       const accessToken = data.accessToken;
-
+      const userId = data.userId;
+      console.log(accessToken, 'accessToken', userId);
       if (!accessToken) {
         setGlobalError('로그인 응답에 문제가 있습니다. 다시 시도해주세요.');
         return;

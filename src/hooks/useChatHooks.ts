@@ -1,6 +1,8 @@
-import * as chatApi from '@/apis/chatApi';
-import { CoffeeChat, Message } from '@/features/chat/types';
-import { useMutation, UseMutationResult, useQuery, useQueryClient } from '@tanstack/react-query';
+import type { UseMutationResult} from '@tanstack/react-query';
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+
+import type { CoffeeChat, Message } from '@/constants/chat';
+import * as chatApi from '@/hooks/chat/chatApi';
 
 // 커피챗 목록 조회
 export function useCoffeeChats() {
@@ -14,11 +16,11 @@ export function useCoffeeChats() {
 export function useUpdateChatStatus(): UseMutationResult<
   CoffeeChat,
   Error,
-  { id: string; status: 'ACCEPTED' | 'REJECTED' }
+  { id: string; status: 'accepted' | 'rejected' }
 > {
   const qc = useQueryClient();
 
-  return useMutation<CoffeeChat, Error, { id: string; status: 'ACCEPTED' | 'REJECTED' }>({
+  return useMutation<CoffeeChat, Error, { id: string; status: 'accepted' | 'rejected' }>({
     mutationFn: ({ id, status }) => chatApi.updateCoffeeChatStatus(id, status),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ['coffeeChats'] });

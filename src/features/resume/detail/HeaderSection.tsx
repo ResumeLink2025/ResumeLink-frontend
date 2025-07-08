@@ -3,9 +3,10 @@ import { RESUME_RESPONSE } from '@/fixtures/resume';
 
 interface ActionButtonsProps {
   onClickDownLoadResume: () => void;
+  requestCoffeeChat: () => Promise<void>;
 }
 
-const ActionButtons = ({ onClickDownLoadResume }: ActionButtonsProps) => {
+const ActionButtons = ({ onClickDownLoadResume, requestCoffeeChat }: ActionButtonsProps) => {
   return (
     <div className="flex items-center justify-between mb-4">
       <div className="flex gap-3">
@@ -28,7 +29,7 @@ const ActionButtons = ({ onClickDownLoadResume }: ActionButtonsProps) => {
           </Button>
         </div>
       ) : (
-        <Button size="small" className="w-32">
+        <Button size="small" className="w-32" onClick={requestCoffeeChat}>
           커피챗 신청하기
         </Button>
       )}

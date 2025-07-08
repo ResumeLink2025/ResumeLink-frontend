@@ -1,6 +1,7 @@
-// api/socket.ts
-import { Message } from '@/features/chat/types';
-import { io, Socket } from 'socket.io-client';
+import type { Socket } from 'socket.io-client';
+import { io } from 'socket.io-client';
+
+import type { Message } from '@/constants/chat';
 
 let socket: Socket | null = null;
 

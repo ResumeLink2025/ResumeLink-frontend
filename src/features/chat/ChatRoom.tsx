@@ -1,10 +1,11 @@
 'use client';
 
-import { useSendMessage } from '@/hooks/useChatHooks'; // React Query 훅 경로 맞게 수정
 import { useState } from 'react';
 
+import { useSendMessage } from '@/hooks/useChatHooks';
+
 interface ChatRoomProps {
-  chatId: number;
+  chatId: string;
   onBack: () => void;
   onLeaveChat: () => void;
 }

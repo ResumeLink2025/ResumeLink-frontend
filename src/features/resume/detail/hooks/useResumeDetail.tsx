@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 
 import { Loader, Modal } from '@/components/common';
 import { RESUME_RESPONSE } from '@/fixtures/resume';
+import { createCoffeeChat } from '@/hooks/chat/chatApi';
 
 const useResumeDetail = () => {
   const isThemeBlack = RESUME_RESPONSE.theme === 'black';
@@ -71,8 +72,27 @@ const useResumeDetail = () => {
       overlay.close();
     }
   };
+  const requestCoffeeChat = async (receiverId: string, message: string) => {
+    createCoffeeChat(receiverId, message);
+    // const token = localStorage.getItem('accessToken');
+    // console.log(token);
+    // const headers = {
+    //   Authorization: `Bearer ${token}`,
+    //   'Content-Type': 'application/json',
+    // };
+    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/coffee-chats`, {
+    //   method: 'POST',
+    //   headers,
+    //   body: JSON.stringify({
+    //     receiverId,
+    //     message,
+    //   }),
+    // });
+    // console.log(response);
+    // return response.json();
+  };
 
-  return { isThemeBlack, resumeRef, onClickDownLoadResume };
+  return { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat };
 };
 
 export default useResumeDetail;
