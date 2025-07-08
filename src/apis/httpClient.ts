@@ -47,6 +47,10 @@ export const put = async <T>(...args: Parameters<typeof httpClient.put>) => {
   return await httpClient.put<T>(...args).then(getResult);
 };
 
+export const patch = async <T>(...args: Parameters<typeof httpClient.patch>) => {
+  return await httpClient.patch<T>(...args).then(getResult);
+};
+
 export const del = async <T>(...args: Parameters<typeof httpClient.delete>) => {
   return await httpClient.delete<T>(...args).then(getResult);
 };
