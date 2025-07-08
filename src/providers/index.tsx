@@ -25,5 +25,4 @@ const Providers = ({ children }: ProvidersProps) => {
     </TanstackQueryProvider>
   );
 };
-
 export default Providers;

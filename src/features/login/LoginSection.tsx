@@ -2,7 +2,7 @@
 
 import { Eye, EyeOff } from 'lucide-react';
 import Image from 'next/image';
-import { useRouter } from 'next/router';
+import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { useAuthStore } from '@/app/store/useAuthStore';
@@ -12,9 +12,9 @@ import Input from '@/components/common/Input';
 const LoginSection = () => {
   const router = useRouter();
   const setLogin = useAuthStore((state) => state.setLogin);
-  // 입력 유효성 검사 상태
+
   const [errorState, setErrorState] = useState({ id: '', password: '' });
-  // 전역 에러 메시지 상태 (모달/알림용)
+
   const [globalError, setGlobalError] = useState('');
   const [isTypePassword, setIsTypePassword] = useState(true);
 
@@ -29,7 +29,7 @@ const LoginSection = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('https://3a9c-121-88-197-63.ngrok-free.app/api/auth/login/local', {
+      const response = await fetch('localhost8080/api/auth/login/local', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
