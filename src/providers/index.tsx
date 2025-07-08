@@ -1,5 +1,6 @@
 'use client';
 
+import { OverlayProvider } from '@toss/use-overlay';
 import { Toaster } from 'react-hot-toast';
 
 import AuthProvider from './AuthProvider';
@@ -13,14 +14,14 @@ interface ProvidersProps {
 const Providers = ({ children }: ProvidersProps) => {
   return (
     <TanstackQueryProvider>
-
-      <LayoutProvider>
-        <AuthProvider>
-          {children}
-          <Toaster />
-        </AuthProvider>
-      </LayoutProvider>
-
+      <OverlayProvider>
+        <LayoutProvider>
+          <AuthProvider>
+            {children}
+            <Toaster />
+          </AuthProvider>
+        </LayoutProvider>
+      </OverlayProvider>
     </TanstackQueryProvider>
   );
 };
