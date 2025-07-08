@@ -4,12 +4,21 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
+import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
 const useResumeFormSection = () => {
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
+  const { mutate: createResumeMutate } = useCreateResume({
+    onSuccess: () => {
+      toast.success('이력서 생성이 완료되었습니다!');
+    },
+    onError: () => {
+      toast.error('이력서 생성 중 에러가 발생했습니다.');
+    },
+  });
 
   const {
     register,
@@ -77,7 +86,8 @@ const useResumeFormSection = () => {
   };
 
   const onSubmitResume = (data: ResumeFormDataType) => {
-    console.log('data', data);
+    console.log('입력 데이터', data);
+    createResumeMutate(data);
   };
 
   return {
