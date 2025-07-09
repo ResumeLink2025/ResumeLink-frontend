@@ -1,10 +1,14 @@
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
 import { Button, Typography } from '@/components/common';
+import { routeMainPage } from '@/constants/routes';
 
 import { SlideUpMotion } from '../components';
 
 const HeroSection = () => {
+  const router = useRouter();
+
   return (
     <div className="p-10">
       <div className="relative h-150 p-5 rounded-lg overflow-hidden">
@@ -22,7 +26,9 @@ const HeroSection = () => {
             </Typography>
           </SlideUpMotion>
           <SlideUpMotion delay={0.9}>
-            <Button className="w-36 mt-4">시작하기</Button>
+            <Button onClick={() => router.push(routeMainPage)} className="w-36 mt-4">
+              시작하기
+            </Button>
           </SlideUpMotion>
         </div>
       </div>

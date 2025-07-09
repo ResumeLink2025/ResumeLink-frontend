@@ -1,0 +1,24 @@
+name: Mirror to Personal Repo
+
+on:
+  push:
+    branches:
+      - main # 필요한 브랜치로 변경 가능
+
+jobs:
+  mirror:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout source repo
+        uses: actions/checkout@v3
+
+      - name: Set Git identity
+        run: |
+          git config --global user.name "seoku9"
+          git config --global user.email "sukkoo777@email.com"
+
+      - name: Push to personal repo
+        run: |
+          git remote add deploy https://x-access-token:${{ secrets.GH_TOKEN }}@github.com/seoku9/ResumeLink-deploy.git
+          git push deploy HEAD:main --force

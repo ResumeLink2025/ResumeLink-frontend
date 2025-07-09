@@ -49,14 +49,13 @@ export default function RegisterSection() {
           회원 가입
         </Typography>
 
-        <form className="w-full flex flex-col gap-3" onSubmit={handleSubmit}>
+        <form className="w-full flex flex-col gap-4" onSubmit={handleSubmit}>
           <Input
             label="아이디"
             name="id"
             size="small"
             errorMessage={errorState.id}
             placeholder="이메일을 입력해주세요."
-            className="mb-2"
           />
 
           <Input
@@ -66,7 +65,7 @@ export default function RegisterSection() {
             name="password"
             placeholder="비밀번호"
             errorMessage={errorState.password}
-            className="cursor-pointer mb-1"
+            className="cursor-pointer "
             icon={
               isTypePassword ? (
                 <EyeOff size={20} onClick={onClickChangeType} />
