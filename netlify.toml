@@ -1,6 +1,8 @@
 [build]
   command = "pnpm build"
-  publish = ".next/output/static"
+
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
 
 [[headers]]
 for = "/_next/static/*"
@@ -24,8 +26,3 @@ status = 200
   url = ":url"
   w = ":width"
   q = ":quality"
-
-[[redirects]]
-from = "/*"
-to = "/index.html"
-status = 200
