@@ -29,7 +29,7 @@ const LoginSection = () => {
 
   const handleLogin = async () => {
     try {
-      const response = await fetch('http://api.resumelink.co.kr/api/auth/login/local', {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/auth/login/local`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
