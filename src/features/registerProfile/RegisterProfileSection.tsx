@@ -10,11 +10,11 @@ import ProfileImageSection from './ProfileImageSection';
 import { developerList, yearList } from './types';
 
 export default function RegisterProfileSection() {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
   const [searchKeyword, setSearchKeyword] = useState('');
   const [selectJob, setSelectJob] = useState<string>(developerList[0].value);
   const [selectYear, setSelectYear] = useState<string>(yearList[0].value);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const handleUploadFile = (files?: FileList | null) => {
     console.log('check');

@@ -18,12 +18,12 @@ export default function AdditionalInfoSection({
 }: AdditionalInfoSectionProps) {
   return (
     <>
-      <div className="col-span-1 flex flex-col gap-2">
+      <div className="col-span-1 flex flex-col gap-2 w-full">
         <Typography type="body4">희망 직무</Typography>
         <CustomSelectBox options={developerList} value={selectJob} onChange={setSelectJob} />
       </div>
 
-      <div className="col-span-1 flex flex-col gap-2">
+      <div className="col-span-1 flex flex-col gap-2 w-full">
         <Typography type="body4">연차</Typography>
         <CustomSelectBox options={yearList} value={selectYear} onChange={setSelectYear} />
       </div>
