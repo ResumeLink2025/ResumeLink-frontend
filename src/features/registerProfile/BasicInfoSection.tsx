@@ -2,7 +2,7 @@ import { useRef } from 'react';
 
 import { Typography } from '@/components/common';
 import Input from '@/components/common/Input';
-import SelectBox from '@/components/common/SelctBox';
+import SelectBox from '@/components/common/SelectBox';
 
 import { genderList } from './types';
 
