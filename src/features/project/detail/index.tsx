@@ -1,15 +1,38 @@
+'use client';
+
 import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { PROJECT_INFO } from '@/fixtures/project';
+import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
+import { formatDate } from '@/utils/date';
 
 import ActionButtons from './ActionButtons';
 import ContentField from './ContentField';
 import TagField from './TagField';
 
-const ProjectDetail = () => {
+interface ProjectDetailProps {
+  id: string;
+}
+
+const ProjectDetail = ({ id }: ProjectDetailProps) => {
+  const { data: projectDetail } = useGetProjectDetail(id);
+
+  const getProjectStatus = (status: string) => {
+    switch (status) {
+      case 'IN_PROGRESS':
+        return '진행중';
+      case 'COMPLETED':
+        return '완료됨';
+      case 'ON_HOLD':
+        return '보류됨';
+      default:
+        return '진행중';
+    }
+  };
+
   return (
     <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10">
       <div className="flex gap-8">
@@ -24,7 +47,7 @@ const ProjectDetail = () => {
         />
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
-            <Typography type="heading1">{PROJECT_INFO.projectName}</Typography>
+            <Typography type="heading1">{projectDetail?.projectName}</Typography>
             <ActionButtons />
           </div>
           <div className="flex flex-col gap-2">
@@ -32,18 +55,22 @@ const ProjectDetail = () => {
             <div className="flex gap-3">
               <div className="rounded-[10px] px-3 py-2 bg-gray-10">
                 <Typography type="body2" className="text-gray-60">
-                  {PROJECT_INFO.startDate} ~ {PROJECT_INFO.endDate ? PROJECT_INFO.endDate : '진행중'}
+                  {projectDetail?.startDate && formatDate(projectDetail?.startDate)} ~{' '}
+                  {projectDetail?.endDate ? formatDate(projectDetail.endDate) : '진행중'}
                 </Typography>
               </div>
-              <Tag size="large">{PROJECT_INFO.status}</Tag>
+              <Tag size="large">{getProjectStatus(String(projectDetail?.status))}</Tag>
             </div>
           </div>
-          <TagField title="프로젝트 태그" tags={PROJECT_INFO.tags} />
+          <TagField title="프로젝트 태그" tags={projectDetail?.tags ?? []} />
         </div>
       </div>
-      <TagField title="사용한 기술스택" tags={PROJECT_INFO.skills} />
-      <ContentField title="프로젝트 설명" content={PROJECT_INFO.projectDesc} />
-      <ContentField title="프로젝트에서 맡은 역할" content={PROJECT_INFO.role} />
+      <TagField
+        title="사용한 기술스택"
+        tags={[...(projectDetail?.skill.generalSkills ?? []), ...(projectDetail?.skill.customSkills ?? [])]}
+      />
+      <ContentField title="프로젝트 설명" content={projectDetail?.projectDesc || ''} />
+      <ContentField title="프로젝트에서 맡은 역할" content={projectDetail?.role || ''} />
     </PageWrapper>
   );
 };
