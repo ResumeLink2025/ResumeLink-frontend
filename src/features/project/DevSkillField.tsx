@@ -6,7 +6,12 @@ import { SKILL_CATEGORIES } from '@/constants/project';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
-const DevSkillField = () => {
+export interface DevSkillFieldProps {
+  defaultGeneralSkills: string[];
+  defaultCustomSkills: string[];
+}
+
+const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills }: DevSkillFieldProps) => {
   const {
     errors,
     isSubmitted,
@@ -17,7 +22,7 @@ const DevSkillField = () => {
     onChangeTypingSkill,
     onEnterAddSkill,
     onClickDeleteCustomSkill,
-  } = useDevSkillField();
+  } = useDevSkillField({ defaultGeneralSkills, defaultCustomSkills });
 
   return (
     <div className="flex flex-col gap-10">
