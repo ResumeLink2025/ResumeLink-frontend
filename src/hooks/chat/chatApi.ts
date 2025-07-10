@@ -1,6 +1,6 @@
 import type { ChatRoom, CoffeeChat, Message, Pagination } from '@/constants/chat';
 
-const API_BASE_URL = 'http://localhost:8080/api';
+const API_BASE_URL = 'http://api.resumelink.co.kr/api';
 
 /**
  * 공통 fetch 함수 대체
