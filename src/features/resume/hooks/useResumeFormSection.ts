@@ -33,11 +33,11 @@ const useResumeFormSection = () => {
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
-    setValue('categories', selectedCategoriesState, { shouldDirty: true, shouldValidate: true });
+    setValue('categories', selectedCategoriesState);
   }, [selectedCategoriesState, setValue]);
 
   useEffect(() => {
-    setValue('projects', selectedProjectsState, { shouldDirty: true, shouldValidate: true });
+    setValue('projects', selectedProjectsState);
   }, [selectedProjectsState, setValue]);
 
   useEffect(() => {

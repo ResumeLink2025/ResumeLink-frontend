@@ -162,8 +162,7 @@ export const SKILL_CATEGORIES = [
 ];
 
 export const PROJECT_STATUS_OPTIONS = [
-  { label: '진행중인 상태', value: 'onGoing' },
-  { label: '완료된 상태', value: 'completed' },
-  { label: '보류된 상태', value: 'onHold' },
-  { label: '취소된 상태', value: 'canceled' },
+  { label: '진행중인 상태', value: 'IN_PROGRESS' },
+  { label: '완료된 상태', value: 'COMPLETED' },
+  { label: '보류된 상태', value: 'ON_HOLD' },
 ];

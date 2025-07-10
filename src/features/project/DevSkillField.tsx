@@ -7,12 +7,13 @@ import { cn } from '@/utils/styleMerge';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
-/* className prop 받기 위한 타입 */
-type DevSkillFieldProps = {
-  className?: string;
-};
+export interface DevSkillFieldProps {
+  defaultGeneralSkills: string[];
+  defaultCustomSkills: string[];
+  className: string;
+}
 
-const DevSkillField = ({ className }: DevSkillFieldProps) => {
+const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills, className }: DevSkillFieldProps) => {
   const {
     errors,
     isSubmitted,
@@ -23,7 +24,7 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
     onChangeTypingSkill,
     onEnterAddSkill,
     onClickDeleteCustomSkill,
-  } = useDevSkillField();
+  } = useDevSkillField({ defaultGeneralSkills, defaultCustomSkills });
 
   return (
     <div className={cn('flex flex-col gap-10', className)}>

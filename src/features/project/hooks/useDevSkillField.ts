@@ -2,9 +2,13 @@ import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
+import type { DevSkillFieldProps } from '../DevSkillField';
 import type { ProjectFormDataType } from '../schemas/projectSchema';
 
-const useDevSkillField = () => {
+const useDevSkillField = ({
+  defaultGeneralSkills,
+  defaultCustomSkills,
+}: Omit<DevSkillFieldProps, 'className'>) => {
   const {
     setValue,
     formState: { errors, isSubmitted },
@@ -15,7 +19,19 @@ const useDevSkillField = () => {
   const [customSkills, setCustomSkills] = useState<string[]>([]);
 
   useEffect(() => {
-    setValue('skill.generalSkills', generalSkills, { shouldDirty: true, shouldValidate: true });
+    if (defaultGeneralSkills) {
+      setGeneralSkills(defaultGeneralSkills);
+      setValue('skill.generalSkills', defaultGeneralSkills);
+    }
+
+    if (defaultCustomSkills) {
+      setCustomSkills(defaultCustomSkills);
+      setValue('skill.customSkills', defaultCustomSkills);
+    }
+  }, [defaultCustomSkills, defaultGeneralSkills, setValue]);
+
+  useEffect(() => {
+    setValue('skill.generalSkills', generalSkills);
   }, [setValue, generalSkills]);
 
   useEffect(() => {
