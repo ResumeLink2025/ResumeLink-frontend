@@ -9,7 +9,7 @@ import { cn } from '@/utils/styleMerge';
 import useUploadImage from './hooks/useUploadImage';
 
 type ImageUploadProps = {
-  size: 'medium' | 'large' | 'profile';
+  size?: 'medium' | 'large' | 'profile';
 
   uploadFile: (files?: FileList | null) => void;
   previewUrl?: string | null;
@@ -46,6 +46,7 @@ const ImageUpload = ({ size = 'medium', uploadFile, previewUrl, ...props }: Imag
       {!previewUrl ? (
         <>
           <button
+            type="button"
             onDragEnter={onDragEnter}
             onDragOver={onDragOver}
             onDragLeave={onDragLeave}
@@ -60,6 +61,7 @@ const ImageUpload = ({ size = 'medium', uploadFile, previewUrl, ...props }: Imag
             <Image
               size={{ medium: 45, large: 52, profile: 64 }[size]}
               className={cn(isDragging ? 'text-primaryHover' : 'text-gray-50', 'duration-150')}
+              aria-hidden="true"
             />
             <p className="text-sm text-gray-50 mt-2">클릭 또는 드래그를 이용하여 업로드 해주세요.</p>
           </button>

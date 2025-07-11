@@ -14,7 +14,9 @@ type SelectBoxProps = {
   label?: string;
   errorMessage?: string;
   options: SelectOption[];
+  /** ─ 커스텀 클래스를 select 요소에만 적용하고 싶을 때 사용 */
   selectClassName?: string;
+  placeholder?: string;
 } & Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'>;
 
 const selectVariants = cva(
@@ -55,11 +57,18 @@ const selectIconVariants = cva('', {
 
 const SelectBox = forwardRef(
   (
-    { size = 'medium', errorMessage, options, disabled, defaultValue, ...props }: SelectBoxProps,
+    {
+      size = 'medium',
+      errorMessage,
+      options,
+      disabled,
+      placeholder,
+      selectClassName, // ⬅️ 1) DOM 으로 전달되지 않도록 먼저 추출
+      ...props
+    }: SelectBoxProps,
     ref: Ref<HTMLSelectElement>,
   ) => {
-    const { className, ...restProps } = props;
-
+    const { className, ...restProps } = props; // 외부 div 용 className만 유지
     const selectId = useId();
 
     return (
@@ -67,7 +76,6 @@ const SelectBox = forwardRef(
         <div
           className={cn(
             'relative flex items-center bg-white rounded-[10px] transition duration-100 ease-in-out border px-1',
-
             errorMessage
               ? 'border-red-600 focus-within:border-red-600'
               : 'border-gray-40 focus-within:border-gray-60',
@@ -78,10 +86,14 @@ const SelectBox = forwardRef(
             id={selectId}
             ref={ref}
             disabled={disabled}
-            defaultValue={defaultValue}
-            className={cn(selectVariants({ size, disabled }), 'px-[10px]')}
+            className={cn(selectVariants({ size, disabled }), 'px-[10px]', selectClassName)}
             {...restProps}
           >
+            {placeholder && (
+              <option value="" disabled>
+                {placeholder}
+              </option>
+            )}
             {options.map(({ label, value }) => (
               <option key={value} value={value}>
                 {label}
@@ -89,9 +101,11 @@ const SelectBox = forwardRef(
             ))}
           </select>
 
+          {/* ────────────────── Chevron Icon ────────────────── */}
           <ChevronDown className={cn(selectIconVariants({ size, disabled }), 'absolute right-2')} />
         </div>
 
+        {/* ────────────────── Error Text ────────────────── */}
         {errorMessage && <Typography className="text-red-500">{errorMessage}</Typography>}
       </div>
     );
@@ -99,5 +113,4 @@ const SelectBox = forwardRef(
 );
 
 SelectBox.displayName = 'SelectBox';
-
 export default SelectBox;

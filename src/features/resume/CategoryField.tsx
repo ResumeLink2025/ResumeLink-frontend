@@ -1,14 +1,19 @@
 import { Tag, Typography } from '@/components/common';
-import type { DeveloperCategoryType } from '@/constants/resume';
 import { DEVELOPER_CATEGORY } from '@/constants/resume';
 
 interface CategoryFieldProps {
-  selectedCategories: DeveloperCategoryType[];
-  onClickCategory: (category: DeveloperCategoryType) => void;
+  selectedCategories: string[];
+  isSubmitted: boolean;
   errorMessage?: string;
+  onClickCategory: (category: string) => void;
 }
 
-const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: CategoryFieldProps) => {
+const CategoryField = ({
+  selectedCategories,
+  isSubmitted,
+  errorMessage,
+  onClickCategory,
+}: CategoryFieldProps) => {
   return (
     <div className="flex flex-col">
       <div className="flex items-center gap-2">
@@ -21,17 +26,17 @@ const CategoryField = ({ selectedCategories, onClickCategory, errorMessage }: Ca
       <div className="flex flex-wrap gap-2 mt-5">
         {DEVELOPER_CATEGORY.map((category) => (
           <Tag
-            key={category.id}
+            key={category}
             onClick={() => onClickCategory(category)}
-            isSelected={selectedCategories.some((selectedCategory) => selectedCategory.id === category.id)}
+            isSelected={selectedCategories.includes(category)}
             styleType="outline"
             size="large"
           >
-            {category.title}
+            {category}
           </Tag>
         ))}
       </div>
-      {errorMessage && <Typography className="text-red-600 mt-4">{errorMessage}</Typography>}
+      {isSubmitted && errorMessage && <Typography className="text-red-600 mt-4">{errorMessage}</Typography>}
     </div>
   );
 };

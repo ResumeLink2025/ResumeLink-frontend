@@ -1,20 +1,22 @@
 'use client';
 import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
 
+import DevSkillField from '../project/DevSkillField';
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
-import AddSkillInfoSection from './AddSkillInfoSection';
 import BasicInfoSection from './BasicInfoSection';
 import { ProfileHederSection } from './ProfileHeaderSection';
 import ProfileImageSection from './ProfileImageSection';
-import { developerList, yearList } from './types';
+import SummarySeciton from './SummarySeciton';
+import { DEVELOPERLIST, YEARLIST } from './types';
 
 export default function RegisterProfileSection() {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [selectJob, setSelectJob] = useState<string>(developerList[0].value);
-  const [selectYear, setSelectYear] = useState<string>(yearList[0].value);
+  // const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
+  // const [searchKeyword, setSearchKeyword] = useState('');
+  const [selectJob, setSelectJob] = useState<string>(DEVELOPERLIST[0].value);
+  const [selectYear, setSelectYear] = useState<string>(YEARLIST[0].value);
 
   const handleUploadFile = (files?: FileList | null) => {
     console.log('check');
@@ -31,33 +33,30 @@ export default function RegisterProfileSection() {
 
     setImageUrl(imageUrl);
   };
-
+  const methods = useForm();
   return (
     <div className="flex items-center justify-center bg-white w-full h-full flex-grow py-20">
       <div className="w-full max-w-2xl flex flex-col items-center px-4">
         <ProfileHederSection />
+        <FormProvider {...methods}>
+          <form className="grid grid-cols-2 gap-4 w-full">
+            <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadFile} />
 
-        <form className="grid grid-cols-2 gap-4 w-full">
-          <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadFile} />
+            <BasicInfoSection />
 
-          <BasicInfoSection />
+            <AdditionalInfoSection
+              selectJob={selectJob}
+              setSelectJob={setSelectJob}
+              selectYear={selectYear}
+              setSelectYear={setSelectYear}
+            />
 
-          <AdditionalInfoSection
-            selectJob={selectJob}
-            setSelectJob={setSelectJob}
-            selectYear={selectYear}
-            setSelectYear={setSelectYear}
-          />
+            <DevSkillField className="col-span-2" />
+            <SummarySeciton className="col-span-2" />
 
-          <AddSkillInfoSection
-            selectedSkills={selectedSkills}
-            setSelectedSkills={setSelectedSkills}
-            searchKeyword={searchKeyword}
-            setSearchKeyword={setSearchKeyword}
-          />
-
-          <ActionButtonSection />
-        </form>
+            <ActionButtonSection />
+          </form>
+        </FormProvider>
       </div>
     </div>
   );

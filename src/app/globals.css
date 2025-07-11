@@ -39,3 +39,27 @@
 @utility hide-scrollbar {
   @apply [scrollbar-width:none] [&::-webkit-scrollbar]:hidden;
 }
+
+@utility custom-scrollbar {
+  @apply [&::-webkit-scrollbar]:w-2
+   [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-gray-100
+   [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-gray-300;
+}
+
+@layer base {
+  :root {
+    --color-current-mode: black;
+  }
+
+  .dark {
+    --color-current-mode: white;
+  }
+
+  img {
+    @apply inline-block;
+  }
+
+  .text-current-mode {
+    color: var(--color-current-mode);
+  }
+}
