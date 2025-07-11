@@ -18,7 +18,7 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail = ({ id }: ProjectDetailProps) => {
-  const { data: projectDetail } = useGetProjectDetail(id);
+  const { data: projectDetail } = useGetProjectDetail(id, !!id);
 
   const getProjectStatus = (status: string) => {
     switch (status) {

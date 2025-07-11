@@ -1,6 +1,6 @@
 import ProjectDetail from '@/features/project/detail';
 
-export interface ProjectDetailPageProps {
+interface ProjectDetailPageProps {
   params: { id: string };
 }
 

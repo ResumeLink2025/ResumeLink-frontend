@@ -19,12 +19,12 @@ const useDevSkillField = ({
   const [customSkills, setCustomSkills] = useState<string[]>([]);
 
   useEffect(() => {
-    if (defaultGeneralSkills) {
+    if (defaultGeneralSkills.length > 0) {
       setGeneralSkills(defaultGeneralSkills);
       setValue('skill.generalSkills', defaultGeneralSkills);
     }
 
-    if (defaultCustomSkills) {
+    if (defaultCustomSkills.length > 0) {
       setCustomSkills(defaultCustomSkills);
       setValue('skill.customSkills', defaultCustomSkills);
     }

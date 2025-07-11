@@ -6,11 +6,11 @@ import type { ProjectFormDataType } from '@/features/project/schemas/projectSche
 
 export const PROJECT_DETAIL = 'projectDetail';
 
-const useGetProjectDetail = (id: string) => {
+const useGetProjectDetail = (id: string, hasProjectId: boolean) => {
   return useQuery<ProjectFormDataType, AxiosError>({
     queryKey: [PROJECT_DETAIL, id],
     queryFn: () => patch(`/api/projects/${id}`),
-    enabled: !!id,
+    enabled: hasProjectId,
   });
 };
 

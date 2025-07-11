@@ -12,9 +12,9 @@ import type { ProjectFormDataType } from '../schemas/projectSchema';
 import { projectFormSchema } from '../schemas/projectSchema';
 
 const useProjectFormSection = (id?: string) => {
-  const isEditMode = !!id;
+  const hasProjectId = !!id;
 
-  const { data: projectDetail } = useGetProjectDetail(String(id));
+  const { data: projectDetail } = useGetProjectDetail(String(id), hasProjectId);
 
   const methods = useForm<ProjectFormDataType>({
     resolver: zodResolver(projectFormSchema),
@@ -45,14 +45,16 @@ const useProjectFormSection = (id?: string) => {
   const {
     register,
     handleSubmit,
-    watch,
     setValue,
     reset,
     formState: { errors, isSubmitted },
   } = methods;
 
+  const [projectStatus, setProjectStatus] = useState('');
+  const [isPublic, setIsPublic] = useState(false);
+
   useEffect(() => {
-    if (isEditMode && projectDetail) {
+    if (hasProjectId && projectDetail) {
       reset({
         projectName: projectDetail.projectName || '',
         startDate: projectDetail.startDate ? formatDate(projectDetail.startDate) : '',
@@ -64,22 +66,22 @@ const useProjectFormSection = (id?: string) => {
         tags: [],
       });
     }
-  }, [isEditMode, projectDetail, setValue]);
+  }, [hasProjectId, projectDetail, setValue]);
 
-  const [isPublic, setIsPublic] = useState(false);
+  useEffect(() => {
+    setValue('status', projectStatus);
+  }, [projectStatus, setValue]);
 
   useEffect(() => {
     setValue('isPublic', isPublic);
   }, [isPublic, setValue]);
 
-  const projectStatus = watch('status');
-
   const onChangeStatus = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    setValue('status', e.target.value);
+    setProjectStatus(e.target.value);
   };
 
   const onSubmitProject = (data: ProjectFormDataType) => {
-    if (isEditMode) {
+    if (hasProjectId) {
       updateProjectMutate(data);
     } else {
       createProjectMutate(data);
