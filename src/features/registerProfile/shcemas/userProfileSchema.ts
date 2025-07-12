@@ -1,12 +1,14 @@
 import { z } from 'zod';
 
-export const GenderEnum = z.enum(['MALE', 'FEMALE']);
+export const GenderEnum = z.enum(['male', 'female']);
 export type Gender = z.infer<typeof GenderEnum>;
 
 export const UserProfileSchema = z.object({
-  id: z.string().uuid(),
   nickname: z.string().min(1, '닉네임은 필수입니다.'),
-  birthday: z.coerce.date(),
+  birthday: z
+    .union([z.coerce.date(), z.literal('')]) // 빈 문자열도 허용
+    .nullable()
+    .optional(),
   gender: GenderEnum.nullish(),
   skill: z.object({
     generalSkills: z.array(z.string()).min(1, '기술스택은 1개 이상 선택해야 합니다.'),
@@ -27,7 +29,6 @@ export const UserProfileSchema = z.object({
     .optional()
     .nullable(),
   summary: z.string().max(1000).nullish(),
-  updatedAt: z.coerce.date(),
 });
 
 export type UserProfileType = z.infer<typeof UserProfileSchema>;

@@ -1,4 +1,4 @@
-import type { ChangeEvent} from 'react';
+import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
@@ -15,38 +15,37 @@ const useDefaultInfoField = () => {
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<Date | null>(null);
   const [gender, setGender] = useState<UserProfileType['gender']>(null);
-  const [desirePosition, setDesirePosition] = useState<string>(''); // 희망 직무
-  const [experienceYears, setExperienceYears] = useState<number>(0); // 연차
+  const [desirePosition, setDesirePosition] = useState<string>('');
+  const [experienceYears, setExperienceYears] = useState<number>(0);
 
   const handleUploadImageFile = (files?: FileList | null) => {
     if (!files || files.length === 0) {
       setImageUrl(null);
-      setValue('profileImage', null);
+      setValue('profileImage', null, { shouldDirty: true, shouldValidate: false });
       return;
     }
-    const imageFile = files[0];
-    const imageURL = URL.createObjectURL(imageFile);
-    setValue('profileImage', imageFile, { shouldDirty: true, shouldValidate: true });
-    setImageUrl(imageURL);
+    const file = files[0];
+    setValue('profileImage', file, { shouldDirty: true, shouldValidate: false });
+    setImageUrl(URL.createObjectURL(file));
   };
 
   const handleNickName = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickName(value);
-    setValue('nickname', value, { shouldDirty: true, shouldValidate: true });
+    setValue('nickname', value, { shouldDirty: true, shouldValidate: false });
   };
 
   const handleBirthday = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const date = value ? new Date(value) : null;
     setBirthday(date);
-    setValue('birthday', date as Date, { shouldDirty: true, shouldValidate: true });
+    setValue('birthday', date, { shouldDirty: true, shouldValidate: true });
   };
 
   const handleGender = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = e.target.value as UserProfileType['gender'];
     setGender(value);
-    setValue('gender', value, { shouldDirty: true, shouldValidate: true });
+    setValue('gender', value, { shouldDirty: true, shouldValidate: false });
   };
 
   const handleDesirePosition = (e: ChangeEvent<HTMLSelectElement>) => {

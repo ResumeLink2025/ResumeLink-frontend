@@ -6,12 +6,12 @@ export interface ImageUploadProps {
 export const genderList = [
   {
     id: 0,
-    value: '남성',
+    value: 'male',
     label: '남성',
   },
   {
     id: 1,
-    value: '여성',
+    value: 'female',
     label: '여성',
   },
 ];
