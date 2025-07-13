@@ -34,6 +34,7 @@
     "react-intersection-observer": "^9.16.0",
     "react-select": "^5.10.1",
     "socket.io-client": "^4.8.1",
+    "vercel": "^44.2.13",
     "zod": "^3.25.67",
     "zustand": "^5.0.6"
   },
@@ -42,6 +43,7 @@
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/eslintrc": "^3",
     "@hookform/resolvers": "^5.1.1",
+    "@netlify/plugin-nextjs": "^5.11.4",
     "@storybook/nextjs": "^9.0.12",
     "@tailwindcss/line-clamp": "^0.4.4",
     "@tailwindcss/postcss": "^4",

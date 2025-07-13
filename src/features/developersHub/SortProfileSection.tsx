@@ -1,3 +1,4 @@
+'use client';
 import { Button, SelectBox } from '@/components/common';
 import { FILTER_OPTIONS } from '@/constants/developersHub';
 

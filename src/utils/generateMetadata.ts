@@ -13,7 +13,8 @@ export const generateMetadata = (metadata?: generateMetadataProps): Metadata => 
   const TITLE = title || 'ResumeLink';
   const DESCRIPTION =
     description || '작성한 자기소개와 프로젝트를 바탕으로 경쟁력있는 이력서를 만들어 보세요!';
-  const URL = `http://localhost:3000${currentPath || ''}`;
+  const base = process.env.NEXT_PUBLIC_SITE_URL ?? 'http://localhost:3000'; // ✅ 환경변수 사용
+  const URL = `${base}${currentPath ?? ''}`;
 
   const IMAGE = image ? image : '/images/favicon.svg';
 
