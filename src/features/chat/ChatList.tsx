@@ -17,7 +17,7 @@ export default function ChatList({ chats, onSelectChat, onUpdate }: ChatListProp
       {
         onSuccess: () => {
           console.log('수락 성공');
-          onUpdate(); // ✅ 리스트 다시 불러오기
+          onUpdate();
         },
       },
     );
@@ -27,7 +27,7 @@ export default function ChatList({ chats, onSelectChat, onUpdate }: ChatListProp
     cancelChat.mutate(id, {
       onSuccess: () => {
         console.log('거절 성공');
-        onUpdate(); // ✅ 리스트 다시 불러오기
+        onUpdate();
       },
     });
   };

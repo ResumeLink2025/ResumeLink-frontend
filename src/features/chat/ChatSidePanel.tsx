@@ -39,7 +39,6 @@ export default function ChatSidePanel() {
 
   return (
     <>
-      {/* 채팅 열기 버튼 */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="fixed bottom-16 right-4 z-50 p-4 bg-primary rounded-md shadow-lg cursor-pointer"
@@ -47,7 +46,6 @@ export default function ChatSidePanel() {
         💬
       </button>
 
-      {/* 오버레이 */}
       <AnimatePresence>
         {isOpen && (
           <motion.div

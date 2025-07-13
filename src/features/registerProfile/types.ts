@@ -6,17 +6,17 @@ export interface ImageUploadProps {
 export const genderList = [
   {
     id: 0,
-    value: '남성',
+    value: 'male',
     label: '남성',
   },
   {
     id: 1,
-    value: '여성',
+    value: 'female',
     label: '여성',
   },
 ];
 
-export const developerList = [
+export const DEVELOPERLIST = [
   { id: 0, value: 'frontend', label: '프론트엔드 개발자' },
   { id: 1, value: 'backend', label: '백엔드 개발자' },
   { id: 2, value: 'fullstack', label: '풀스택 개발자' },
@@ -41,7 +41,7 @@ export const developerList = [
   { id: 21, value: 'solution_architect', label: '솔루션 아키텍트' },
 ];
 
-export const yearList = [
+export const YEARLIST = [
   { id: 0, value: '0', label: '취업준비생' },
   { id: 1, value: '1', label: '1년차' },
   { id: 2, value: '2', label: '2년차' },
