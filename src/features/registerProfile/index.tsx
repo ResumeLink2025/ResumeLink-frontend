@@ -1,5 +1,3 @@
-'use client';
-
 import { PageWrapper } from '@/layouts';
 
 import RegisterProfileSection from './RegisterProfileSection';
