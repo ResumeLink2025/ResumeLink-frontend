@@ -15,12 +15,12 @@ import useResumeDetail from './hooks/useResumeDetail';
 
 const ResumeDetail = () => {
   const { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat } = useResumeDetail();
-  const testUserId = '';
+  const testUserId = '8614f959-3ff7-4b4c-b3c0-90b0d3a00f07';
   return (
     <PageWrapper className="max-w-4xl my-12">
       <ActionButtons
         onClickDownLoadResume={onClickDownLoadResume}
-        requestCoffeeChat={() => requestCoffeeChat(testUserId, '안녕하세요')}
+        requestCoffeeChat={() => requestCoffeeChat(testUserId)}
       />
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
         <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>

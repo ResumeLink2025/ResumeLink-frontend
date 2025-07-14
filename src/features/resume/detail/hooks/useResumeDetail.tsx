@@ -72,24 +72,8 @@ const useResumeDetail = () => {
       overlay.close();
     }
   };
-  const requestCoffeeChat = async (receiverId: string, message: string) => {
-    createCoffeeChat(receiverId, message);
-    // const token = localStorage.getItem('accessToken');
-    // console.log(token);
-    // const headers = {
-    //   Authorization: `Bearer ${token}`,
-    //   'Content-Type': 'application/json',
-    // };
-    // const response = await fetch(`${process.env.NEXT_PUBLIC_BASE_API}/api/coffee-chats`, {
-    //   method: 'POST',
-    //   headers,
-    //   body: JSON.stringify({
-    //     receiverId,
-    //     message,
-    //   }),
-    // });
-    // console.log(response);
-    // return response.json();
+  const requestCoffeeChat = async (receiverId: string) => {
+    createCoffeeChat(receiverId);
   };
 
   return { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat };

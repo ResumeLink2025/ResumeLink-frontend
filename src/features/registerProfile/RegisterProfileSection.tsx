@@ -1,6 +1,7 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -18,6 +19,8 @@ import SummarySection from './SummarySeciton';
 import { DEVELOPERLIST, YEARLIST } from './types';
 
 export default function RegisterProfileSection() {
+  const router = useRouter();
+
   const methods = useForm<UserProfileType>({
     resolver: zodResolver(UserProfileSchema),
     defaultValues: {
@@ -31,6 +34,7 @@ export default function RegisterProfileSection() {
     try {
       await patchUserProfile(data);
       toast.success('프로필이 저장되었습니다.');
+      router.push('/developersHub');
     } catch (err) {
       console.error(err);
       toast.error('저장 실패');

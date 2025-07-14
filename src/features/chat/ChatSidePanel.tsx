@@ -5,7 +5,7 @@ import Image from 'next/image';
 import { useEffect, useState } from 'react';
 
 import type { CoffeeChat } from '@/constants/chat';
-import { getCoffeeChatDetail, getCoffeeChats } from '@/hooks/chat/chatApi';
+import { FetchApiError, getCoffeeChatDetail, getCoffeeChats } from '@/hooks/chat/chatApi';
 
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
@@ -17,23 +17,29 @@ export default function ChatSidePanel() {
   const [coffeeChats, setCoffeeChats] = useState<CoffeeChat[]>([]);
   const fetchAllChatsWithDetails = async () => {
     try {
-      const baseList: CoffeeChat[] = await getCoffeeChats();
+      const baseList = await getCoffeeChats();
 
-      const detailPromises: Promise<CoffeeChat>[] = baseList.map((chat) => getCoffeeChatDetail(chat.id));
+      const detailList = await Promise.all(baseList.map((chat) => getCoffeeChatDetail(chat.id)));
 
-      const detailResults: CoffeeChat[] = await Promise.all(detailPromises);
-
-      const merged: CoffeeChat[] = baseList.map((chat, index) => ({
+      const mergedCoffeeChats = baseList.map((chat, idx) => ({
         ...chat,
-        ...detailResults[index],
+        ...detailList[idx],
       }));
 
-      setCoffeeChats(merged);
+      setCoffeeChats(mergedCoffeeChats);
+      // setChatRooms(chatRooms);
     } catch (err) {
-      console.error('전체 커피챗 목록 + 상세 조회 실패:', err);
+      if (err instanceof FetchApiError) {
+        console.error(`[${err.api}] 요청 실패 – ${err.message}`);
+      } else {
+        console.error('예기치 못한 에러:', err);
+      }
     }
   };
+
   useEffect(() => {
+    // const token = localStorage.getItem('accessToken');
+    // if (token) connectSocket(token);
     fetchAllChatsWithDetails();
   }, []);
 

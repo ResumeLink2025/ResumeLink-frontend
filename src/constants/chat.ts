@@ -4,7 +4,7 @@ export interface CoffeeChat {
   senderId: string;
   receiverId: string;
   message: string;
-  status: 'pending' | 'accepted' | 'rejected' | 'cancelled';
+  status: 'pending' | 'accepted' | 'rejected';
   createdAt: string;
   updatedAt: string;
   sender: User;
