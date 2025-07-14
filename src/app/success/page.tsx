@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import ErrorModal from '@/components/common/ErrorModal/ErrorModal';
+import { getMyProfile } from '@/features/register/hooks/userApi';
 
 import { useAuthStore } from '../store/useAuthStore';
 
@@ -21,18 +22,28 @@ export default function SuccessPage() {
       return;
     }
 
-    try {
-      localStorage.setItem('accessToken', accessToken);
+    let cancelled = false; // 언마운트 방지
 
-      setLogin(accessToken);
+    (async () => {
+      try {
+        localStorage.setItem('accessToken', accessToken);
+        setLogin(accessToken);
 
-      router.replace('/developersHub?type=resume&sort=popular');
-    } catch (e) {
-      console.error(e);
-      setError('로그인 처리 중 오류가 발생했습니다.');
-    }
-  }, [router, setLogin]);
+        const profile = await getMyProfile(accessToken);
+        if (!cancelled) {
+          console.log('내 프로필', profile);
+          // router.replace('/developersHub?type=resume&sort=popular');
+        }
+      } catch (e) {
+        console.error(e);
+        if (!cancelled) setError('로그인 처리 중 오류가 발생했습니다.');
+      }
+    })();
 
+    return () => {
+      cancelled = true;
+    };
+  }, [setLogin]);
   return (
     <div className="flex items-center justify-center h-screen">
       <div>로그인 처리 중입니다...</div>

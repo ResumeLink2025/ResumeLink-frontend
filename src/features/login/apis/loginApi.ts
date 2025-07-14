@@ -38,6 +38,8 @@ export default function useLogin(setLogin: (token: string) => void) {
 
       localStorage.setItem('accessToken', accessToken);
       setLogin(accessToken);
+      // const profile = await getMyProfile(accessToken);
+      // console.log(profile);
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
       console.error(err);
