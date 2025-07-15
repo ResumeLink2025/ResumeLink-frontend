@@ -1,0 +1,49 @@
+import type { Meta, StoryObj } from '@storybook/nextjs';
+
+import Tag from '../Tag';
+import Tooltip from '.';
+
+type TooltipType = typeof Tooltip;
+
+const meta: Meta<TooltipType> = {
+  title: 'common/Tooltip',
+  component: Tooltip,
+  argTypes: {
+    position: {
+      control: 'inline-radio',
+      options: ['top', 'bottom', 'left', 'right'],
+    },
+  },
+};
+
+export default meta;
+
+type Story = StoryObj<TooltipType>;
+
+export const DefaultTooltip: Story = {
+  args: {
+    content: '툴팁입니다.',
+    children: '안녕하세요.',
+  },
+  render: () => {
+    const tooltipContent = [
+      { title: '요구르트' },
+      { title: '사이다' },
+      { title: '콜라' },
+      { title: '삼다수' },
+      { title: '밀키스' },
+    ];
+
+    return (
+      <div className="p-20">
+        <Tooltip content="툴팁에 관련된 내용입니다.">
+          <div className="flex flex-wrap gap-2">
+            {tooltipContent.map((content) => (
+              <Tag key={content.title}>{content.title}</Tag>
+            ))}
+          </div>
+        </Tooltip>
+      </div>
+    );
+  },
+};
