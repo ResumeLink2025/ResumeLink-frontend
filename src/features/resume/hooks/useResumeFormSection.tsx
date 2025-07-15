@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useOverlay } from '@toss/use-overlay';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
+import { Loader, Modal, Typography } from '@/components/common';
 import { THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
 import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 
@@ -10,8 +12,9 @@ import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
 const useResumeFormSection = () => {
+  const overlay = useOverlay();
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
-  const { mutate: createResumeMutate } = useCreateResume({
+  const { mutate: createResumeMutate, isPending: isCreatingResume } = useCreateResume({
     onSuccess: () => {
       toast.success('이력서 생성이 완료되었습니다!');
     },
@@ -86,9 +89,25 @@ const useResumeFormSection = () => {
   };
 
   const onSubmitResume = (data: ResumeFormDataType) => {
-    console.log('입력 데이터', data);
     createResumeMutate(data);
   };
+
+  useEffect(() => {
+    if (isCreatingResume) {
+      overlay.open(({ isOpen }) => (
+        <Modal isOpen={isOpen}>
+          <div className="flex flex-col gap-5">
+            <Loader />
+            <Typography type="body1" className="text-gray-25">
+              이력서를 생성중이에요!
+            </Typography>
+          </div>
+        </Modal>
+      ));
+    } else {
+      overlay.close();
+    }
+  }, [isCreatingResume, overlay]);
 
   return {
     methods,

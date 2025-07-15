@@ -30,14 +30,22 @@ export const DEVELOPER_CATEGORY = [
 ];
 
 export type UserProjectType = {
-  id: number;
-  projectName: string;
-  projectDesc: string;
-  startDate: string;
+  id: string;
+  createdAt: string;
   endDate: string;
+  isPublic: boolean;
+  projectDesc: string;
+  projectName: string;
+  projectNumber: number;
   role: string;
-  generalSkills: string[];
-  customSkills: string[];
+  skill: {
+    customSkills: string[];
+    generalSkills: string[];
+  };
+  startDate: string;
+  status: string;
+  tags: string[];
+  updatedAt: string;
 };
 
 export const USER_PROJECT_LIST = [
