@@ -18,7 +18,7 @@ export const projectFormSchema = z.object({
     generalSkills: z.array(z.string()).min(1, '기술스택은 1개 이상 선택해야 합니다.'),
     customSkills: z.array(z.string()),
   }),
-  //   tags: z.array(z.string()).min(1, '개발 관련 태그는 1개 이상 선택해야 합니다.'),
+  tags: z.array(z.string()),
   isPublic: z.boolean(),
 });
 

@@ -29,17 +29,6 @@ export const DEVELOPER_CATEGORY = [
   '코드 품질 중시',
 ];
 
-export type UserProjectType = {
-  id: number;
-  projectName: string;
-  projectDesc: string;
-  startDate: string;
-  endDate: string;
-  role: string;
-  generalSkills: string[];
-  customSkills: string[];
-};
-
 export const USER_PROJECT_LIST = [
   {
     id: 0,

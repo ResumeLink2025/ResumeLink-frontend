@@ -20,9 +20,7 @@ export default function LoginSection() {
   const [errorState, setErrorState] = useState({ id: '', password: '' });
   const [userInfo, setUserInfo] = useState({ id: '', password: '' });
 
-
   const togglePasswordType = () => setIsTypePassword((prev) => !prev);
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
