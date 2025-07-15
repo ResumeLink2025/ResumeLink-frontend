@@ -5,7 +5,7 @@ interface UpdateProjectPageProps {
 }
 
 const UpdateProjectPage = async ({ params }: UpdateProjectPageProps) => {
-  const { id } = params;
+  const { id } = await params;
 
   return <Project id={id} />;
 };
