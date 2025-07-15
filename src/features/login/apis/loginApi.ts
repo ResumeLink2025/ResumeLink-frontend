@@ -38,6 +38,22 @@ export default function useLogin(setLogin: (token: string) => void) {
 
       localStorage.setItem('accessToken', accessToken);
       setLogin(accessToken);
+
+      // const refreshRes = await fetch(`http://localhost:8080/api/auth/refresh`, {
+      //   method: 'POST',
+      //   headers: {
+      //     'Content-Type': 'application/json',
+      //   },
+      //   // 쿠키로 받은 경우 credentials: 'include' 만 있으면 됨
+      //   credentials: 'include',
+      // });
+
+      // console.log(refreshRes);
+
+      // if (!refreshRes.ok) {
+      //   console.error('/api/refresh 실패', await refreshRes.text());
+      //   return;
+      // }
       // const profile = await getMyProfile(accessToken);
       // console.log(profile);
       router.replace('/developersHub?type=resume&sort=popular');

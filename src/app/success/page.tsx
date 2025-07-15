@@ -4,7 +4,6 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import ErrorModal from '@/components/common/ErrorModal/ErrorModal';
-import { getMyProfile } from '@/features/register/hooks/userApi';
 
 import { useAuthStore } from '../store/useAuthStore';
 
@@ -29,11 +28,11 @@ export default function SuccessPage() {
         localStorage.setItem('accessToken', accessToken);
         setLogin(accessToken);
 
-        const profile = await getMyProfile(accessToken);
-        if (!cancelled) {
-          console.log('내 프로필', profile);
-          // router.replace('/developersHub?type=resume&sort=popular');
-        }
+        // const profile = await getMyProfile(accessToken);
+        // if (!cancelled) {
+        //   console.log('내 프로필', profile);
+        router.replace('/developersHub?type=resume&sort=popular');
+        // }
       } catch (e) {
         console.error(e);
         if (!cancelled) setError('로그인 처리 중 오류가 발생했습니다.');
