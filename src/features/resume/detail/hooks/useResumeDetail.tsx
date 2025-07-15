@@ -5,8 +5,8 @@ import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 import { Loader, Modal } from '@/components/common';
+import { createCoffeeChat } from '@/features/chat/apis/chatApi';
 import { RESUME_RESPONSE } from '@/fixtures/resume';
-import { createCoffeeChat } from '@/hooks/chat/chatApi';
 
 const useResumeDetail = () => {
   const isThemeBlack = RESUME_RESPONSE.theme === 'black';

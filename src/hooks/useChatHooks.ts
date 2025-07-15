@@ -1,8 +1,8 @@
-import type { UseMutationResult} from '@tanstack/react-query';
+import type { UseMutationResult } from '@tanstack/react-query';
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 
 import type { CoffeeChat, Message } from '@/constants/chat';
-import * as chatApi from '@/hooks/chat/chatApi';
+import * as chatApi from '@/features/chat/apis/chatApi';
 
 // 커피챗 목록 조회
 export function useCoffeeChats() {

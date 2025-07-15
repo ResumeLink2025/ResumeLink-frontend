@@ -1,6 +1,12 @@
 import toast from 'react-hot-toast';
 
-import type { ChatRoom, CoffeeChat, Message, Pagination } from '@/constants/chat';
+import type {
+  ChatRoomListResponse,
+  ChatRoomResponse,
+  CoffeeChat,
+  CoffeeChatListResponse,
+  Message,
+} from '@/constants/chat';
 
 export async function fetchApi<T>(
   url: string,
@@ -32,17 +38,13 @@ export async function fetchApi<T>(
         : rawText || 'Unknown Error';
 
     const error = new FetchApiError(`HTTP ${res.status} – ${serverMsg}`, res.status, url);
-
-    if (showToast) {
-      toast.error(`요청 실패: ${serverMsg}`);
-    }
-
+    if (showToast) toast.error(`요청 실패: ${serverMsg}`);
     throw error;
   }
 
-  if (typeof responseBody === 'object' && responseBody !== null && 'data' in responseBody) {
+  if (typeof responseBody === 'object' && responseBody !== null) {
     if (showToast) toast.success('요청이 성공적으로 완료되었습니다.');
-    return (responseBody as { data: T }).data;
+    return responseBody as T;
   }
 
   throw new FetchApiError('응답 형식이 올바르지 않습니다.', res.status, url);
@@ -71,7 +73,7 @@ export const createCoffeeChat = (receiverId: string) =>
  * 커피챗 목록 조회
  */
 export const getCoffeeChats = () =>
-  fetchApi<CoffeeChat[]>(
+  fetchApi<CoffeeChatListResponse>(
     `${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats?type=received`,
     {},
     { showToast: false },
@@ -100,31 +102,37 @@ export const cancelCoffeeChat = (id: string) =>
   });
 
 /**
- * 채팅방 생성
- */
-export const createChatRoom = (participantId: string) =>
-  fetchApi<ChatRoom>(`${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms`, {
-    method: 'POST',
-    body: JSON.stringify({ participantId }),
-  });
-
-/**
  * 채팅방 목록 조회
  */
-export const getChatRooms = () => fetchApi<ChatRoom[]>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms`);
+export const getChatRooms = () =>
+  fetchApi<ChatRoomListResponse>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms`, {}, { showToast: false });
 
 /**
  * 채팅방 상세 조회
  */
 export const getChatRoomDetail = (id: string) =>
-  fetchApi<ChatRoom>(`${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms/${id}`);
+  fetchApi<ChatRoomResponse>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${id}`,
+    {},
+    { showToast: false },
+  );
 
 /**
  * 채팅방 메시지 목록 조회
  */
 export const getMessages = (roomId: string, page = 1, limit = 20) =>
-  fetchApi<{ messages: Message[]; pagination: Pagination }>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms/${roomId}/messages?page=${page}&limit=${limit}`,
+  fetchApi<{
+    success: boolean;
+    message: string;
+    data: {
+      messages: Message[];
+      hasMore: boolean;
+      total: number;
+    };
+  }>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages?page=${page}&limit=${limit}`,
+    {},
+    { showToast: false },
   );
 
 /**
@@ -135,11 +143,19 @@ export const sendMessage = (
   content: string,
   messageType: 'TEXT' | 'IMAGE' | 'FILE' = 'TEXT',
 ) =>
-  fetchApi<Message>(`${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms/${roomId}/messages`, {
+  fetchApi<Message>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages`, {
     method: 'POST',
-    body: JSON.stringify({ content, messageType }),
+    body: JSON.stringify(
+      messageType === 'TEXT'
+        ? { text: content, messageType }
+        : {
+            messageType,
+            fileUrl: content,
+            fileName: 'filename.ext',
+            fileSize: 1234,
+          },
+    ),
   });
-
 /**
  * 메시지 읽음 처리
  */

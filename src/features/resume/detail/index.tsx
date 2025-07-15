@@ -15,7 +15,7 @@ import useResumeDetail from './hooks/useResumeDetail';
 
 const ResumeDetail = () => {
   const { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat } = useResumeDetail();
-  const testUserId = '8614f959-3ff7-4b4c-b3c0-90b0d3a00f07';
+  const testUserId = 'c8878e96-b683-41db-b438-7c935cd78dde';
   return (
     <PageWrapper className="max-w-4xl my-12">
       <ActionButtons

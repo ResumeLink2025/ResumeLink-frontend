@@ -6,8 +6,9 @@ import type { Message } from '@/constants/chat';
 let socket: Socket | null = null;
 
 export function connectSocket(token: string): Socket {
+  console.log(token, '보낸 토큰');
   socket = io('http://localhost:8080', {
-    auth: { token: `Bearer ${token}` },
+    auth: { token },
   });
 
   socket.on('connect', () => {
@@ -49,6 +50,6 @@ export function subscribeNewMessage(callback: (message: Message) => void) {
   socket?.on('newMessage', callback);
 }
 
-export function unsubscribeNewMessage() {
-  socket?.off('newMessage');
+export function unsubscribeNewMessage(callback: (message: Message) => void) {
+  socket?.off('newMessage', callback);
 }

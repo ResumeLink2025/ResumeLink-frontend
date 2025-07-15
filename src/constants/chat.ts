@@ -1,14 +1,26 @@
 // 커피챗 관련 타입
 export interface CoffeeChat {
   id: string;
-  senderId: string;
-  receiverId: string;
-  message: string;
+  senderId?: string;
+  receiverId?: string;
+  message?: string;
   status: 'pending' | 'accepted' | 'rejected';
   createdAt: string;
   updatedAt: string;
   sender: User;
   receiver: User;
+  requester: RequesterUser;
+}
+
+export interface RequesterUser {
+  id: string;
+  authProvider: string;
+  createdAt: string;
+  email: string;
+  profile: {
+    nickname: string;
+    imageUrl: string;
+  };
 }
 
 // 사용자 타입
@@ -25,8 +37,13 @@ export interface User {
 export interface ChatRoom {
   id: string;
   participants: Array<{
+    id: string;
+    userId: string;
+    joinedAt: string;
+    leftAt: string | null;
     user: User;
   }>;
+  coffeeChatId: string;
   unreadCount: number;
   messages: Message[];
   createdAt: string;
@@ -60,9 +77,19 @@ export interface Pagination {
 }
 
 // API 응답 타입
-export interface ApiResponse<T> {
+export interface ChatRoomListResponse {
   success: boolean;
-  data?: T;
-  message?: string;
-  error?: string;
+  message: string;
+  data: ChatRoom[];
+  total: number;
+}
+export interface ChatRoomResponse {
+  success: boolean;
+  message: string;
+  data: ChatRoom;
+}
+
+export interface CoffeeChatListResponse {
+  data: CoffeeChat[];
+  total: number;
 }
