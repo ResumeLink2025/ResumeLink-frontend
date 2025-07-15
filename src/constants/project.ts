@@ -166,3 +166,22 @@ export const PROJECT_STATUS_OPTIONS = [
   { label: '완료된 상태', value: 'COMPLETED' },
   { label: '보류된 상태', value: 'ON_HOLD' },
 ];
+
+export type ProjectDetailType = {
+  id: string;
+  createdAt: string;
+  endDate: string;
+  isPublic: boolean;
+  projectDesc: string;
+  projectName: string;
+  projectNumber: number;
+  role: string;
+  skill: {
+    customSkills: string[];
+    generalSkills: string[];
+  };
+  startDate: string;
+  status: string;
+  tags: string[];
+  updatedAt: string;
+};

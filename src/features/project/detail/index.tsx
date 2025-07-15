@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
+import ProjectDetailSkeleton from '@/features/skeleton/project/DetailSkeleton';
 import { PROJECT_INFO } from '@/fixtures/project';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
@@ -18,7 +19,7 @@ interface ProjectDetailProps {
 }
 
 const ProjectDetail = ({ id }: ProjectDetailProps) => {
-  const { data: projectDetail } = useGetProjectDetail(id, !!id);
+  const { data: projectDetail, isLoading } = useGetProjectDetail(id, !!id);
 
   const getProjectStatus = (status: string) => {
     switch (status) {
@@ -32,6 +33,10 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
         return '진행중';
     }
   };
+
+  if (isLoading) {
+    return <ProjectDetailSkeleton />;
+  }
 
   return (
     <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10">
@@ -62,7 +67,6 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
               <Tag size="large">{getProjectStatus(String(projectDetail?.status))}</Tag>
             </div>
           </div>
-          <TagField title="프로젝트 태그" tags={projectDetail?.tags ?? []} />
         </div>
       </div>
       <TagField

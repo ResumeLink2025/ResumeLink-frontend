@@ -5,7 +5,8 @@ import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { Loader, Modal, Typography } from '@/components/common';
-import { THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
+import type { ProjectDetailType } from '@/constants/project';
+import { THEME_OPTIONS } from '@/constants/resume';
 import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
@@ -31,7 +32,7 @@ const useResumeFormSection = () => {
   } = methods;
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<string[]>([]);
-  const [selectedProjectsState, setSelectedProjectsState] = useState<UserProjectType[]>([]);
+  const [selectedProjectsState, setSelectedProjectsState] = useState<ProjectDetailType[]>([]);
   const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
   const [isPublic, setIsPublic] = useState(false);
 
@@ -70,7 +71,7 @@ const useResumeFormSection = () => {
     setSelectedCategoriesState(newCategories);
   };
 
-  const onClickProject = (project: UserProjectType) => {
+  const onClickProject = (project: ProjectDetailType) => {
     const isSelected = selectedProjectsState.some((selectedProject) => selectedProject.id === project.id);
 
     let newProjects;

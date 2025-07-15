@@ -55,6 +55,9 @@ const useProjectFormSection = (id?: string) => {
 
   useEffect(() => {
     if (hasProjectId && projectDetail) {
+      if (projectDetail.status) {
+        setProjectStatus(projectDetail.status);
+      }
       reset({
         projectName: projectDetail.projectName || '',
         startDate: projectDetail.startDate ? formatDate(projectDetail.startDate) : '',

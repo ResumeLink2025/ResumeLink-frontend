@@ -1,7 +1,6 @@
 import { z } from 'zod';
 
 export const projectFormSchema = z.object({
-  id: z.string(),
   projectImage: z
     .instanceof(File)
     .refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
@@ -21,9 +20,6 @@ export const projectFormSchema = z.object({
   }),
   tags: z.array(z.string()),
   isPublic: z.boolean(),
-  projectNumber: z.number(),
-  createdAt: z.string(),
-  updatedAt: z.string(),
 });
 
 export type ProjectFormDataType = z.infer<typeof projectFormSchema>;
