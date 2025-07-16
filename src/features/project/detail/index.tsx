@@ -53,7 +53,7 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
             <Typography type="heading1">{projectDetail?.projectName}</Typography>
-            <ActionButtons />
+            <ActionButtons userId={projectDetail?.userId} projectNumber={projectDetail?.projectNumber} />
           </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>

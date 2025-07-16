@@ -184,6 +184,7 @@ export type ProjectDetailType = {
   status: string;
   tags: string[];
   updatedAt: string;
+  userId?: string;
 };
 
 export type ProjectInfoToUseResumeType = {

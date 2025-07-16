@@ -18,7 +18,19 @@ const useProjectFormSection = (id?: string) => {
   const hasProjectId = !!id;
   const { data: projectDetail } = useGetProjectDetail(String(id), hasProjectId);
 
-  const methods = useForm<ProjectFormDataType>({ resolver: zodResolver(projectFormSchema) });
+  const methods = useForm<ProjectFormDataType>({
+    resolver: zodResolver(projectFormSchema),
+    defaultValues: {
+      projectName: '',
+      startDate: '',
+      endDate: '',
+      status: '',
+      projectDesc: '',
+      role: '',
+      isPublic: false,
+      tags: [],
+    },
+  });
 
   const { mutate: createProjectMutate } = useCreateProject({
     onSuccess: () => {
@@ -45,12 +57,15 @@ const useProjectFormSection = (id?: string) => {
   } = methods;
 
   const [projectStatus, setProjectStatus] = useState('');
-  const [isPublic, setIsPublic] = useState(projectDetail?.isPublic ?? false);
+  const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
     if (hasProjectId && projectDetail) {
       if (projectDetail.status) {
         setProjectStatus(projectDetail.status);
+      }
+      if (projectDetail.isPublic) {
+        setIsPublic(projectDetail.isPublic);
       }
       reset({
         projectName: projectDetail.projectName || '',
@@ -60,7 +75,7 @@ const useProjectFormSection = (id?: string) => {
         projectDesc: projectDetail.projectDesc || '',
         role: projectDetail.role || '',
         isPublic: projectDetail.isPublic || false,
-        tags: [],
+        tags: projectDetail.tags || [],
       });
     }
   }, [hasProjectId, projectDetail]);
