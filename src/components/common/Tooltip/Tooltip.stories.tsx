@@ -11,7 +11,7 @@ const meta: Meta<TooltipType> = {
   argTypes: {
     position: {
       control: 'inline-radio',
-      options: ['top', 'bottom', 'left', 'right'],
+      options: ['top', 'bottom'],
     },
   },
 };
