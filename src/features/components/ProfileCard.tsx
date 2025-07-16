@@ -15,7 +15,7 @@ export type ProfileType = {
   categories?: string[];
   summary?: string;
   avatarUrl?: string;
-  author?: string;
+  nickname?: string;
   likeCount?: number;
   isLiked?: boolean;
 };
@@ -32,7 +32,7 @@ export default function ProfileCard({
   skills,
   summary,
   avatarUrl,
-  author,
+  nickname,
   likeCount,
   isLiked,
   onClick,
@@ -58,7 +58,9 @@ export default function ProfileCard({
         <div className="w-full h-50 rounded-t-[10px] bg-gray-30" />
       )}
       <div className="flex flex-col gap-2 h-36 border-t-1 border-gray-20 py-[6px] px-2 bg-white">
-        <Typography type="title2">{title}</Typography>
+        <Typography type="title2" className="line-clamp-1">
+          {title}
+        </Typography>
         <div className="flex gap-1">
           {positions.length > 0 && (
             <Tooltip
@@ -109,7 +111,7 @@ export default function ProfileCard({
               by
             </Typography>
             <Typography type="body3" className="text-gray-70">
-              {author}
+              {nickname}
             </Typography>
           </div>
         </div>

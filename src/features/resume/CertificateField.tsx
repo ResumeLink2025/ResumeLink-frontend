@@ -2,17 +2,11 @@ import { Plus, X } from 'lucide-react';
 
 import { Typography } from '@/components/common';
 import Input from '@/components/common/Input';
-import type { CertificatesType } from '@/constants/resume';
 
 import useCertificate from './hooks/useCertificate';
 
-interface CertificateFieldProps {
-  defaultCertifications?: CertificatesType[];
-}
-
-const CertificateField = ({ defaultCertifications }: CertificateFieldProps) => {
-  const { certificates, register, onClickAddCertificate, onClickDeleteCertificate } =
-    useCertificate(defaultCertifications);
+const CertificateField = () => {
+  const { certificates, register, onClickAddCertificate, onClickDeleteCertificate } = useCertificate();
 
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
@@ -21,6 +15,7 @@ const CertificateField = ({ defaultCertifications }: CertificateFieldProps) => {
         <Plus className="cursor-pointer" onClick={onClickAddCertificate} />
       </div>
       {certificates &&
+        certificates.length > 0 &&
         certificates.map((certificate, idx) => (
           <div key={certificate.id} className="flex flex-col gap-4 border-t border-gray-30 py-2">
             <div className="w-full flex items-center justify-between py-2">

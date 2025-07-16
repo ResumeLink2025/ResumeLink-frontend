@@ -3,17 +3,11 @@ import { Plus, X } from 'lucide-react';
 import { Typography } from '@/components/common';
 import Input from '@/components/common/Input';
 import Textarea from '@/components/common/Textarea';
-import type { ActivitiesType } from '@/constants/resume';
 
 import useActivityField from './hooks/useActivityField';
 
-export interface ActivityFieldProps {
-  defaultActivities?: ActivitiesType[];
-}
-
-const ActivityField = ({ defaultActivities }: ActivityFieldProps) => {
-  const { activities, register, onClickAddActivity, onClickDeleteActivity } =
-    useActivityField(defaultActivities);
+const ActivityField = () => {
+  const { activities, register, onClickAddActivity, onClickDeleteActivity } = useActivityField();
 
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
@@ -22,6 +16,7 @@ const ActivityField = ({ defaultActivities }: ActivityFieldProps) => {
         <Plus className="cursor-pointer" onClick={onClickAddActivity} />
       </div>
       {activities &&
+        activities.length > 0 &&
         activities.map((activity, idx) => (
           <div key={activity.id} className="flex flex-col gap-4 border-t border-gray-30 py-2">
             <div className="w-full flex items-center justify-between py-2">

@@ -1,3 +1,4 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '@toss/use-overlay';
 import { CircleAlert } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -6,14 +7,18 @@ import toast from 'react-hot-toast';
 import { Button, Modal, Typography } from '@/components/common';
 import { routeMainPage } from '@/constants/routes';
 import useDeleteResume from '@/hooks/apis/resume/useDeleteResume';
+import { RESUME_LIST } from '@/hooks/apis/resume/useGetResumeList';
 
 const useHeaderSection = (id: string) => {
   const router = useRouter();
+  const queryClient = useQueryClient();
   const overlay = useOverlay();
 
   const { mutate: deleteProjectMutate } = useDeleteResume(id, {
     onSuccess: () => {
       toast.success('이력서가 삭제되었습니다.');
+      queryClient.invalidateQueries({ queryKey: [RESUME_LIST, 'resume'] });
+
       router.replace(routeMainPage);
     },
     onError: () => {

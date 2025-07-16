@@ -8,7 +8,7 @@ export const RESUME_LIST = 'resumeList';
 
 const useGetResumeList = (listType: string) => {
   return useQuery<ResumeDetailType[], AxiosError>({
-    queryKey: [RESUME_LIST],
+    queryKey: [RESUME_LIST, listType],
     queryFn: () => get('/api/resumes/all'),
     enabled: listType === 'resume',
   });

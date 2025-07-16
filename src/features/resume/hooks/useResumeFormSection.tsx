@@ -14,20 +14,28 @@ import useGetMyProject from '@/hooks/apis/project/useGetMyProject';
 import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 import useGetResumeDetail from '@/hooks/apis/resume/useGetResumeDetail';
 import { RESUME_LIST } from '@/hooks/apis/resume/useGetResumeList';
+import useUpdateResume from '@/hooks/apis/resume/useUpdateResume';
+import { formatDate } from '@/utils/date';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
 const useResumeFormSection = (id?: string) => {
-  const router = useRouter();
   const queryClient = useQueryClient();
+  const router = useRouter();
   const overlay = useOverlay();
 
+  const hasResumeId = !!id;
+
+  const { data: resumeDetail } = useGetResumeDetail(String(id), hasResumeId);
+  const { data: myProjectList } = useGetMyProject();
+
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
+
   const { mutate: createResumeMutate, isPending: isCreatingResume } = useCreateResume({
     onSuccess: () => {
       toast.success('이력서 생성이 완료되었습니다!');
-      queryClient.invalidateQueries({ queryKey: [RESUME_LIST] });
+      queryClient.invalidateQueries({ queryKey: [RESUME_LIST, 'resume'] });
 
       router.replace(routeMainPage);
     },
@@ -36,10 +44,14 @@ const useResumeFormSection = (id?: string) => {
     },
   });
 
-  const hasProjectId = !!id;
+  const { mutate: updateResumeMutate } = useUpdateResume(String(id), {
+    onSuccess: () => {
+      toast.success('이력서 수정이 완료되었습니다!');
+      queryClient.invalidateQueries({ queryKey: [RESUME_LIST, 'resume'] });
 
-  const { data: resumeDetail } = useGetResumeDetail(String(id), hasProjectId);
-  const { data: myProjectList } = useGetMyProject();
+      router.replace(routeMainPage);
+    },
+  });
 
   const {
     register,
@@ -51,11 +63,13 @@ const useResumeFormSection = (id?: string) => {
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<string[]>([]);
   const [selectedProjectsState, setSelectedProjectsState] = useState<ProjectDetailType[]>([]);
-  const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
-  const [isPublic, setIsPublic] = useState(false);
+  const [selectedThemeOption, setSelectedThemeOption] = useState(
+    resumeDetail?.theme ?? THEME_OPTIONS[0].value,
+  );
+  const [isPublic, setIsPublic] = useState(resumeDetail?.isPublic ?? false);
 
   useEffect(() => {
-    if (hasProjectId && resumeDetail) {
+    if (hasResumeId && resumeDetail) {
       if (resumeDetail.categories) {
         setSelectedCategoriesState(resumeDetail.categories);
       }
@@ -74,14 +88,26 @@ const useResumeFormSection = (id?: string) => {
         setSelectedProjectsState(initialSelectedProjects);
       }
       reset({
-        title: resumeDetail.title,
-        summary: resumeDetail.summary,
-        experienceNote: resumeDetail.experienceNote,
-        theme: resumeDetail.theme,
-        isPublic: resumeDetail.isPublic,
+        title: resumeDetail.title || '',
+        summary: resumeDetail.summary || '',
+        experienceNote: resumeDetail.experienceNote || '',
+        theme: resumeDetail.theme || 'light',
+        isPublic: resumeDetail.isPublic || false,
+        activities:
+          resumeDetail?.activities?.map((activity) => ({
+            ...activity,
+            startDate: activity.startDate && formatDate(activity.startDate),
+            endDate: activity.endDate && formatDate(activity.endDate),
+          })) || [],
+        certificates:
+          resumeDetail?.certificates?.map((certificate) => ({
+            ...certificate,
+            date: certificate.date && formatDate(certificate.date),
+            grade: certificate.grade,
+          })) || [],
       });
     }
-  }, [hasProjectId, resumeDetail, myProjectList, reset]);
+  }, [hasResumeId, resumeDetail, myProjectList, reset]);
 
   useEffect(() => {
     setValue('categories', selectedCategoriesState);
@@ -137,7 +163,11 @@ const useResumeFormSection = (id?: string) => {
   };
 
   const onSubmitResume = (data: ResumeFormDataType) => {
-    createResumeMutate(data);
+    if (hasResumeId) {
+      updateResumeMutate(data);
+    } else {
+      createResumeMutate(data);
+    }
   };
 
   useEffect(() => {
@@ -161,8 +191,6 @@ const useResumeFormSection = (id?: string) => {
     methods,
     selectedCategories: selectedCategoriesState,
     selectedProjects: selectedProjectsState,
-    defaultActivities: resumeDetail?.activities,
-    defaultCertifications: resumeDetail?.certificates,
     selectedThemeOption,
     isPublic,
     isSubmitted,

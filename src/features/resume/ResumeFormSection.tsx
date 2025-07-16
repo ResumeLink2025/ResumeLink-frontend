@@ -23,8 +23,6 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
     selectedCategories,
     selectedProjects,
     selectedThemeOption,
-    defaultActivities,
-    defaultCertifications,
     isPublic,
     isSubmitted,
     errors,
@@ -40,7 +38,7 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
   return (
     <FormProvider {...methods}>
       <form className="mt-6 flex flex-col gap-14" onSubmit={handleSubmit(onSubmitResume)}>
-        <UserInfoSection />
+        <UserInfoSection id={id} />
         <TitleField register={register} errorMessage={errors.title?.message} />
         <Textarea
           label="자기 소개"
@@ -61,12 +59,12 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
           isSubmitted={isSubmitted}
         />
         <ExperienceField register={register} errorMessage={errors.experienceNote?.message} />
-        <ActivityField defaultActivities={defaultActivities} />
-        <CertificateField defaultCertifications={defaultCertifications} />
+        <ActivityField />
+        <CertificateField />
         <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />
         <PrivateField isPublic={isPublic} onChangePrivateToggle={setIsPublic} />
         <Button size="large" type="submit">
-          AI를 활용하여 이력서 작성하기
+          {id ? '이력서 수정하기' : 'AI를 활용하여 이력서 작성하기'}
         </Button>
       </form>
     </FormProvider>

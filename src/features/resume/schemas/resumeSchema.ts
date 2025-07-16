@@ -9,7 +9,7 @@ export const resumeFormSchema = z.object({
     .min(1, '개발자 카테고리는 1개 이상 선택해야 합니다.')
     .max(5, '개발자 카테고리는 5개까지만 선택 가능합니다.'),
   skills: z.array(z.string()),
-  positions: z.array(z.string()),
+  positions: z.string(),
   projects: z
     .array(
       z.object({
