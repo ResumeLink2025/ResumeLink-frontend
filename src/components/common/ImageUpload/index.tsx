@@ -33,7 +33,7 @@ const ImageUpload = ({ size = 'medium', uploadFile, previewUrl, ...props }: Imag
       size: {
         medium: 'size-42 p-3',
         large: 'size-45 p-3',
-        profile: 'size-70 p-8',
+        profile: 'size-70 p-4',
       },
     },
     defaultVariants: {

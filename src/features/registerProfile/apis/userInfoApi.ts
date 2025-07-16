@@ -22,3 +22,20 @@ export async function patchUserProfile(data: PatchUserProfilePayload) {
 
   return response.json();
 }
+
+export async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch('http://localhost:8080/api/images', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('이미지 업로드 실패');
+  }
+
+  const data = await response.json();
+  return data.imageUrl;
+}

@@ -10,7 +10,7 @@ import type { UserProfileType } from '../registerProfile/shcemas/userProfileSche
 import { UserProfileSchema } from '../registerProfile/shcemas/userProfileSchema';
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
-import { patchUserProfile } from './apis/userInfoApi';
+import { patchUserProfile, uploadImage } from './apis/userInfoApi';
 import BasicInfoSection from './BasicInfoSection';
 import useDefaultInfoField from './hooks/useDefaultInfoFilde';
 import { ProfileHederSection } from './ProfileHeaderSection';
@@ -31,6 +31,11 @@ export default function RegisterProfileSection() {
 
   const onSubmit = async (data: UserProfileType) => {
     try {
+      let imageUrl = null;
+
+      if (data.profileImage instanceof File) {
+        imageUrl = await uploadImage(data.profileImage);
+      }
       const birthday =
         data.birthday instanceof Date
           ? data.birthday.toISOString().slice(0, 10)
@@ -41,8 +46,9 @@ export default function RegisterProfileSection() {
       const processedData = {
         ...data,
         birthday,
+        imageUrl,
       };
-      console.log(processedData);
+
       await patchUserProfile(processedData);
       toast.success('프로필이 저장되었습니다.');
       router.replace('/developersHub?type=resume&sort=popular');
