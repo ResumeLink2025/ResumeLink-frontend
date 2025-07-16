@@ -6,7 +6,7 @@ import { Tag, Tooltip, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { cn } from '@/utils/styleMerge';
 
-export type ProfileType = {
+export type ResumeProfileType = {
   id: string;
   imageUrl?: string;
   title: string;
@@ -20,11 +20,11 @@ export type ProfileType = {
   isLiked?: boolean;
 };
 
-type ProfileCardProps = {
+type ResumeProfileCardProps = {
   onClick?: () => void;
-} & ProfileType;
+} & ResumeProfileType;
 
-export default function ProfileCard({
+const ResumeProfileCard = ({
   id,
   imageUrl,
   title,
@@ -36,7 +36,7 @@ export default function ProfileCard({
   likeCount,
   isLiked,
   onClick,
-}: ProfileCardProps) {
+}: ResumeProfileCardProps) => {
   const router = useRouter();
 
   return (
@@ -128,4 +128,6 @@ export default function ProfileCard({
       </div>
     </div>
   );
-}
+};
+
+export default ResumeProfileCard;

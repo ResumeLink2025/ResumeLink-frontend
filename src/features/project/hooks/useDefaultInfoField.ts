@@ -5,7 +5,7 @@ import useUploadImage from '@/hooks/apis/image/useUploadImage';
 
 import type { ProjectFormDataType } from '../schemas/projectSchema';
 
-const useDefaultInfoField = () => {
+const useDefaultInfoField = (defaultImageUrl?: string) => {
   const {
     register,
     formState: { errors },
@@ -14,15 +14,15 @@ const useDefaultInfoField = () => {
 
   const { mutate: uploadImage } = useUploadImage({
     onSuccess: (response) => {
-      setValue('projectImage', response.imageUrl);
+      setValue('imgUrl', response.imageUrl);
     },
   });
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(defaultImageUrl ?? null);
 
   const handleUploadImageFile = (files?: FileList | null) => {
     if (!files) {
       setImageUrl(null);
-      setValue('projectImage', null);
+      setValue('imgUrl', null);
 
       return;
     }

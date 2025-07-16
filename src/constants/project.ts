@@ -169,7 +169,9 @@ export const PROJECT_STATUS_OPTIONS = [
 
 export type ProjectDetailType = {
   id: string;
+  imgUrl?: string;
   createdAt: string;
+  startDate: string;
   endDate: string;
   isPublic: boolean;
   projectDesc: string;
@@ -180,7 +182,6 @@ export type ProjectDetailType = {
     customSkills: string[];
     generalSkills: string[];
   };
-  startDate: string;
   status: string;
   tags: string[];
   updatedAt: string;

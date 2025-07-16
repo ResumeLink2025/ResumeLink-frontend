@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const projectFormSchema = z.object({
-  projectImage: z
+  imgUrl: z
     .union([
       z.instanceof(File).refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
         message: 'JPEG, JPG, PNG 형식만 허용됩니다.',
