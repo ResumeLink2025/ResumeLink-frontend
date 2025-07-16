@@ -31,25 +31,27 @@ export function connectSocket(token: string): Socket {
 }
 
 export function joinRoom(chatRoomId: string) {
-  socket?.emit('joinRoom', { chatRoomId });
-}
-
-export function leaveRoom(chatRoomId: string) {
-  socket?.emit('leaveRoom', { chatRoomId });
-}
-
-export function sendRealtimeMessage(chatRoomId: string, content: string) {
-  socket?.emit('sendMessage', {
-    chatRoomId,
-    content,
-    messageType: 'TEXT',
+  socket?.emit('room:join', { chatRoomId }, () => {
+    console.log(`✅ room ${chatRoomId} joined`);
   });
 }
 
-export function subscribeNewMessage(callback: (message: Message) => void) {
-  socket?.on('newMessage', callback);
+export function leaveRoom(chatRoomId: string) {
+  socket?.emit('room:leave', { chatRoomId });
+}
+export function getSocket() {
+  if (!socket) throw new Error('Socket not connected');
+  return socket;
 }
 
-export function unsubscribeNewMessage(callback: (message: Message) => void) {
-  socket?.off('newMessage', callback);
+export const sendRealtimeMessage = (id: string, txt: string) =>
+  getSocket().emit('message:send', { chatRoomId: id, content: txt, messageType: 'TEXT' }, () =>
+    console.log('[WS] send ack'),
+  );
+
+export function subscribeNewMessage(roomId: string, callback: (message: Message) => void) {
+  socket?.on(`message:new:${roomId}`, callback);
+}
+export function unsubscribeNewMessage(roomId: string, callback: (message: Message) => void) {
+  socket?.off(`message:new:${roomId}`, callback);
 }

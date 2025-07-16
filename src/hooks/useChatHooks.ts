@@ -8,7 +8,10 @@ import * as chatApi from '@/features/chat/apis/chatApi';
 export function useCoffeeChats() {
   return useQuery<CoffeeChat[], Error>({
     queryKey: ['coffeeChats'],
-    queryFn: chatApi.getCoffeeChats,
+    queryFn: async () => {
+      const res = await chatApi.getCoffeeChats();
+      return res.data;
+    },
   });
 }
 

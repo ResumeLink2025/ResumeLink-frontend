@@ -89,10 +89,14 @@ export const getCoffeeChatDetail = (id: string) =>
  * 커피챗 상태 변경
  */
 export const updateCoffeeChatStatus = (id: string, status: 'accepted' | 'rejected') =>
-  fetchApi<CoffeeChat>(`${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats/${id}/status`, {
-    method: 'PATCH',
-    body: JSON.stringify({ status }),
-  });
+  fetchApi<CoffeeChat>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats/${id}/status`,
+    {
+      method: 'PATCH',
+      body: JSON.stringify({ status }),
+    },
+    { showToast: false },
+  );
 /**
  * 커피챗 취소
  */
@@ -162,4 +166,9 @@ export const sendMessage = (
 export const markMessageAsRead = (roomId: string, messageId: string) =>
   fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms/${roomId}/messages/${messageId}/read`, {
     method: 'PUT',
+  });
+
+export const deleteChatRoomParticipant = (chatRoomId: string) =>
+  fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${chatRoomId}/participants`, {
+    method: 'DELETE',
   });

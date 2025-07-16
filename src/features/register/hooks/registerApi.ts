@@ -20,7 +20,7 @@ export default function useRegister() {
     setGlobalError('');
 
     try {
-      const res = await fetch('http://api.resumelink.co.kr/api/auth/register', {
+      const res = await fetch('http://localhost:8080/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password, nickname }),
@@ -33,7 +33,6 @@ export default function useRegister() {
       }
 
       const { accessToken } = await res.json();
-
       if (accessToken) {
         localStorage.setItem('accessToken', accessToken);
         setLogin(accessToken);

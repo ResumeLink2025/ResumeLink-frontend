@@ -16,7 +16,7 @@ export default function useLogin(setLogin: (token: string) => void) {
     setGlobalError('');
 
     try {
-      const response = await fetch(`http://api.resumelink.co.kr/api/auth/login/local`, {
+      const response = await fetch(`http://localhost:8080/api/auth/login/local`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
@@ -30,14 +30,15 @@ export default function useLogin(setLogin: (token: string) => void) {
         return;
       }
 
-      const { accessToken, userId } = await response.json();
+      const { accessToken } = await response.json();
       if (!accessToken) {
         setGlobalError('로그인 응답에 문제가 있습니다. 다시 시도해주세요.');
         return;
       }
-      console.log(userId);
+
       localStorage.setItem('accessToken', accessToken);
       setLogin(accessToken);
+
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
       console.error(err);
