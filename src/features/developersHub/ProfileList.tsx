@@ -1,3 +1,5 @@
+import { useSearchParams } from 'next/navigation';
+
 import useGetResumeList from '@/hooks/apis/resume/useGetResumeList';
 
 import { ProfileCard } from '../components';
@@ -7,7 +9,13 @@ interface ProfileListProps {
 }
 
 const ProfileList = ({ listType }: ProfileListProps) => {
-  const { data: resumeList } = useGetResumeList(listType);
+  const params = useSearchParams();
+
+  const searchTerm = params.get('searchTerm');
+  const skillNames = params.get('skillNames');
+  const positionNames = params.get('positionNames');
+
+  const { data: resumeList } = useGetResumeList(listType, searchTerm, skillNames, positionNames);
 
   return (
     <div className="grid grid-cols-5 gap-4 py-15">

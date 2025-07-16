@@ -1,25 +1,29 @@
 import { Button } from '@/components/common';
-import { DEVELOP_EXPERIENCE, DEVELOP_OCCUPATION } from '@/constants/developersHub';
+import { DEVELOP_OCCUPATIONS, DEVELOP_SKILLS } from '@/constants/developersHub';
 
 import CategoryList from './CategoryList';
 import useResumeCategory from './hooks/useResumeCategory';
 
-const ResumeCategory = () => {
-  const { experience, occupation, onClickExperience, onClickOccupation, onClickSearchKeyword } =
-    useResumeCategory();
+export interface ResumeCategoryProps {
+  onClose: () => void;
+}
+
+const ResumeCategory = ({ onClose }: ResumeCategoryProps) => {
+  const { devSkill, occupation, onClickDevSkill, onClickOccupation, onClickSearchKeyword } =
+    useResumeCategory(onClose);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between gap-2 max-h-50 overflow-y-auto hide-scrollbar">
         <CategoryList
           title="개발 연차"
-          categories={DEVELOP_EXPERIENCE}
-          checkedList={experience}
-          onClickCategory={onClickExperience}
+          categories={DEVELOP_SKILLS}
+          checkedList={devSkill}
+          onClickCategory={onClickDevSkill}
         />
         <CategoryList
           title="개발 직군"
-          categories={DEVELOP_OCCUPATION}
+          categories={DEVELOP_OCCUPATIONS}
           checkedList={occupation}
           onClickCategory={onClickOccupation}
         />

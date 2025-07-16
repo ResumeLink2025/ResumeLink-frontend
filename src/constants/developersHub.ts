@@ -9,22 +9,17 @@ export const FILTER_OPTIONS = [
   },
 ];
 
-export type DevelopExperienceType = {
-  id: number;
-  year: string;
-};
-
 export type DevelopOccupationType = {
   id: number;
   occupation: string;
 };
 
-export const DEVELOP_EXPERIENCE = Array.from({ length: 12 }).map((_, idx) => ({
-  id: idx,
-  year: `${idx === 0 ? '신입' : idx > 10 ? '10년차 이상' : `${idx}년차`}`,
-}));
+export type DevelopSkillType = {
+  id: number;
+  skill: string;
+};
 
-export const DEVELOP_OCCUPATION = [
+export const DEVELOP_OCCUPATIONS = [
   { id: 0, occupation: '프론트엔드 개발자' },
   { id: 1, occupation: '백엔드 개발자' },
   { id: 2, occupation: '풀스택 개발자' },
@@ -54,4 +49,37 @@ export const DEVELOP_OCCUPATION = [
   { id: 26, occupation: '블록체인 개발자' },
   { id: 27, occupation: '스크럼 마스터' },
   { id: 28, occupation: '기술 리드' },
+];
+
+export const DEVELOP_SKILLS = [
+  { id: 0, skill: 'JavaScript' },
+  { id: 1, skill: 'TypeScript' },
+  { id: 2, skill: 'React' },
+  { id: 3, skill: 'Next.js' },
+  { id: 4, skill: 'Vue.js' },
+  { id: 5, skill: 'Node.js' },
+  { id: 6, skill: 'Express' },
+  { id: 7, skill: 'HTML' },
+  { id: 8, skill: 'CSS' },
+  { id: 9, skill: 'Sass' },
+  { id: 10, skill: 'Tailwind CSS' },
+  { id: 11, skill: 'Redux' },
+  { id: 12, skill: 'Zustand' },
+  { id: 13, skill: 'React Query' },
+  { id: 14, skill: 'GraphQL' },
+  { id: 15, skill: 'Apollo' },
+  { id: 16, skill: 'Firebase' },
+  { id: 17, skill: 'MongoDB' },
+  { id: 18, skill: 'MySQL' },
+  { id: 19, skill: 'PostgreSQL' },
+  { id: 20, skill: 'Docker' },
+  { id: 21, skill: 'AWS' },
+  { id: 22, skill: 'Git' },
+  { id: 23, skill: 'Jest' },
+  { id: 24, skill: 'Cypress' },
+  { id: 25, skill: 'Python' },
+  { id: 26, skill: 'Java' },
+  { id: 27, skill: 'C#' },
+  { id: 28, skill: 'Kotlin' },
+  { id: 29, skill: 'Swift' },
 ];

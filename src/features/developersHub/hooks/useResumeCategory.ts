@@ -1,17 +1,21 @@
+import { useRouter, useSearchParams } from 'next/navigation';
 import { useState } from 'react';
 
-import type { DevelopExperienceType, DevelopOccupationType } from '@/constants/developersHub';
+import type { DevelopOccupationType, DevelopSkillType } from '@/constants/developersHub';
 
-const useResumeCategory = () => {
-  const [experience, setExperience] = useState<DevelopExperienceType[]>([]);
+const useResumeCategory = (onClose: () => void) => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+
+  const [devSkill, setDevSkill] = useState<DevelopSkillType[]>([]);
   const [occupation, setOccupation] = useState<DevelopOccupationType[]>([]);
 
-  const onClickExperience = (experience: DevelopExperienceType) => {
-    setExperience((prevState) => {
-      const isSelected = prevState.some((prevExperience) => prevExperience.id == experience.id);
+  const onClickDevSkill = (experience: DevelopSkillType) => {
+    setDevSkill((prevState) => {
+      const isSelected = prevState.some((prevDevSkill) => prevDevSkill.id == experience.id);
 
       if (isSelected) {
-        return prevState.filter((prevExperience) => prevExperience.id !== experience.id);
+        return prevState.filter((prevDevSkill) => prevDevSkill.id !== experience.id);
       } else {
         return [...prevState, experience];
       }
@@ -31,10 +35,23 @@ const useResumeCategory = () => {
   };
 
   const onClickSearchKeyword = () => {
-    console.log([...experience, ...occupation]);
+    const params = new URLSearchParams(searchParams.toString());
+
+    if (devSkill.length > 0) {
+      params.set('skillNames', [...devSkill].map((skill) => skill.skill.replace(/\s+/g, '')).join(','));
+    }
+    if (occupation.length > 0) {
+      params.set(
+        'positionNames',
+        [...occupation].map((occupation) => occupation.occupation.replace(/\s+/g, '')).join(','),
+      );
+    }
+
+    router.push(`?${params.toString().replace(/%2C/g, ',')}`);
+    onClose();
   };
 
-  return { experience, occupation, onClickExperience, onClickOccupation, onClickSearchKeyword };
+  return { devSkill, occupation, onClickDevSkill, onClickOccupation, onClickSearchKeyword };
 };
 
 export default useResumeCategory;

@@ -6,10 +6,25 @@ import type { ResumeDetailType } from '@/constants/resume';
 
 export const RESUME_LIST = 'resumeList';
 
-const useGetResumeList = (listType: string) => {
+const useGetResumeList = (
+  listType: string,
+  searchTerm: string | null,
+  skillNames: string | null,
+  positionNames?: string | null,
+) => {
   return useQuery<ResumeDetailType[], AxiosError>({
-    queryKey: [RESUME_LIST, listType],
-    queryFn: () => get('/api/resumes/all'),
+    queryKey: [RESUME_LIST, listType, searchTerm, skillNames, positionNames],
+    queryFn: () => {
+      const params = new URLSearchParams();
+
+      if (searchTerm) params.set('searchTerm', searchTerm);
+      if (skillNames) params.set('skillNames', skillNames);
+      if (positionNames) params.set('positionNames', positionNames);
+
+      const queryString = params.toString();
+
+      return get(`/api/resumes/search${queryString ? `?${queryString}` : ''}`);
+    },
     enabled: listType === 'resume',
   });
 };
