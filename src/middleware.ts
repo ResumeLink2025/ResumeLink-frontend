@@ -1,13 +1,13 @@
-import type { NextRequest} from 'next/server';
-import { NextResponse } from 'next/server';
+import { type NextRequest,NextResponse } from 'next/server';
 
 export function middleware(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('pathname', request.nextUrl.pathname);
+  const url = request.nextUrl;
 
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  if (url.pathname === '/developersHub' && !url.searchParams.get('type')) {
+    url.searchParams.set('type', 'resume');
+
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }
