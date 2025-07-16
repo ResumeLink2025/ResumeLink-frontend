@@ -38,6 +38,7 @@ export default function useLogin(setLogin: (token: string) => void) {
 
       localStorage.setItem('accessToken', accessToken);
       setLogin(accessToken);
+
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
       console.error(err);

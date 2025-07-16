@@ -6,7 +6,6 @@ import { useAuthStore } from '@/app/store/useAuthStore';
 type RegisterParams = {
   email: string;
   password: string;
-  nickname: string;
 };
 
 export default function useRegister() {
@@ -15,15 +14,18 @@ export default function useRegister() {
   const [globalError, setGlobalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const handleRegister = async ({ email, password, nickname }: RegisterParams) => {
+
+  const handleRegister = async ({ email, password }: RegisterParams) => {
+
     setIsLoading(true);
     setGlobalError('');
 
     try {
-      const res = await fetch('http://localhost:8080/api/auth/register', {
+      const res = await fetch('https://localhost:8080/api/auth/register', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password, nickname }),
+        body: JSON.stringify({ email, password }),
+
       });
 
       if (!res.ok) {

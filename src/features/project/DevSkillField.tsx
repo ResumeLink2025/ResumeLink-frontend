@@ -7,13 +7,14 @@ import { cn } from '@/utils/styleMerge';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
-export interface DevSkillFieldProps {
-  defaultGeneralSkills: string[];
-  defaultCustomSkills: string[];
-  className: string;
-}
 
-const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills, className }: DevSkillFieldProps) => {
+type DevSkillFieldProps = {
+  className?: string;
+};
+
+const DevSkillField = ({ className }: DevSkillFieldProps) => {
+
+
   const {
     errors,
     isSubmitted,
