@@ -1,64 +1,84 @@
 'use client';
-import { useState } from 'react';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+import { useState } from 'react';
+import { FormProvider, useForm } from 'react-hook-form';
+import toast from 'react-hot-toast';
+
+import DevSkillField from '../project/DevSkillField';
+import { patchUserProfile } from '../registerProfile/apis/userInfoApi';
+import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
+import { UserProfileSchema } from '../registerProfile/shcemas/userProfileSchema';
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
-import AddSkillInfoSection from './AddSkillInfoSection';
 import BasicInfoSection from './BasicInfoSection';
+import useDefaultInfoField from './hooks/useDefaultInfoFilde';
 import { ProfileHederSection } from './ProfileHeaderSection';
 import ProfileImageSection from './ProfileImageSection';
-import { developerList, yearList } from './types';
+import SummarySection from './SummarySeciton';
+import { DEVELOPERLIST, YEARLIST } from './types';
 
-export default function RegisterProfileSection() {
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
-  const [searchKeyword, setSearchKeyword] = useState('');
-  const [selectJob, setSelectJob] = useState<string>(developerList[0].value);
-  const [selectYear, setSelectYear] = useState<string>(yearList[0].value);
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+type RegisterProfileSectionProps = {
+  onSave?: (updatedProfile: UserProfileType) => void;
+  onCancel?: () => void;
+};
 
-  const handleUploadFile = (files?: FileList | null) => {
-    console.log('check');
-    if (!files || files.length === 0) {
-      setImageUrl(null); // X버튼 클릭시 이미지 제거하기 위해서 이부분이 꼭 필요함
+export default function RegisterProfileSection({ onSave, onCancel }: RegisterProfileSectionProps) {
+  const [editMode, setEditMode] = useState(true);
+  const methods = useForm<UserProfileType>({
+    resolver: zodResolver(UserProfileSchema),
+    defaultValues: {
+      birthday: null,
+      desirePositions: [DEVELOPERLIST[0].value],
+      experienceYears: Number(YEARLIST[0].value),
+    },
+  });
 
-      return;
+  const onSubmit = async (data: UserProfileType) => {
+    try {
+      await patchUserProfile(data);
+      toast.success('프로필이 저장되었습니다.');
+      setEditMode(false);
+      if (onSave) onSave(data);
+    } catch (err) {
+      console.error(err);
+      toast.error('저장 실패');
     }
-
-    const file = files[0];
-
-    console.log('file', file);
-    const imageUrl = URL.createObjectURL(file);
-
-    setImageUrl(imageUrl);
   };
 
   return (
-    <div className="flex items-center justify-center bg-white w-full h-full flex-grow py-20">
+    <div className="flex items-center justify-center w-full h-full bg-white py-20">
       <div className="w-full max-w-2xl flex flex-col items-center px-4">
-        <ProfileHederSection />
-
-        <form className="grid grid-cols-2 gap-4 w-full">
-          <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadFile} />
-
-          <BasicInfoSection />
-
-          <AdditionalInfoSection
-            selectJob={selectJob}
-            setSelectJob={setSelectJob}
-            selectYear={selectYear}
-            setSelectYear={setSelectYear}
+        <ProfileHederSection title={editMode ? '내 정보 수정' : '추가 정보 입력'} />
+        <FormProvider {...methods}>
+          <FormBody
+            onSubmit={methods.handleSubmit(onSubmit, () => {
+              toast.error('필수 입력을 확인해주세요.');
+            })}
+            onCancel={onCancel}
           />
-
-          <AddSkillInfoSection
-            selectedSkills={selectedSkills}
-            setSelectedSkills={setSelectedSkills}
-            searchKeyword={searchKeyword}
-            setSearchKeyword={setSearchKeyword}
-          />
-
-          <ActionButtonSection />
-        </form>
+        </FormProvider>
       </div>
     </div>
+  );
+}
+
+type FormBodyProps = {
+  onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
+  onCancel?: () => void;
+};
+
+function FormBody({ onSubmit, onCancel }: FormBodyProps) {
+  const { imageUrl, handleUploadImageFile } = useDefaultInfoField();
+
+  return (
+    <form className="grid grid-cols-2 gap-4 w-full" onSubmit={onSubmit}>
+      <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadImageFile} />
+      <BasicInfoSection />
+      <AdditionalInfoSection jobOptions={DEVELOPERLIST} yearOptions={YEARLIST} />
+      <DevSkillField className="col-span-2" />
+      <SummarySection className="col-span-2" />
+      <ActionButtonSection onCancel={onCancel} />
+    </form>
   );
 }

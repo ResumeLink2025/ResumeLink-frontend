@@ -1,18 +1,29 @@
-export default function ActionButtonSection() {
+type ActionButtonSectionProps = {
+  onCancel?: () => void;
+  submitText?: string;
+};
+
+export default function ActionButtonSection({
+  onCancel,
+  submitText = '추가 정보 입력완료',
+}: ActionButtonSectionProps) {
   return (
-    <div className="col-span-2 flex justify-between mt-4 gap-6">
-      <button
-        type="button"
-        className="w-full py-2 bg-gray-200 text-black font-semibold rounded-md hover:bg-gray-300 transition"
-      >
-        뒤로가기
-      </button>
+    <div className="flex gap-4 col-span-2">
       <button
         type="submit"
-        className="w-full py-2 bg-yellow-400 text-white font-semibold rounded-md hover:bg-yellow-500 transition"
+        className="flex-1 py-2 bg-primary text-white font-semibold rounded-md hover:bg-primaryHover transition cursor-pointer"
       >
-        가입 완료
+        {submitText}
       </button>
+      {onCancel && (
+        <button
+          type="button"
+          onClick={onCancel}
+          className="flex-1 py-2 border border-gray-300 rounded-md hover:bg-gray-100 transition cursor-pointer"
+        >
+          취소
+        </button>
+      )}
     </div>
   );
 }
