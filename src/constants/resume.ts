@@ -1,3 +1,5 @@
+import type { ProjectInfoToUseResumeType } from './project';
+
 export const USER_INFO = {
   id: 2,
   name: '이상진',
@@ -67,3 +69,33 @@ export const THEME_OPTIONS = [
   { label: '밝은 화면의 이력서', value: 'light' },
   { label: '어두운 화면의 이력서', value: 'dark' },
 ];
+
+export type ActivitiesType = {
+  title?: string;
+  description?: string;
+  endDate?: string;
+  startDate?: string;
+};
+
+export type CertificatesType = {
+  name?: string;
+  date?: string;
+  grade?: string;
+  issuer?: string;
+};
+
+export interface ResumeDetailType {
+  id: string;
+  userId: string;
+  title: string;
+  theme: string;
+  summary: string;
+  experienceNote: string;
+  positions: string[];
+  projects: ProjectInfoToUseResumeType[];
+  skills: string[];
+  categories: string[];
+  activities?: ActivitiesType[];
+  certificates?: CertificatesType[];
+  isPublic: boolean;
+}

@@ -7,14 +7,13 @@ import { cn } from '@/utils/styleMerge';
 
 import useDevSkillField from './hooks/useDevSkillField';
 
-
-type DevSkillFieldProps = {
+export interface DevSkillFieldProps {
+  defaultGeneralSkills: string[];
+  defaultCustomSkills: string[];
   className?: string;
-};
+}
 
-const DevSkillField = ({ className }: DevSkillFieldProps) => {
-
-
+const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills, className }: DevSkillFieldProps) => {
   const {
     errors,
     isSubmitted,
@@ -59,8 +58,6 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
           onChange={onChangeTypingSkill}
           onKeyDown={onEnterAddSkill}
         />
-
-        {/* 커스텀 스킬 태그 목록 */}
         <div className="flex flex-wrap gap-2 mt-3">
           {customSkills.map((customSkill) => (
             <div

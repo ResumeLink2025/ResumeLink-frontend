@@ -185,3 +185,11 @@ export type ProjectDetailType = {
   tags: string[];
   updatedAt: string;
 };
+
+export type ProjectInfoToUseResumeType = {
+  customSkills: string[];
+  generalSkills: string[];
+  projectDesc: string;
+  projectName: string;
+  role: string;
+};

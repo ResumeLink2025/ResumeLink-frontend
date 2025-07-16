@@ -3,27 +3,25 @@ import { formatDate } from '@/utils/date';
 import { cn } from '@/utils/styleMerge';
 
 type ActivitiesType = {
-  title: string;
+  title?: string;
   startDate?: string;
   endDate?: string;
   description?: string;
-  aiDescription?: string;
 };
 
 interface ActivityListProps {
-  title: string;
-  activities: ActivitiesType[];
-  isThemeBlack: boolean;
+  activities?: ActivitiesType[];
+  isThemeBlack?: boolean;
 }
 
-const ActivityList = ({ title, activities, isThemeBlack }: ActivityListProps) => {
+const ActivityList = ({ activities, isThemeBlack }: ActivityListProps) => {
   return (
     <div className="flex flex-col gap-3">
       <Typography type="heading2" className="text-current-mode">
-        {title}
+        개발 경험
       </Typography>
       <div className="flex flex-col gap-6">
-        {activities.map((activity, idx) => (
+        {activities?.map((activity, idx) => (
           <div key={idx} className="py-3 px-4 flex flex-col gap-1">
             <Typography type="title1" className="text-current-mode">
               {activity.title}
@@ -35,7 +33,7 @@ const ActivityList = ({ title, activities, isThemeBlack }: ActivityListProps) =>
               </Typography>
             )}
             <Typography type="body1" className={cn('mt-3', isThemeBlack ? 'text-gray-30' : 'text-gray-60')}>
-              {activity.description ?? activity.aiDescription}
+              {activity.description}
             </Typography>
           </div>
         ))}

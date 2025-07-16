@@ -1,5 +1,7 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useOverlay } from '@toss/use-overlay';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -7,27 +9,43 @@ import toast from 'react-hot-toast';
 import { Loader, Modal, Typography } from '@/components/common';
 import type { ProjectDetailType } from '@/constants/project';
 import { THEME_OPTIONS } from '@/constants/resume';
+import { routeMainPage } from '@/constants/routes';
+import useGetMyProject from '@/hooks/apis/project/useGetMyProject';
 import useCreateResume from '@/hooks/apis/resume/useCreateResume';
+import useGetResumeDetail from '@/hooks/apis/resume/useGetResumeDetail';
+import { RESUME_LIST } from '@/hooks/apis/resume/useGetResumeList';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
-const useResumeFormSection = () => {
+const useResumeFormSection = (id?: string) => {
+  const router = useRouter();
+  const queryClient = useQueryClient();
   const overlay = useOverlay();
+
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
   const { mutate: createResumeMutate, isPending: isCreatingResume } = useCreateResume({
     onSuccess: () => {
       toast.success('이력서 생성이 완료되었습니다!');
+      queryClient.invalidateQueries({ queryKey: [RESUME_LIST] });
+
+      router.replace(routeMainPage);
     },
     onError: () => {
       toast.error('이력서 생성 중 에러가 발생했습니다.');
     },
   });
 
+  const hasProjectId = !!id;
+
+  const { data: resumeDetail } = useGetResumeDetail(String(id), hasProjectId);
+  const { data: myProjectList } = useGetMyProject();
+
   const {
     register,
     handleSubmit,
     setValue,
+    reset,
     formState: { errors, isSubmitted },
   } = methods;
 
@@ -35,6 +53,35 @@ const useResumeFormSection = () => {
   const [selectedProjectsState, setSelectedProjectsState] = useState<ProjectDetailType[]>([]);
   const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
   const [isPublic, setIsPublic] = useState(false);
+
+  useEffect(() => {
+    if (hasProjectId && resumeDetail) {
+      if (resumeDetail.categories) {
+        setSelectedCategoriesState(resumeDetail.categories);
+      }
+      if (resumeDetail.projects && myProjectList) {
+        const initialSelectedProjects: ProjectDetailType[] = [];
+
+        resumeDetail.projects.forEach((resumeProject) => {
+          const matchingMyProject = myProjectList.find(
+            (myProject: ProjectDetailType) => myProject.projectName === resumeProject.projectName,
+          );
+
+          if (matchingMyProject) {
+            initialSelectedProjects.push(matchingMyProject);
+          }
+        });
+        setSelectedProjectsState(initialSelectedProjects);
+      }
+      reset({
+        title: resumeDetail.title,
+        summary: resumeDetail.summary,
+        experienceNote: resumeDetail.experienceNote,
+        theme: resumeDetail.theme,
+        isPublic: resumeDetail.isPublic,
+      });
+    }
+  }, [hasProjectId, resumeDetail, myProjectList, reset]);
 
   useEffect(() => {
     setValue('categories', selectedCategoriesState);
@@ -100,7 +147,7 @@ const useResumeFormSection = () => {
           <div className="flex flex-col gap-5">
             <Loader />
             <Typography type="body1" className="text-gray-25">
-              이력서를 생성중이에요!
+              이력서를 생성하는 중이에요!
             </Typography>
           </div>
         </Modal>
@@ -114,6 +161,8 @@ const useResumeFormSection = () => {
     methods,
     selectedCategories: selectedCategoriesState,
     selectedProjects: selectedProjectsState,
+    defaultActivities: resumeDetail?.activities,
+    defaultCertifications: resumeDetail?.certificates,
     selectedThemeOption,
     isPublic,
     isSubmitted,

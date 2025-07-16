@@ -14,6 +14,7 @@ const queryOptions: QueryClientConfig = {
     queries: {
       retry: false,
       refetchOnMount: false,
+      refetchOnWindowFocus: false,
     },
   },
 };

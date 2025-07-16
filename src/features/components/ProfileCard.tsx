@@ -1,19 +1,22 @@
 import { Heart } from 'lucide-react';
 import Image from 'next/image';
+import { useRouter } from 'next/navigation';
 
-import { Tag, Typography } from '@/components/common';
+import { Tag, Tooltip, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import { cn } from '@/utils/styleMerge';
 
 export type ProfileType = {
-  id: number;
-  imageUrl: string;
+  id: string;
+  imageUrl?: string;
   title: string;
-  categories: string[];
-  description: string;
-  avatarUrl: string;
-  author: string;
-  likeCount: number;
+  positions: string[];
+  skills: string[];
+  categories?: string[];
+  summary?: string;
+  avatarUrl?: string;
+  author?: string;
+  likeCount?: number;
   isLiked?: boolean;
 };
 
@@ -22,49 +25,85 @@ type ProfileCardProps = {
 } & ProfileType;
 
 export default function ProfileCard({
+  id,
   imageUrl,
   title,
-  categories,
-  description,
+  positions,
+  skills,
+  summary,
   avatarUrl,
   author,
   likeCount,
   isLiked,
   onClick,
 }: ProfileCardProps) {
+  const router = useRouter();
+
   return (
-    <div className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer">
-      <Image
-        src={imageUrl}
-        alt={title}
-        width={230}
-        height={200}
-        placeholder="blur"
-        blurDataURL={IMAGE_BLUR}
-        className="w-full h-50 object-cover rounded-t-[10px] box-border"
-      />
+    <div
+      className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer"
+      onClick={() => router.push(`/resume/${id}`)}
+    >
+      {imageUrl ? (
+        <Image
+          src={imageUrl}
+          alt={title}
+          width={230}
+          height={200}
+          placeholder="blur"
+          blurDataURL={IMAGE_BLUR}
+          className="w-full h-50 object-cover rounded-t-[10px] box-border"
+        />
+      ) : (
+        <div className="w-full h-50 rounded-t-[10px] bg-gray-30" />
+      )}
       <div className="flex flex-col gap-2 h-36 border-t-1 border-gray-20 py-[6px] px-2 bg-white">
         <Typography type="title2">{title}</Typography>
-        <div className="flex flex-wrap gap-1">
-          {categories.map((category, idx) => (
-            <Tag key={idx} size="small" styleType="gray">
-              {category}
-            </Tag>
-          ))}
+        <div className="flex gap-1">
+          {positions.length > 0 && (
+            <Tooltip
+              content={
+                <div className="flex flex-wrap gap-2">
+                  {positions.map((position) => (
+                    <Tag key={position}>{position}</Tag>
+                  ))}
+                </div>
+              }
+            >
+              <Tag styleType="gray">포지션</Tag>
+            </Tooltip>
+          )}
+          {skills.length > 0 && (
+            <Tooltip
+              content={
+                <div className="flex flex-wrap gap-2">
+                  {skills.map((skill) => (
+                    <Tag key={skill}>{skill}</Tag>
+                  ))}
+                </div>
+              }
+            >
+              <Tag styleType="gray">기술 스택</Tag>
+            </Tooltip>
+          )}
         </div>
-        <Typography type="body4" className="text-gray-50 line-clamp-3">
-          {description}
+        <Typography type="body5" className="text-gray-50 line-clamp-3">
+          {summary}
         </Typography>
       </div>
-      <div className="border-t-1 border-gray-20 flex items-center justify-between rounded-b-[10px] py-[6px] px-2">
+      <div className="bg-white border-t-1 border-gray-20 flex items-center justify-between rounded-b-[10px] py-[6px] px-2">
         <div className="flex items-center gap-2">
-          <Image
-            src={avatarUrl}
-            alt={author}
-            width={24}
-            height={24}
-            className="rounded-full object-cover border border-gray-30"
-          />
+          {avatarUrl ? (
+            <Image
+              src={avatarUrl}
+              alt="profile-image"
+              width={24}
+              height={24}
+              className="rounded-full object-cover border border-gray-30"
+            />
+          ) : (
+            <div className="size-6 rounded-full bg-gray-30" />
+          )}
           <div className="flex gap-1">
             <Typography type="body3" className="text-gray-40">
               by

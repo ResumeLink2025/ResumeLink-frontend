@@ -1,12 +1,18 @@
-import { PROFILE_LIST } from '@/fixtures/profiles';
+import useGetResumeList from '@/hooks/apis/resume/useGetResumeList';
 
 import { ProfileCard } from '../components';
 
-const ProfileList = () => {
+interface ProfileListProps {
+  listType: string;
+}
+
+const ProfileList = ({ listType }: ProfileListProps) => {
+  const { data: resumeList } = useGetResumeList(listType);
+
   return (
     <div className="grid grid-cols-5 gap-4 py-15">
-      {PROFILE_LIST.map((profile) => (
-        <ProfileCard key={profile.id} {...profile} />
+      {resumeList?.map((resume) => (
+        <ProfileCard key={resume.id} {...resume} />
       ))}
     </div>
   );

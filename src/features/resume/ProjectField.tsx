@@ -15,7 +15,6 @@ interface ProjectFieldProps {
 const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProject }: ProjectFieldProps) => {
   const { data: myProjectList } = useGetMyProject();
 
-  console.log('myProjectList', myProjectList);
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -29,8 +28,9 @@ const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProj
             onClick={() => onClickProject(project)}
             className={cn(
               'p-3 border border-gray-40 rounded-[10px] cursor-pointer',
-              selectedProjects.some((selectedProject) => selectedProject.id === project.id) &&
-                'bg-primary border-transparent',
+              selectedProjects.some(
+                (selectedProject) => selectedProject.projectName === project.projectName,
+              ) && 'bg-primary border-transparent',
             )}
           >
             {project.projectName}

@@ -5,6 +5,7 @@ import { FormProvider } from 'react-hook-form';
 import { Button } from '@/components/common';
 import Textarea from '@/components/common/Textarea';
 
+import type { ResumeProps } from '.';
 import ActivityField from './ActivityField';
 import CategoryField from './CategoryField';
 import CertificateField from './CertificateField';
@@ -16,12 +17,14 @@ import ThemeField from './ThemeField';
 import TitleField from './TitleField';
 import UserInfoSection from './UserInfoSection';
 
-const ResumeFormSection = () => {
+const ResumeFormSection = ({ id }: ResumeProps) => {
   const {
     methods,
     selectedCategories,
     selectedProjects,
     selectedThemeOption,
+    defaultActivities,
+    defaultCertifications,
     isPublic,
     isSubmitted,
     errors,
@@ -32,7 +35,7 @@ const ResumeFormSection = () => {
     register,
     handleSubmit,
     onSubmitResume,
-  } = useResumeFormSection();
+  } = useResumeFormSection(id);
 
   return (
     <FormProvider {...methods}>
@@ -58,8 +61,8 @@ const ResumeFormSection = () => {
           isSubmitted={isSubmitted}
         />
         <ExperienceField register={register} errorMessage={errors.experienceNote?.message} />
-        <ActivityField />
-        <CertificateField />
+        <ActivityField defaultActivities={defaultActivities} />
+        <CertificateField defaultCertifications={defaultCertifications} />
         <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />
         <PrivateField isPublic={isPublic} onChangePrivateToggle={setIsPublic} />
         <Button size="large" type="submit">

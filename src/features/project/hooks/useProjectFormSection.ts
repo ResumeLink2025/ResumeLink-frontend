@@ -13,7 +13,6 @@ import { projectFormSchema } from '../schemas/projectSchema';
 
 const useProjectFormSection = (id?: string) => {
   const hasProjectId = !!id;
-
   const { data: projectDetail } = useGetProjectDetail(String(id), hasProjectId);
 
   const methods = useForm<ProjectFormDataType>({
@@ -69,7 +68,7 @@ const useProjectFormSection = (id?: string) => {
         tags: [],
       });
     }
-  }, [hasProjectId, projectDetail, setValue]);
+  }, [hasProjectId, projectDetail]);
 
   useEffect(() => {
     setValue('status', projectStatus);
