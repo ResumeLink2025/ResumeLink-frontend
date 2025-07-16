@@ -6,4 +6,5 @@ export { default as Modal } from './Modal';
 export { default as SelectBox } from './SelectBox';
 export { default as Tag } from './Tag';
 export { default as Toggle } from './Toggle';
+export { default as Tooltip } from './Tooltip';
 export { default as Typography } from './Typography';

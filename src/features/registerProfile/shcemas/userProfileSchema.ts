@@ -1,5 +1,6 @@
 import { z } from 'zod';
 
+
 export const UserProfileSchema = z.object({
   nickname: z.string().min(1, '닉네임은 필수입니다.'),
   birthday: z
@@ -10,6 +11,7 @@ export const UserProfileSchema = z.object({
     .nullable()
     .optional(),
   gender: z.string().nullable().optional(),
+
   skill: z.object({
     generalSkills: z.array(z.string()).min(1, '기술스택은 1개 이상 선택해야 합니다.'),
     customSkills: z.array(z.string()),

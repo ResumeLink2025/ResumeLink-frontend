@@ -14,14 +14,18 @@ export default function RegisterSection() {
 
   const [isTypePassword, setIsTypePassword] = useState(true);
   const [errorState, setErrorState] = useState({ id: '', password: '' });
+
   const [userInfo, setUserInfo] = useState({ id: '', password: '' });
+
 
   const togglePasswordType = () => setIsTypePassword((prev) => !prev);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
+
     const { id, password } = userInfo;
+
     const regexEmail = /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 
     const emailError = regexEmail.test(id) ? '' : '올바른 형식의 이메일 주소를 입력해주세요.';
@@ -30,7 +34,9 @@ export default function RegisterSection() {
 
     if (emailError || pwError) return;
 
+
     await handleRegister({ email: id, password });
+
   };
 
   return (
