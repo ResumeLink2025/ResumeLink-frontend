@@ -4,7 +4,7 @@ export async function getMyProfile(token: string) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch('http://localhost:8080/api/profile/profile', { headers });
+  const res = await fetch('http://localhost:8080/api/profiles', { headers });
 
   let json;
   try {

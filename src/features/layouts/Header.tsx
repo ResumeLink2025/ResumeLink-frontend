@@ -27,17 +27,20 @@ const Header = () => {
 
   useEffect(() => {
     (async () => {
-      console.log('refresh 호출 시작');
       const res = await fetch('http://localhost:8080/api/auth/refresh', {
         method: 'POST',
         credentials: 'include',
       });
-      console.log('refresh 응답:', res.status);
-      const json = await res.json();
-      console.log('refresh 응답 body:', json);
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('accessToken', data.accessToken);
+        setLogin(data.accessToken);
+      } else if (res.status === 401) {
+        setLogout();
+      }
     })();
   }, []);
-
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setLogout();
