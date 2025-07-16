@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import useUploadImage from '@/hooks/apis/image/useUploadImage';
+
 import type { ProjectFormDataType } from '../schemas/projectSchema';
 
 const useDefaultInfoField = () => {
@@ -10,6 +12,11 @@ const useDefaultInfoField = () => {
     setValue,
   } = useFormContext<ProjectFormDataType>();
 
+  const { mutate: uploadImage } = useUploadImage({
+    onSuccess: (response) => {
+      setValue('projectImage', response.imageUrl);
+    },
+  });
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const handleUploadImageFile = (files?: FileList | null) => {
@@ -23,9 +30,8 @@ const useDefaultInfoField = () => {
     const imageFile = files[0];
     const imageURL = URL.createObjectURL(imageFile);
 
-    setValue('projectImage', imageFile);
-
     setImageUrl(imageURL);
+    uploadImage(imageFile);
   };
 
   useEffect(() => {

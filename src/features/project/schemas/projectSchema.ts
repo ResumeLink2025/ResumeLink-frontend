@@ -2,12 +2,14 @@ import { z } from 'zod';
 
 export const projectFormSchema = z.object({
   projectImage: z
-    .instanceof(File)
-    .refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
-      message: 'JPEG, JPG, PNG 형식만 허용됩니다.',
-    })
-    .optional()
-    .nullable(),
+    .union([
+      z.instanceof(File).refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+        message: 'JPEG, JPG, PNG 형식만 허용됩니다.',
+      }),
+      z.string().url(),
+      z.null(),
+    ])
+    .optional(),
   projectName: z.string().nonempty('프로젝트 이름 작성은 필수입니다.'),
   startDate: z.string().nonempty('프로젝트 시작 날짜를 입력해주세요.'),
   endDate: z.string(),
