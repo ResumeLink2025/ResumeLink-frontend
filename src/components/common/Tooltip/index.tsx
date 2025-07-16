@@ -13,8 +13,6 @@ const tooltipContentVariants = cva(
       position: {
         top: 'bottom-[125%] left-1/2 -translate-x-1/2',
         bottom: 'top-[125%] left-1/2 -translate-x-1/2',
-        left: 'right-[125%] top-1/2 -translate-y-1/2',
-        right: 'left-[125%] top-1/2 -translate-y-1/2',
       },
     },
     defaultVariants: {
@@ -29,8 +27,6 @@ const tooltipArrowVariants = cva('absolute size-[11px] border-[5px] border-solid
       top: 'top-full left-1/2 -translate-x-1/2 border-t-gray-40 border-x-transparent border-b-transparent',
       bottom:
         'bottom-full left-1/2 -translate-x-1/2 border-b-gray-40 border-x-transparent border-t-transparent',
-      left: 'left-full top-1/2 -translate-y-1/2 border-l-gray-40 border-y-transparent border-r-transparent',
-      right: 'right-full top-1/2 -translate-y-1/2 border-r-gray-40 border-y-transparent border-l-transparent',
     },
   },
   defaultVariants: {
@@ -41,9 +37,9 @@ const tooltipArrowVariants = cva('absolute size-[11px] border-[5px] border-solid
 const Tooltip = ({ children, content, position }: TooltipProps) => {
   return (
     <div className="group relative inline-block">
-      <span className="inline-block cursor-default">{content}</span>
+      <span className="inline-block cursor-default">{children}</span>
       <div className={tooltipContentVariants({ position })}>
-        {children}
+        {content}
         <div className={tooltipArrowVariants({ position })} />
       </div>
     </div>
