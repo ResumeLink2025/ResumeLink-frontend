@@ -5,6 +5,7 @@ import { FormProvider } from 'react-hook-form';
 import { Button } from '@/components/common';
 import Textarea from '@/components/common/Textarea';
 
+import type { ResumeProps } from '.';
 import ActivityField from './ActivityField';
 import CategoryField from './CategoryField';
 import CertificateField from './CertificateField';
@@ -16,7 +17,7 @@ import ThemeField from './ThemeField';
 import TitleField from './TitleField';
 import UserInfoSection from './UserInfoSection';
 
-const ResumeFormSection = () => {
+const ResumeFormSection = ({ id }: ResumeProps) => {
   const {
     methods,
     selectedCategories,
@@ -32,12 +33,12 @@ const ResumeFormSection = () => {
     register,
     handleSubmit,
     onSubmitResume,
-  } = useResumeFormSection();
+  } = useResumeFormSection(id);
 
   return (
     <FormProvider {...methods}>
       <form className="mt-6 flex flex-col gap-14" onSubmit={handleSubmit(onSubmitResume)}>
-        <UserInfoSection />
+        <UserInfoSection id={id} />
         <TitleField register={register} errorMessage={errors.title?.message} />
         <Textarea
           label="자기 소개"
@@ -63,7 +64,7 @@ const ResumeFormSection = () => {
         <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />
         <PrivateField isPublic={isPublic} onChangePrivateToggle={setIsPublic} />
         <Button size="large" type="submit">
-          AI를 활용하여 이력서 작성하기
+          {id ? '이력서 수정하기' : 'AI를 활용하여 이력서 작성하기'}
         </Button>
       </form>
     </FormProvider>

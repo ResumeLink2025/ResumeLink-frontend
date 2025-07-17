@@ -11,8 +11,8 @@ const tooltipContentVariants = cva(
   {
     variants: {
       position: {
-        top: 'bottom-[125%] left-1/2 -translate-x-1/2 mb-2',
-        bottom: 'top-[125%] left-1/2 -translate-x-1/2 mt-2',
+        top: 'bottom-[125%] left-1/2 -translate-x-1/2 mb-1',
+        bottom: 'top-[125%] left-1/2 -translate-x-1/2 mt-1',
       },
     },
     defaultVariants: {

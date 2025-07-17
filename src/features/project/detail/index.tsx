@@ -5,10 +5,10 @@ import Image from 'next/image';
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
 import ProjectDetailSkeleton from '@/features/skeleton/project/DetailSkeleton';
-import { PROJECT_INFO } from '@/fixtures/project';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
 import { formatDate } from '@/utils/date';
+import { getProjectStatus } from '@/utils/getProjectStatus';
 
 import ActionButtons from './ActionButtons';
 import ContentField from './ContentField';
@@ -21,19 +21,6 @@ interface ProjectDetailProps {
 const ProjectDetail = ({ id }: ProjectDetailProps) => {
   const { data: projectDetail, isLoading } = useGetProjectDetail(id, !!id);
 
-  const getProjectStatus = (status: string) => {
-    switch (status) {
-      case 'IN_PROGRESS':
-        return '진행중';
-      case 'COMPLETED':
-        return '완료됨';
-      case 'ON_HOLD':
-        return '보류됨';
-      default:
-        return '진행중';
-    }
-  };
-
   if (isLoading) {
     return <ProjectDetailSkeleton />;
   }
@@ -41,19 +28,23 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
   return (
     <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10">
       <div className="flex gap-8">
-        <Image
-          src={PROJECT_INFO.imageUrl}
-          width={230}
-          height={230}
-          alt={PROJECT_INFO.imageUrl}
-          className="rounded-[10px] shrink-0"
-          placeholder="blur"
-          blurDataURL={IMAGE_BLUR}
-        />
+        {projectDetail?.imgUrl ? (
+          <Image
+            src={projectDetail.imgUrl}
+            width={230}
+            height={230}
+            alt={projectDetail.imgUrl}
+            className="rounded-[10px] shrink-0 max-h-[230px] object-cover"
+            placeholder="blur"
+            blurDataURL={IMAGE_BLUR}
+          />
+        ) : (
+          <div className="bg-gray-30 size-[230px] shrink-0 rounded-[10px]" />
+        )}
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
             <Typography type="heading1">{projectDetail?.projectName}</Typography>
-            <ActionButtons />
+            <ActionButtons userId={projectDetail?.userId} projectNumber={projectDetail?.projectNumber} />
           </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>

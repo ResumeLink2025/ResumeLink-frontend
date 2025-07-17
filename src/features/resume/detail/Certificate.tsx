@@ -2,18 +2,18 @@ import { Typography } from '@/components/common';
 import { formatDate } from '@/utils/date';
 
 interface CertificateProps {
-  title: string;
+  name?: string;
   date?: string;
   issuer?: string;
-  grade?: number;
+  grade?: string;
   isThemeBlack: boolean;
 }
 
-const Certificate = ({ title, date, issuer, grade, isThemeBlack }: CertificateProps) => {
+const Certificate = ({ name, date, issuer, grade, isThemeBlack }: CertificateProps) => {
   return (
     <div className="flex flex-col gap-2">
       <Typography type="title1" className="text-current-mode">
-        {title}
+        {name}
       </Typography>
       <Typography className={isThemeBlack ? 'text-gray-40' : 'text-gray-50'}>
         {date && formatDate(date)}

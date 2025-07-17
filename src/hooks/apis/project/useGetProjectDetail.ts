@@ -2,12 +2,12 @@ import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 import { get } from '@/apis/httpClient';
-import type { ProjectFormDataType } from '@/features/project/schemas/projectSchema';
+import type { ProjectDetailType } from '@/constants/project';
 
 export const PROJECT_DETAIL = 'projectDetail';
 
 const useGetProjectDetail = (id: string, hasProjectId: boolean) => {
-  return useQuery<ProjectFormDataType, AxiosError>({
+  return useQuery<ProjectDetailType, AxiosError>({
     queryKey: [PROJECT_DETAIL, id],
     queryFn: () => get(`/api/projects/${id}`),
     enabled: hasProjectId,

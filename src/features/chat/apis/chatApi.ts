@@ -14,8 +14,8 @@ export async function fetchApi<T>(
   options: RequestInit = {},
   { showToast = true } = {},
 ): Promise<T> {
-  const token = localStorage.getItem('accessToken');
-  console.log(token);
+  const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
+  console.log('[fetchApi] accessToken:', token);
   if (!token) {
     throw new FetchApiError('No access token found', 401, url);
   }

@@ -1,7 +1,13 @@
 import Resume from '@/features/resume';
 
-const UpdateResumePage = () => {
-  return <Resume />;
+interface UpdateResumePageProps {
+  params: { id: string };
+}
+
+const UpdateResumePage = async ({ params }: UpdateResumePageProps) => {
+  const { id } = await params;
+
+  return <Resume id={id} />;
 };
 
 export default UpdateResumePage;

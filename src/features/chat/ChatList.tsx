@@ -1,26 +1,27 @@
+import { useQueryClient } from '@tanstack/react-query';
+
 import type { CoffeeChat } from '@/constants/chat';
 import { useUpdateChatStatus } from '@/hooks/useChatHooks';
 
 interface ChatListProps {
   chats: CoffeeChat[];
   onSelectChat: (id: string) => void;
-  onRefetch: () => void;
 }
 
-export default function ChatList({ chats, onSelectChat, onRefetch }: ChatListProps) {
+export default function ChatList({ chats, onSelectChat }: ChatListProps) {
   const updateStatus = useUpdateChatStatus();
+  const queryClient = useQueryClient();
 
   const handleStatusChange = (chat: CoffeeChat, status: 'accepted' | 'rejected') => {
     updateStatus.mutate(
       { id: chat.id, status },
       {
-        onSuccess: async () => {
-          await onRefetch();
+        onSuccess: () => {
+          queryClient.invalidateQueries({ queryKey: ['chatList'] });
         },
       },
     );
   };
-
   return (
     <div className="flex-1 overflow-y-auto">
       {chats.length === 0 && <div className="p-4 text-center text-gray-500">채팅이 없습니다.</div>}

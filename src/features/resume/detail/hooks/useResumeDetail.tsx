@@ -6,10 +6,9 @@ import toast from 'react-hot-toast';
 
 import { Loader, Modal } from '@/components/common';
 import { createCoffeeChat } from '@/features/chat/apis/chatApi';
-import { RESUME_RESPONSE } from '@/fixtures/resume';
 
-const useResumeDetail = () => {
-  const isThemeBlack = RESUME_RESPONSE.theme === 'black';
+const useResumeDetail = (theme?: string) => {
+  const isThemeBlack = theme === 'black';
 
   const resumeRef = useRef<HTMLDivElement | null>(null);
   const overlay = useOverlay();

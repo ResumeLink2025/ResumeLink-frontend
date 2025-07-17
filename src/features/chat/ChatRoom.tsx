@@ -1,26 +1,22 @@
+import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
-import type { ChatRoom } from '@/constants/chat';
+import type { ChatRoom, CoffeeChat } from '@/constants/chat';
 
 import styles from './ChatRoomView.module.css';
 import { useChatRoom } from './hooks/useChatRoom';
 import { useSendChatMessage } from './hooks/useSendChatMessage';
+
 interface ChatRoomViewProps {
   chatId: string;
   onBack: () => void;
   onLeaveChat: () => void;
-  onMessageSent: () => void;
   chatRoomInfo: ChatRoom | null;
 }
 
-export default function ChatRoomView({
-  chatId,
-  onBack,
-  onLeaveChat,
-  chatRoomInfo,
-  onMessageSent,
-}: ChatRoomViewProps) {
+export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo }: ChatRoomViewProps) {
   const [inputValue, setInputValue] = useState('');
+  const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
@@ -29,17 +25,28 @@ export default function ChatRoomView({
   const sendMessage = useSendChatMessage();
   const [isSending, setIsSending] = useState(false);
 
+  const queryClient = useQueryClient();
+
   const handleSend = async () => {
     if (!inputValue.trim() || isSending) return;
     setIsSending(true);
     try {
       await sendMessage.mutateAsync({ chatRoomId: chatId, content: inputValue });
-      onMessageSent();
+
+      queryClient.invalidateQueries({ queryKey: ['chatRoomMessages', chatId] });
+
+      queryClient.invalidateQueries({ queryKey: ['chatList'] });
+
+      queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
+        old.map((chat) => (chat.id === chatId ? { ...chat, message: inputValue, unreadCount: 0 } : chat)),
+      );
+
       setInputValue('');
     } finally {
       setIsSending(false);
     }
   };
+
   useEffect(() => {
     if (bottomRef.current) {
       bottomRef.current.scrollIntoView({ behavior: 'smooth' });
@@ -50,18 +57,20 @@ export default function ChatRoomView({
 
   return (
     <div className="flex flex-1 flex-col h-full">
+      {/* 상단 바 */}
       <div className="flex items-center justify-between border-b px-4 py-2 text-sm">
-        <button onClick={onBack} className="text-gray-500">
+        <button onClick={onBack} className="text-gray-500 cursor-pointer">
           ← 뒤로
         </button>
         <p className="max-w-[120px] truncate font-semibold">
           {chatRoomInfo.participants[1]?.user.profile.nickname || '알 수 없는 사용자'}
         </p>
-        <button onClick={onLeaveChat} className="text-red-500">
+        <button onClick={() => setShowLeaveConfirm(true)} className="text-red-500 cursor-pointer">
           방 나가기
         </button>
       </div>
 
+      {/* 채팅 메시지 영역 */}
       <div
         ref={scrollRef}
         className={`flex-1 min-h-0 overflow-y-auto px-4 py-2 space-y-2 text-sm ${styles.scrollArea}`}
@@ -97,6 +106,7 @@ export default function ChatRoomView({
         <div ref={bottomRef} />
       </div>
 
+      {/* 입력창 */}
       <div className="flex-none border-t p-2">
         <div className="flex">
           <input
@@ -124,6 +134,32 @@ export default function ChatRoomView({
           </button>
         </div>
       </div>
+
+      {/* 나가기 모달 */}
+      {showLeaveConfirm && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-10 backdrop-blur z-50">
+          <div className="bg-white rounded-lg shadow-lg p-6 max-w-xs w-full">
+            <div className="mb-4 text-center text-lg font-semibold">정말 채팅방에서 나가시겠습니까?</div>
+            <div className="flex gap-2 justify-end">
+              <button
+                onClick={() => setShowLeaveConfirm(false)}
+                className="px-4 py-2 rounded bg-gray-200 cursor-pointer"
+              >
+                취소
+              </button>
+              <button
+                onClick={() => {
+                  setShowLeaveConfirm(false);
+                  onLeaveChat();
+                }}
+                className="px-4 py-2 rounded bg-red-500 text-white  cursor-pointer"
+              >
+                나가기
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }

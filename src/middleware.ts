@@ -1,13 +1,18 @@
-import type { NextRequest} from 'next/server';
-import { NextResponse } from 'next/server';
+import { type NextRequest, NextResponse } from 'next/server';
 
-export function middleware(request: NextRequest) {
-  const requestHeaders = new Headers(request.headers);
-  requestHeaders.set('pathname', request.nextUrl.pathname);
+export async function middleware(request: NextRequest) {
+  const url = request.nextUrl;
 
-  return NextResponse.next({
-    request: {
-      headers: requestHeaders,
-    },
-  });
+  if (url.pathname === '/developersHub' && !url.searchParams.get('type') && !url.searchParams.get('sort')) {
+    url.searchParams.set('type', 'resume');
+    url.searchParams.set('sort', 'popular');
+
+    return NextResponse.redirect(url);
+  }
+
+  return NextResponse.next();
 }
+
+export const config = {
+  matcher: ['/developersHub'],
+};

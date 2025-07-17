@@ -15,7 +15,6 @@ export default function ChatSidePanel() {
     setSelectedChatId,
     chatList,
     chatRoomInfo,
-    fetchAllChatsWithDetails,
     handleLeaveChat,
     handleBackEvent,
   } = useChatPanelHandler();
@@ -62,12 +61,7 @@ export default function ChatSidePanel() {
           >
             <div className="flex items-center justify-between border-b px-4 py-4">
               <Image src="/images/RESUMECHAT.png" alt="RESUMELINK" width={120} height={32} />
-              <button
-                onClick={() => (selectedChatId ? setSelectedChatId(null) : setIsOpen(false))}
-                className="text-gray-500"
-              >
-                ✕
-              </button>
+              <div></div>
             </div>
 
             <div className="flex-1 flex flex-col min-h-0">
@@ -78,15 +72,10 @@ export default function ChatSidePanel() {
                   onBack={async () => {
                     await handleBackEvent();
                   }}
-                  onMessageSent={fetchAllChatsWithDetails}
                   onLeaveChat={handleLeaveChat}
                 />
               ) : (
-                <ChatList
-                  chats={chatList}
-                  onSelectChat={setSelectedChatId}
-                  onRefetch={fetchAllChatsWithDetails}
-                />
+                <ChatList chats={chatList} onSelectChat={setSelectedChatId} />
               )}
             </div>
           </motion.div>

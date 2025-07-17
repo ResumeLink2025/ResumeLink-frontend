@@ -5,11 +5,14 @@ import type { AxiosError } from 'axios';
 import { patch } from '@/apis/httpClient';
 import type { ResumeFormDataType } from '@/features/resume/schemas/resumeSchema';
 
-const useEditResume = (id: string, options?: UseMutationOptions<unknown, AxiosError, ResumeFormDataType>) => {
+const useUpdateResume = (
+  id: string,
+  options?: UseMutationOptions<unknown, AxiosError, ResumeFormDataType>,
+) => {
   return useMutation({
     mutationFn: (data: ResumeFormDataType) => patch(`/api/resumes/${id}`, data),
     ...options,
   });
 };
 
-export default useEditResume;
+export default useUpdateResume;

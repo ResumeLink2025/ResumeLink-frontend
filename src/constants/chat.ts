@@ -55,6 +55,7 @@ export interface ChatRoom {
     senderId: string;
   };
   createdAt: string;
+  updatedAt: string;
 }
 
 // 메시지 타입

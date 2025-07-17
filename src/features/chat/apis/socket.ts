@@ -33,7 +33,15 @@ export function joinRoom(chatRoomId: string) {
 }
 
 export function leaveRoom(chatRoomId: string) {
-  socket?.emit('room:leave', { chatRoomId });
+  if (!socket || !socket.connected) {
+    console.warn('소켓 연결이 없습니다. 방을 나갈 수 없습니다.');
+    return;
+  }
+  if (!chatRoomId) {
+    console.warn('chatRoomId가 없습니다. 방을 나갈 수 없습니다.');
+    return;
+  }
+  socket.emit('room:leave', { chatRoomId });
 }
 export function getSocket() {
   if (!socket) throw new Error('Socket not connected');

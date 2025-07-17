@@ -32,25 +32,27 @@ const SearchSection = () => {
             </Typography>
           </div>
         </FadeInOutMotion>
-        <div className="flex gap-3">
+        <div className="flex gap-6">
           <DropDown onClose={onCloseMenu}>
             <DropDown.Trigger onClick={onClickToggle} size="large">
               카테고리 선택
             </DropDown.Trigger>
             <DropDown.Menu isOpen={isOpen} size="large" direction="left">
-              <ResumeCategory />
+              <ResumeCategory onClose={onCloseMenu} />
             </DropDown.Menu>
           </DropDown>
-          <Input
-            size="large"
-            className="w-74 ml-2"
-            value={inputSearch}
-            onChange={onChangeSearch}
-            placeholder="검색어를 입력해주세요."
-          />
-          <Button className="w-22 h-[50px]" onClick={onClickSearchKeyword}>
-            검색
-          </Button>
+          <div className="flex gap-3">
+            <Input
+              size="large"
+              className="w-74"
+              value={inputSearch}
+              onChange={onChangeSearch}
+              placeholder="검색어를 입력해주세요."
+            />
+            <Button className="w-22 h-[50px]" onClick={onClickSearchKeyword}>
+              검색
+            </Button>
+          </div>
         </div>
       </div>
       <SortProfileSection />
