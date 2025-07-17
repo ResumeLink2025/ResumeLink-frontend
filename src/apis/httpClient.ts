@@ -17,9 +17,9 @@ httpClient.interceptors.request.use(
       config.headers.authorization = `Bearer ${accessToken}`;
     }
 
-    if (config.method?.toLowerCase() === 'get') {
-      config.headers['ngrok-skip-browser-warning'] = '69420';
-    }
+    // if (config.method?.toLowerCase() === 'get') {
+    //   config.headers['ngrok-skip-browser-warning'] = '69420';
+    // }
 
     return config;
   },
