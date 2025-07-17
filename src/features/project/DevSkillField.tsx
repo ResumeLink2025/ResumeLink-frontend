@@ -6,15 +6,12 @@ import { SKILL_CATEGORIES } from '@/constants/project';
 import { cn } from '@/utils/styleMerge';
 
 import useDevSkillField from './hooks/useDevSkillField';
-
-
-type DevSkillFieldProps = {
+export interface DevSkillFieldProps {
+  defaultGeneralSkills: string[];
+  defaultCustomSkills: string[];
   className?: string;
-};
-
-const DevSkillField = ({ className }: DevSkillFieldProps) => {
-
-
+}
+const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills, className }: DevSkillFieldProps) => {
   const {
     errors,
     isSubmitted,
@@ -26,12 +23,10 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
     onEnterAddSkill,
     onClickDeleteCustomSkill,
   } = useDevSkillField({ defaultGeneralSkills, defaultCustomSkills });
-
   return (
     <div className={cn('flex flex-col gap-10', className)}>
       <div className="flex flex-col gap-3">
         <Typography type="body1">기술스택 선택</Typography>
-
         <div className="flex flex-wrap gap-2 h-70 overflow-y-scroll custom-scrollbar">
           {SKILL_CATEGORIES.map((skill) => (
             <Tag
@@ -46,11 +41,9 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
           ))}
         </div>
       </div>
-
       {isSubmitted && errors?.skill?.generalSkills && (
         <Typography className="text-red-600">{errors.skill.generalSkills.message}</Typography>
       )}
-
       <div className="flex flex-col gap-1">
         <Typography type="body1">기술스택 직접 입력</Typography>
         <Input
@@ -59,7 +52,6 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
           onChange={onChangeTypingSkill}
           onKeyDown={onEnterAddSkill}
         />
-
         {/* 커스텀 스킬 태그 목록 */}
         <div className="flex flex-wrap gap-2 mt-3">
           {customSkills.map((customSkill) => (
@@ -76,5 +68,4 @@ const DevSkillField = ({ className }: DevSkillFieldProps) => {
     </div>
   );
 };
-
 export default DevSkillField;
