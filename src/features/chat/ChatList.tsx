@@ -1,4 +1,3 @@
-// ChatList.tsx
 import type { CoffeeChat } from '@/constants/chat';
 import { useUpdateChatStatus } from '@/hooks/useChatHooks';
 
@@ -23,13 +22,26 @@ export default function ChatList({ chats, onSelectChat, onRefetch }: ChatListPro
     <div className="flex-1 overflow-y-auto">
       {chats.length === 0 && <div className="p-4 text-center text-gray-500">채팅이 없습니다.</div>}
       {chats.map((chat) => (
-        <div key={chat.id} className="border-b px-4 py-3">
+        <div key={chat.id} className="border-b px-4 py-3 relative">
           <div className="mb-1 flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white">
+            <div className="flex items-center gap-2 relative">
+              <div className="flex h-8 w-8 items-center justify-center rounded-full bg-gray-800 text-white relative">
                 {chat.receiver?.profile?.nickname ?? '?'}
+                {/* 미읽은 메시지 뱃지 (프로필 위) */}
+                {(chat.unreadCount ?? 0) > 0 && (
+                  <span className="absolute -top-1 -right-1 min-w-5 h-5 px-2 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                    {(chat.unreadCount ?? 0) > 99 ? '99+' : chat.unreadCount ?? 0}
+                  </span>
+                )}
               </div>
               <p className="font-medium">{chat.receiver?.profile?.nickname ?? '알 수 없음'}</p>
+              {/* 오른쪽 끝에 미읽음 뱃지로 옮기고 싶으면 아래처럼 추가
+              {(chat.unreadCount ?? 0) > 0 && (
+                <span className="ml-2 min-w-5 h-5 px-2 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
+                  {chat.unreadCount > 99 ? '99+' : chat.unreadCount}
+                </span>
+              )}
+              */}
             </div>
             {chat.status === 'pending' && (
               <span className="rounded bg-yellow-400 px-1 text-xs text-black">New</span>

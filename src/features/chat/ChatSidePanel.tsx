@@ -13,10 +13,11 @@ export default function ChatSidePanel() {
     setIsOpen,
     selectedChatId,
     setSelectedChatId,
-    coffeeChats,
+    chatList,
     chatRoomInfo,
     fetchAllChatsWithDetails,
     handleLeaveChat,
+    handleBackEvent,
   } = useChatPanelHandler();
 
   return (
@@ -68,12 +69,14 @@ export default function ChatSidePanel() {
                 <ChatRoom
                   chatId={selectedChatId}
                   chatRoomInfo={chatRoomInfo}
-                  onBack={() => setSelectedChatId(null)}
+                  onBack={async () => {
+                    await handleBackEvent();
+                  }}
                   onLeaveChat={handleLeaveChat}
                 />
               ) : (
                 <ChatList
-                  chats={coffeeChats}
+                  chats={chatList}
                   onSelectChat={setSelectedChatId}
                   onRefetch={fetchAllChatsWithDetails}
                 />

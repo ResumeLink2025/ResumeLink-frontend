@@ -7,6 +7,7 @@ import type {
   CoffeeChatListResponse,
   Message,
 } from '@/constants/chat';
+import { authFetch } from '@/utils/refresh';
 
 export async function fetchApi<T>(
   url: string,
@@ -20,8 +21,17 @@ export async function fetchApi<T>(
     ...options.headers,
   };
 
-  const res = await fetch(url, { ...options, headers });
+  let res = await fetch(url, { ...options, headers });
 
+  if (res.status === 401) {
+    try {
+      res = await authFetch(url, options);
+      console.log(res, 'check');
+    } catch {
+      if (showToast) toast.error('인증이 만료되었습니다. 다시 로그인해주세요.');
+      throw new FetchApiError('Unauthorized', 401, url);
+    }
+  }
   let responseBody: unknown;
   let rawText = '';
 
@@ -61,6 +71,7 @@ export class FetchApiError extends Error {
     this.api = api;
   }
 }
+
 /**
  * 커피챗 생성
  */
@@ -69,6 +80,7 @@ export const createCoffeeChat = (receiverId: string) =>
     method: 'POST',
     body: JSON.stringify({ receiverId }),
   });
+
 /**
  * 커피챗 목록 조회
  */
@@ -97,6 +109,7 @@ export const updateCoffeeChatStatus = (id: string, status: 'accepted' | 'rejecte
     },
     { showToast: false },
   );
+
 /**
  * 커피챗 취소
  */
@@ -147,28 +160,36 @@ export const sendMessage = (
   content: string,
   messageType: 'TEXT' | 'IMAGE' | 'FILE' = 'TEXT',
 ) =>
-  fetchApi<Message>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages`, {
-    method: 'POST',
-    body: JSON.stringify(
-      messageType === 'TEXT'
-        ? { text: content, messageType }
-        : {
-            messageType,
-            fileUrl: content,
-            fileName: 'filename.ext',
-            fileSize: 1234,
-          },
-    ),
-  });
+  fetchApi<Message>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages`,
+    {
+      method: 'POST',
+      body: JSON.stringify(
+        messageType === 'TEXT'
+          ? { text: content, messageType }
+          : {
+              messageType,
+              fileUrl: content,
+              fileName: 'filename.ext',
+              fileSize: 1234,
+            },
+      ),
+    },
+    { showToast: false },
+  );
+
 /**
  * 메시지 읽음 처리
  */
-export const markMessageAsRead = (roomId: string, messageId: string) =>
-  fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/chat/rooms/${roomId}/messages/${messageId}/read`, {
-    method: 'PUT',
-  });
 
 export const deleteChatRoomParticipant = (chatRoomId: string) =>
   fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${chatRoomId}/participants`, {
     method: 'DELETE',
   });
+
+export const getUnreadCount = (chatRoomId: string) =>
+  fetchApi<{ unreadCount: number }>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${chatRoomId}/unread-count`,
+    {},
+    { showToast: false },
+  );

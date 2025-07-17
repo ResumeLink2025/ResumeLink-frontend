@@ -1,13 +1,13 @@
 'use client';
 
-import type { HTMLAttributes} from 'react';
+import type { HTMLAttributes } from 'react';
 import { useEffect } from 'react';
 
 import Portal from '../Portal';
 
 type ModalProps = {
   isOpen: boolean;
-  close: () => void;
+  close?: () => void;
   children: React.ReactNode;
 } & HTMLAttributes<HTMLDivElement>;
 

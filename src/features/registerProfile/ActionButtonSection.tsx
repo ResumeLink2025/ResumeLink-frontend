@@ -1,12 +1,14 @@
-export default function ActionButtonSection() {
+type ActionButtonSectionProps = {
+  className?: string;
+};
+
+export default function ActionButtonSection({ className = '' }: ActionButtonSectionProps) {
   return (
-    <div className="flex items-center justify-center col-span-2">
-      <button
-        type="submit"
-        className="w-full py-2 bg-primary text-white font-semibold rounded-md hover:bg-primaryHover transition cursor-pointer"
-      >
-        가입 완료
-      </button>
-    </div>
+    <button
+      type="submit"
+      className={`w-full py-2 bg-primary text-white font-semibold rounded-md hover:bg-primaryHover transition cursor-pointer ${className}`}
+    >
+      추가정보 입력 완료
+    </button>
   );
 }

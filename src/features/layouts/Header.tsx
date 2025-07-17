@@ -26,6 +26,22 @@ const Header = () => {
     }
   }, []);
 
+  useEffect(() => {
+    (async () => {
+      const res = await fetch('http://localhost:8080/api/auth/refresh', {
+        method: 'POST',
+        credentials: 'include',
+      });
+
+      if (res.ok) {
+        const data = await res.json();
+        localStorage.setItem('accessToken', data.accessToken);
+        setLogin(data.accessToken);
+      } else if (res.status === 401) {
+        setLogout();
+      }
+    })();
+  }, []);
   const handleLogout = () => {
     localStorage.removeItem('accessToken');
     setLogout();

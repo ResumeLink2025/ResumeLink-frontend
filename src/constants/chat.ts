@@ -10,6 +10,7 @@ export interface CoffeeChat {
   sender: User;
   receiver: User;
   requester: RequesterUser;
+  unreadCount?: number;
 }
 
 export interface RequesterUser {
@@ -45,7 +46,14 @@ export interface ChatRoom {
   }>;
   coffeeChatId: string;
   unreadCount: number;
-  messages: Message[];
+  messages: Message[]; // 전체 메시지 배열
+  lastMessage?: {
+    id: string;
+    text: string;
+    messageType: 'TEXT' | 'IMAGE' | 'FILE';
+    createdAt: string;
+    senderId: string;
+  };
   createdAt: string;
 }
 
@@ -53,6 +61,8 @@ export interface ChatRoom {
 export interface Message {
   id: string;
   text: string;
+  messageId: string;
+
   messageType: 'TEXT' | 'IMAGE' | 'FILE';
   createdAt: string;
   senderId: string;

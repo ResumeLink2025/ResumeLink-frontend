@@ -8,12 +8,16 @@ export function useSendChatMessage() {
 
   return useMutation({
     mutationFn: async ({ chatRoomId, content }: { chatRoomId: string; content: string }) => {
-      sendRealtimeMessage(chatRoomId, content);
-
-      console.log(chatRoomId, content);
+      console.log('[useSendChatMessage] mutationFn 호출:', chatRoomId, content);
       return await sendMessage(chatRoomId, content, 'TEXT');
     },
     onSuccess: (data, variables) => {
+      console.log(
+        '[useSendChatMessage] onSuccess - 소켓 메시지 전송:',
+        variables.chatRoomId,
+        variables.content,
+      );
+      sendRealtimeMessage(variables.chatRoomId, variables.content); // 성공 후 소켓 전송
       qc.invalidateQueries({ queryKey: ['chatRoomMessages', variables.chatRoomId] });
     },
     onError: (error: unknown, variables) => {

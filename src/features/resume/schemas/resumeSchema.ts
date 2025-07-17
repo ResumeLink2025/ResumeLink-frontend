@@ -13,14 +13,22 @@ export const resumeFormSchema = z.object({
   projects: z
     .array(
       z.object({
-        id: z.number(),
-        projectName: z.string(),
-        projectDesc: z.string(),
-        startDate: z.string(),
+        id: z.string(),
+        createdAt: z.string(),
         endDate: z.string(),
+        isPublic: z.boolean(),
+        projectDesc: z.string(),
+        projectName: z.string(),
+        projectNumber: z.number(),
         role: z.string(),
-        generalSkills: z.array(z.string()),
-        customSkills: z.array(z.string()),
+        skill: z.object({
+          customSkills: z.array(z.string()),
+          generalSkills: z.array(z.string()),
+        }),
+        startDate: z.string(),
+        status: z.string(),
+        tags: z.array(z.string()),
+        updatedAt: z.string(),
       }),
     )
     .min(1, '프로젝트는 1개 이상 선택해야 합니다.'),

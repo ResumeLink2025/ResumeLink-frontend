@@ -10,11 +10,15 @@ const TagField = ({ title, tags }: TagFieldProps) => {
     <div className="flex flex-col gap-2">
       <Typography type="title2">{title}</Typography>
       <div className="flex flex-wrap gap-2">
-        {tags.map((name) => (
-          <Tag key={name} styleType="outline" size="large">
-            {name}
-          </Tag>
-        ))}
+        {tags.length > 0 ? (
+          tags.map((name) => (
+            <Tag key={name} styleType="outline" size="large">
+              {name}
+            </Tag>
+          ))
+        ) : (
+          <Typography>프로젝트 관련 태그가 없습니다.</Typography>
+        )}
       </div>
     </div>
   );

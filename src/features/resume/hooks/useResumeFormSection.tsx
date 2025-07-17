@@ -1,15 +1,28 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useOverlay } from '@toss/use-overlay';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import { THEME_OPTIONS, type UserProjectType } from '@/constants/resume';
+import { Loader, Modal, Typography } from '@/components/common';
+import type { ProjectDetailType } from '@/constants/project';
+import { THEME_OPTIONS } from '@/constants/resume';
+import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 
 import type { ResumeFormDataType } from '../schemas/resumeSchema';
 import { resumeFormSchema } from '../schemas/resumeSchema';
 
 const useResumeFormSection = () => {
+  const overlay = useOverlay();
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
+  const { mutate: createResumeMutate, isPending: isCreatingResume } = useCreateResume({
+    onSuccess: () => {
+      toast.success('이력서 생성이 완료되었습니다!');
+    },
+    onError: () => {
+      toast.error('이력서 생성 중 에러가 발생했습니다.');
+    },
+  });
 
   const {
     register,
@@ -19,16 +32,16 @@ const useResumeFormSection = () => {
   } = methods;
 
   const [selectedCategoriesState, setSelectedCategoriesState] = useState<string[]>([]);
-  const [selectedProjectsState, setSelectedProjectsState] = useState<UserProjectType[]>([]);
+  const [selectedProjectsState, setSelectedProjectsState] = useState<ProjectDetailType[]>([]);
   const [selectedThemeOption, setSelectedThemeOption] = useState(THEME_OPTIONS[0].value);
   const [isPublic, setIsPublic] = useState(false);
 
   useEffect(() => {
-    setValue('categories', selectedCategoriesState, { shouldDirty: true, shouldValidate: true });
+    setValue('categories', selectedCategoriesState);
   }, [selectedCategoriesState, setValue]);
 
   useEffect(() => {
-    setValue('projects', selectedProjectsState, { shouldDirty: true, shouldValidate: true });
+    setValue('projects', selectedProjectsState);
   }, [selectedProjectsState, setValue]);
 
   useEffect(() => {
@@ -58,7 +71,7 @@ const useResumeFormSection = () => {
     setSelectedCategoriesState(newCategories);
   };
 
-  const onClickProject = (project: UserProjectType) => {
+  const onClickProject = (project: ProjectDetailType) => {
     const isSelected = selectedProjectsState.some((selectedProject) => selectedProject.id === project.id);
 
     let newProjects;
@@ -77,8 +90,25 @@ const useResumeFormSection = () => {
   };
 
   const onSubmitResume = (data: ResumeFormDataType) => {
-    console.log('data', data);
+    createResumeMutate(data);
   };
+
+  useEffect(() => {
+    if (isCreatingResume) {
+      overlay.open(({ isOpen }) => (
+        <Modal isOpen={isOpen}>
+          <div className="flex flex-col gap-5">
+            <Loader />
+            <Typography type="body1" className="text-gray-25">
+              이력서를 생성중이에요!
+            </Typography>
+          </div>
+        </Modal>
+      ));
+    } else {
+      overlay.close();
+    }
+  }, [isCreatingResume, overlay]);
 
   return {
     methods,

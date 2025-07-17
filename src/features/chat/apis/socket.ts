@@ -49,9 +49,40 @@ export const sendRealtimeMessage = (id: string, txt: string) =>
     console.log('[WS] send ack'),
   );
 
-export function subscribeNewMessage(roomId: string, callback: (message: Message) => void) {
-  socket?.on(`message:new:${roomId}`, callback);
+export function subscribeNewMessage(callback: (message: Message) => void) {
+  console.log('[Socket] subscribeNewMessage 등록');
+  socket?.on('message:new', (msg) => {
+    console.log('[Socket] message:new 이벤트 수신:', msg);
+    callback(msg);
+  });
 }
-export function unsubscribeNewMessage(roomId: string, callback: (message: Message) => void) {
-  socket?.off(`message:new:${roomId}`, callback);
+
+export function unsubscribeNewMessage(callback: (message: Message) => void) {
+  console.log('[Socket] unsubscribeNewMessage 해제');
+  socket?.off('message:new', callback);
+}
+
+export function subscribeMessageRead(
+  callback: (payload: { chatRoomId: string; messageId: string; userId: string }) => void,
+) {
+  socket?.on('message:read', callback);
+}
+
+export function unsubscribeMessageRead(
+  callback: (payload: { chatRoomId: string; messageId: string; userId: string }) => void,
+) {
+  socket?.off('message:read', callback);
+}
+
+export function subscribeMessageReadAfterConnect(
+  callback: (payload: { chatRoomId: string; messageId: string; userId: string }) => void,
+) {
+  if (!socket) return;
+  if (socket.connected) {
+    socket.on('message:read', callback);
+  } else {
+    socket.once('connect', () => {
+      socket?.on('message:read', callback);
+    });
+  }
 }
