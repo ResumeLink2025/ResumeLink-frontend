@@ -28,13 +28,16 @@ export function useChatRoom({ chatId }: UseChatRoomProps) {
         (a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
       );
       setMessages(sorted);
+      console.log(sorted, 'sorted');
     }
   }, [data]);
 
   const handleNewMessage = useCallback(
     async (msg: { messageId: string; chatRoomId: string }) => {
+      console.log('[room handleNewMessage] called', msg, chatId);
+      console.log(msg, chatId, 'check');
       if (msg.chatRoomId !== chatId) return;
-
+      console.log(msg, chatId, 'check2');
       try {
         const res = await getMessages(chatId, 1, 50);
         const filtered = res.data.messages.filter((m) => m.id !== undefined && m.id !== null);

@@ -125,3 +125,18 @@ export interface SendMessageErrorResponse {
 }
 
 export type SendMessageResult = SendMessageResponse | SendMessageErrorResponse;
+
+export interface NewMessageNotification {
+  messageId: string;
+  chatRoomId: string;
+  content: string;
+  messageType: 'TEXT' | 'IMAGE' | 'FILE';
+  createdAt: string;
+  fileUrl?: string;
+  fileName?: string;
+  fileSize?: number;
+  sender: {
+    userId: string;
+    nickname: string;
+  };
+}

@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 
-import type { ChatRoom, CoffeeChat } from '@/constants/chat';
+import type { ChatRoom, CoffeeChat, NewMessageNotification } from '@/constants/chat';
 import {
   deleteChatRoomParticipant,
   FetchApiError,
@@ -112,17 +112,20 @@ export function useChatPanelHandler() {
 
   // 3. 실시간 새 메시지 이벤트 수신 → unreadCount 카톡처럼 관리
   useEffect(() => {
-    const handleNewMessage = (message: { chatRoomId: string }) => {
-      if (selectedChatId !== message.chatRoomId) {
-        setChatList((prev) =>
-          prev.map((chat) =>
-            chat.id === message.chatRoomId ? { ...chat, unreadCount: (chat.unreadCount ?? 0) + 1 } : chat,
-          ),
-        );
-      }
-      // 메시지 리스트 append 등은 별도 관리
-    };
-
+    function handleNewMessage(msg: NewMessageNotification) {
+      // 1) unreadCount 증가 (현재 열려있는 방이 아니라면)
+      setChatList((prev) =>
+        prev.map((chat) =>
+          chat.id === msg.chatRoomId
+            ? {
+                ...chat,
+                unreadCount: selectedChatId === msg.chatRoomId ? 0 : (chat.unreadCount ?? 0) + 1,
+                message: msg.content, // 마지막 메시지 실시간 갱신
+              }
+            : chat,
+        ),
+      );
+    }
     subscribeNewMessage(handleNewMessage);
     return () => {
       unsubscribeNewMessage(handleNewMessage);

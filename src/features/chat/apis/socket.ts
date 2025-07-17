@@ -1,7 +1,7 @@
 import type { Socket } from 'socket.io-client';
 import { io } from 'socket.io-client';
 
-import type { Message, SendMessageResult } from '@/constants/chat';
+import type { NewMessageNotification, SendMessageResult } from '@/constants/chat';
 
 let socket: Socket | null = null;
 
@@ -53,16 +53,13 @@ export function sendRealtimeMessage(
   socket.emit('message:send', { chatRoomId, content, type: 'TEXT' }, callback);
 }
 
-export function subscribeNewMessage(callback: (message: Message) => void) {
-  console.log('[Socket] subscribeNewMessage 등록');
-  socket?.on('message:new', (msg) => {
-    console.log('[Socket] message:new 이벤트 수신:', msg);
+export function subscribeNewMessage(callback: (message: NewMessageNotification) => void) {
+  socket?.on('message:new', (msg: NewMessageNotification) => {
     callback(msg);
   });
 }
 
-export function unsubscribeNewMessage(callback: (message: Message) => void) {
-  console.log('[Socket] unsubscribeNewMessage 해제');
+export function unsubscribeNewMessage(callback: (message: NewMessageNotification) => void) {
   socket?.off('message:new', callback);
 }
 
