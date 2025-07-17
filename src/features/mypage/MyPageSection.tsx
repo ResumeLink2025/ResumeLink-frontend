@@ -30,12 +30,9 @@ export default function MyPageSection() {
     profileImage: null,
     summary: null,
   });
-  useEffect(() => {
-    // setProfile() 유저 정보 받아오는곳
-  }, []);
+  useEffect(() => {}, []);
   return (
     <div className="min-h-[calc(100vh-155px)] mt-16">
-      {/* editMode를 완전히 없애고, 페이지 이동 방식으로! */}
       <ViewProfileSection
         profile={profile}
         activeTab={activeTab}

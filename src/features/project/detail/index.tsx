@@ -1,49 +1,71 @@
+'use client';
+
 import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
-import { PROJECT_INFO } from '@/fixtures/project';
+import ProjectDetailSkeleton from '@/features/skeleton/project/DetailSkeleton';
+import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
+import { formatDate } from '@/utils/date';
+import { getProjectStatus } from '@/utils/getProjectStatus';
 
 import ActionButtons from './ActionButtons';
 import ContentField from './ContentField';
 import TagField from './TagField';
 
-const ProjectDetail = () => {
+interface ProjectDetailProps {
+  id: string;
+}
+
+const ProjectDetail = ({ id }: ProjectDetailProps) => {
+  const { data: projectDetail, isLoading } = useGetProjectDetail(id, !!id);
+
+  if (isLoading) {
+    return <ProjectDetailSkeleton />;
+  }
+
   return (
     <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10">
       <div className="flex gap-8">
-        <Image
-          src={PROJECT_INFO.imageUrl}
-          width={230}
-          height={230}
-          alt={PROJECT_INFO.imageUrl}
-          className="rounded-[10px] shrink-0"
-          placeholder="blur"
-          blurDataURL={IMAGE_BLUR}
-        />
+        {projectDetail?.imgUrl ? (
+          <Image
+            src={projectDetail.imgUrl}
+            width={230}
+            height={230}
+            alt={projectDetail.imgUrl}
+            className="rounded-[10px] shrink-0 max-h-[230px] object-cover"
+            placeholder="blur"
+            blurDataURL={IMAGE_BLUR}
+          />
+        ) : (
+          <div className="bg-gray-30 size-[230px] shrink-0 rounded-[10px]" />
+        )}
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
-            <Typography type="heading1">{PROJECT_INFO.projectName}</Typography>
-            <ActionButtons />
+            <Typography type="heading1">{projectDetail?.projectName}</Typography>
+            <ActionButtons userId={projectDetail?.userId} projectNumber={projectDetail?.projectNumber} />
           </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>
             <div className="flex gap-3">
               <div className="rounded-[10px] px-3 py-2 bg-gray-10">
                 <Typography type="body2" className="text-gray-60">
-                  {PROJECT_INFO.startDate} ~ {PROJECT_INFO.endDate ? PROJECT_INFO.endDate : '진행중'}
+                  {projectDetail?.startDate && formatDate(projectDetail?.startDate)} ~{' '}
+                  {projectDetail?.endDate ? formatDate(projectDetail.endDate) : '진행중'}
                 </Typography>
               </div>
-              <Tag size="large">{PROJECT_INFO.status}</Tag>
+              <Tag size="large">{getProjectStatus(String(projectDetail?.status))}</Tag>
             </div>
           </div>
-          <TagField title="프로젝트 태그" tags={PROJECT_INFO.tags} />
         </div>
       </div>
-      <TagField title="사용한 기술스택" tags={PROJECT_INFO.skills} />
-      <ContentField title="프로젝트 설명" content={PROJECT_INFO.projectDesc} />
-      <ContentField title="프로젝트에서 맡은 역할" content={PROJECT_INFO.role} />
+      <TagField
+        title="사용한 기술스택"
+        tags={[...(projectDetail?.skill.generalSkills ?? []), ...(projectDetail?.skill.customSkills ?? [])]}
+      />
+      <ContentField title="프로젝트 설명" content={projectDetail?.projectDesc || ''} />
+      <ContentField title="프로젝트에서 맡은 역할" content={projectDetail?.role || ''} />
     </PageWrapper>
   );
 };

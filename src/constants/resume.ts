@@ -1,3 +1,5 @@
+import type { ProjectInfoToUseResumeType } from './project';
+
 export const USER_INFO = {
   id: 2,
   name: '이상진',
@@ -28,17 +30,6 @@ export const DEVELOPER_CATEGORY = [
   '유지보수 용이성 중시',
   '코드 품질 중시',
 ];
-
-export type UserProjectType = {
-  id: number;
-  projectName: string;
-  projectDesc: string;
-  startDate: string;
-  endDate: string;
-  role: string;
-  generalSkills: string[];
-  customSkills: string[];
-};
 
 export const USER_PROJECT_LIST = [
   {
@@ -78,3 +69,35 @@ export const THEME_OPTIONS = [
   { label: '밝은 화면의 이력서', value: 'light' },
   { label: '어두운 화면의 이력서', value: 'dark' },
 ];
+
+export type ActivitiesType = {
+  title?: string;
+  description?: string;
+  endDate?: string;
+  startDate?: string;
+};
+
+export type CertificatesType = {
+  name?: string;
+  date?: string;
+  grade?: string;
+  issuer?: string;
+};
+
+export interface ResumeDetailType {
+  id: string;
+  imageUrl?: string;
+  userId: string;
+  title: string;
+  theme: string;
+  summary: string;
+  experienceNote: string;
+  positions: string[];
+  projects: ProjectInfoToUseResumeType[];
+  skills: string[];
+  categories: string[];
+  activities?: ActivitiesType[];
+  certificates?: CertificatesType[];
+  isFavorited: boolean;
+  isPublic: boolean;
+}

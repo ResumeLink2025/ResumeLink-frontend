@@ -1,2 +1,3 @@
 export * from './motions';
-export { default as ProfileCard } from './ProfileCard';
+export { default as ProjectProfileCard } from './ProjectProfileCard';
+export { default as ResumeProfileCard } from './ResumeProfileCard';

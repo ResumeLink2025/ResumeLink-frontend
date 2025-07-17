@@ -4,7 +4,6 @@ import type { ResumeFormDataType } from '../schemas/resumeSchema';
 
 const useCertificate = () => {
   const { register, control } = useFormContext<ResumeFormDataType>();
-
   const { fields, append, remove } = useFieldArray({ control, name: 'certificates' });
 
   const onClickAddCertificate = () => {

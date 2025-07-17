@@ -1,25 +1,43 @@
 import type { UserProfileType } from '../shcemas/userProfileSchema';
 
-export async function patchUserProfile(data: UserProfileType) {
+export type PatchUserProfilePayload = Omit<UserProfileType, 'birthday'> & {
+  birthday?: string | null;
+};
+
+export async function patchUserProfile(data: PatchUserProfilePayload) {
   const token = localStorage.getItem('accessToken');
+  const response = await fetch('http://localhost:8080/api/profiles', {
 
-  if (!token) throw new Error('로그인 정보가 없습니다.');
-
-  const sendData: UserProfileType = { ...data };
-
-  const res = await fetch('http://localhost:8080/api/profile/profile', {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
       Authorization: `Bearer ${token}`,
     },
-    body: JSON.stringify(sendData),
+    body: JSON.stringify(data),
   });
 
-  if (!res.ok) {
-    const { message } = await res.json();
-    throw new Error(message ?? '프로필 저장 실패');
+  if (!response.ok) {
+    const errorData = await response.json().catch(() => ({}));
+    throw new Error(errorData.message || `Error! status: ${response.status}`);
   }
 
-  return res.json();
+  return response.json();
+}
+
+export async function uploadImage(file: File): Promise<string> {
+  const formData = new FormData();
+  formData.append('image', file);
+
+  const response = await fetch('http://localhost:8080/api/images', {
+    method: 'POST',
+    body: formData,
+  });
+
+  if (!response.ok) {
+    throw new Error('이미지 업로드 실패');
+  }
+
+  const data = await response.json();
+  return data.imageUrl;
+
 }

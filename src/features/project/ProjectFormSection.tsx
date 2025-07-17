@@ -5,30 +5,32 @@ import { FormProvider } from 'react-hook-form';
 import { Button } from '@/components/common';
 import Textarea from '@/components/common/Textarea';
 
+import type { ProjectParamsProps } from '.';
 import DefaultInfoField from './DefaultInfoField';
 import DevSkillField from './DevSkillField';
 import useProjectFormSection from './hooks/useProjectFormSection';
 import PrivateField from './PrivateField';
 import StatusField from './StatusField';
 
-const ProjectFormSection = () => {
+const ProjectFormSection = ({ id }: ProjectParamsProps) => {
   const {
     methods,
     projectStatus,
     isPublic,
     errors,
+    projectDetail,
     isSubmitted,
     setIsPublic,
     onChangeStatus,
     register,
     handleSubmit,
     onSubmitProject,
-  } = useProjectFormSection();
+  } = useProjectFormSection(id);
 
   return (
     <FormProvider {...methods}>
       <form className="flex flex-col gap-10" onSubmit={handleSubmit(onSubmitProject)}>
-        <DefaultInfoField />
+        <DefaultInfoField defaultImageUrl={projectDetail?.imgUrl} />
         <StatusField
           isSubmitted={isSubmitted}
           projectStatus={projectStatus}
@@ -47,10 +49,13 @@ const ProjectFormSection = () => {
           {...register('role')}
           errorMessage={errors.role?.message}
         />
-        <DevSkillField />
+        <DevSkillField
+          defaultGeneralSkills={projectDetail?.skill.generalSkills ?? []}
+          defaultCustomSkills={projectDetail?.skill.customSkills ?? []}
+        />
         <PrivateField isPublic={isPublic} onChangePrivateToggle={setIsPublic} />
         <Button size="large" type="submit">
-          프로젝트 작성하기
+          {id ? '프로젝트 수정하기' : '프로젝트 작성하기'}
         </Button>
       </form>
     </FormProvider>

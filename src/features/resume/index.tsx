@@ -2,10 +2,14 @@ import { PageWrapper } from '@/layouts';
 
 import ResumeFormSection from './ResumeFormSection';
 
-const Resume = () => {
+export interface ResumeProps {
+  id?: string;
+}
+
+const Resume = ({ id }: ResumeProps) => {
   return (
     <PageWrapper className="max-w-3xl my-12">
-      <ResumeFormSection />
+      <ResumeFormSection id={id} />
     </PageWrapper>
   );
 };

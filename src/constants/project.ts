@@ -162,8 +162,44 @@ export const SKILL_CATEGORIES = [
 ];
 
 export const PROJECT_STATUS_OPTIONS = [
-  { label: '진행중인 상태', value: 'onGoing' },
-  { label: '완료된 상태', value: 'completed' },
-  { label: '보류된 상태', value: 'onHold' },
-  { label: '취소된 상태', value: 'canceled' },
+  { label: '진행중인 상태', value: 'IN_PROGRESS' },
+  { label: '완료된 상태', value: 'COMPLETED' },
+  { label: '보류된 상태', value: 'ON_HOLD' },
 ];
+
+export type ProjectDetailType = {
+  id: string;
+  imgUrl?: string;
+  createdAt: string;
+  startDate: string;
+  endDate: string;
+  isPublic: boolean;
+  projectDesc: string;
+  projectName: string;
+  projectNumber: number;
+  role: string;
+  skill: {
+    customSkills: string[];
+    generalSkills: string[];
+  };
+  status: string;
+  tags: string[];
+  updatedAt: string;
+  userId?: string;
+  user?: {
+    profile: {
+      nickname: string;
+      imageUrl: string;
+    };
+  };
+  isFavorite: boolean;
+  favoriteCount: number;
+};
+
+export type ProjectInfoToUseResumeType = {
+  customSkills: string[];
+  generalSkills: string[];
+  projectDesc: string;
+  projectName: string;
+  role: string;
+};

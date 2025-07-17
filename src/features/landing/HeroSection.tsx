@@ -2,7 +2,7 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Button, Typography } from '@/components/common';
-import { routeMainPage } from '@/constants/routes';
+import { routeLoginPage } from '@/constants/routes';
 
 import { SlideUpMotion } from '../components';
 
@@ -26,7 +26,7 @@ const HeroSection = () => {
             </Typography>
           </SlideUpMotion>
           <SlideUpMotion delay={0.9}>
-            <Button onClick={() => router.push(routeMainPage)} className="w-36 mt-4">
+            <Button onClick={() => router.push(routeLoginPage)} className="w-36 mt-4">
               시작하기
             </Button>
           </SlideUpMotion>
