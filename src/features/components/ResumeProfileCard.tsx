@@ -16,12 +16,12 @@ export type ResumeProfileType = {
   summary?: string;
   avatarUrl?: string;
   nickname?: string;
-  likeCount?: number;
-  isLiked?: boolean;
+  favoriteCount?: number;
+  isFavorited?: boolean;
 };
 
 type ResumeProfileCardProps = {
-  onClick?: () => void;
+  onClick?: (e: React.MouseEvent<HTMLDivElement>, id: string) => void;
 } & ResumeProfileType;
 
 const ResumeProfileCard = ({
@@ -33,8 +33,8 @@ const ResumeProfileCard = ({
   summary,
   avatarUrl,
   nickname,
-  likeCount,
-  isLiked,
+  favoriteCount,
+  isFavorited,
   onClick,
 }: ResumeProfileCardProps) => {
   const router = useRouter();
@@ -115,14 +115,14 @@ const ResumeProfileCard = ({
             </Typography>
           </div>
         </div>
-        <div onClick={onClick} className="flex items-center gap-1">
+        <div onClick={(e) => onClick?.(e, id)} className="flex items-center gap-1">
           <Heart
             size={15}
-            fill={isLiked ? 'var(--color-primary)' : 'none'}
-            className={cn('transition', isLiked ? 'text-primaryHover' : 'text-gray-50')}
+            fill={isFavorited ? 'var(--color-primary)' : 'none'}
+            className={cn('transition', isFavorited ? 'text-primaryHover' : 'text-gray-50')}
           />
           <Typography type="body5" className="text-gray-60">
-            {likeCount}
+            {favoriteCount}
           </Typography>
         </div>
       </div>

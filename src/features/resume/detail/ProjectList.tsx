@@ -13,14 +13,14 @@ const ProjectList = ({ projects, isThemeBlack = false }: ProjectListProps) => {
       <Typography type="heading2" className="text-current-mode">
         프로젝트 경험
       </Typography>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-10">
         {projects?.map((project, idx) => (
-          <div key={idx} className="py-3 px-4 flex flex-col gap-7">
+          <div key={idx} className="py-3 px-4 flex flex-col gap-5">
             <Typography type="title1" className="text-current-mode">
               {project.projectName}
             </Typography>
             <div className="flex flex-col gap-1">
-              <Typography type="title2" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
+              <Typography type="title2" className={isThemeBlack ? 'text-gray-30' : 'text-gray-70'}>
                 프로젝트 설명
               </Typography>
               <Typography type="body1" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
@@ -28,7 +28,7 @@ const ProjectList = ({ projects, isThemeBlack = false }: ProjectListProps) => {
               </Typography>
             </div>
             <div className="flex flex-col gap-1">
-              <Typography type="title2" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>
+              <Typography type="title2" className={isThemeBlack ? 'text-gray-30' : 'text-gray-70'}>
                 맡은 역할
               </Typography>
               <Typography type="body1" className={isThemeBlack ? 'text-gray-30' : 'text-gray-60'}>

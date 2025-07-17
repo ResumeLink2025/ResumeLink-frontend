@@ -8,6 +8,7 @@ import ProjectDetailSkeleton from '@/features/skeleton/project/DetailSkeleton';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
 import { formatDate } from '@/utils/date';
+import { getProjectStatus } from '@/utils/getProjectStatus';
 
 import ActionButtons from './ActionButtons';
 import ContentField from './ContentField';
@@ -19,19 +20,6 @@ interface ProjectDetailProps {
 
 const ProjectDetail = ({ id }: ProjectDetailProps) => {
   const { data: projectDetail, isLoading } = useGetProjectDetail(id, !!id);
-
-  const getProjectStatus = (status: string) => {
-    switch (status) {
-      case 'IN_PROGRESS':
-        return '진행중';
-      case 'COMPLETED':
-        return '완료됨';
-      case 'ON_HOLD':
-        return '보류됨';
-      default:
-        return '진행중';
-    }
-  };
 
   if (isLoading) {
     return <ProjectDetailSkeleton />;
@@ -51,7 +39,7 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
             blurDataURL={IMAGE_BLUR}
           />
         ) : (
-          <div className="bg-gray-40 size-[230px] rounded-[10px]" />
+          <div className="bg-gray-30 size-[230px] shrink-0 rounded-[10px]" />
         )}
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">

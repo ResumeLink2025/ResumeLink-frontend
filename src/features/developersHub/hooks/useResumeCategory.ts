@@ -10,6 +10,8 @@ const useResumeCategory = (onClose: () => void) => {
   const [devSkill, setDevSkill] = useState<DevelopSkillType[]>([]);
   const [occupation, setOccupation] = useState<DevelopOccupationType[]>([]);
 
+  const isTypeProject = searchParams.get('type') === 'project';
+
   const onClickDevSkill = (experience: DevelopSkillType) => {
     setDevSkill((prevState) => {
       const isSelected = prevState.some((prevDevSkill) => prevDevSkill.id == experience.id);
@@ -51,7 +53,7 @@ const useResumeCategory = (onClose: () => void) => {
     onClose();
   };
 
-  return { devSkill, occupation, onClickDevSkill, onClickOccupation, onClickSearchKeyword };
+  return { devSkill, occupation, isTypeProject, onClickDevSkill, onClickOccupation, onClickSearchKeyword };
 };
 
 export default useResumeCategory;

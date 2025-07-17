@@ -9,24 +9,26 @@ export interface ResumeCategoryProps {
 }
 
 const ResumeCategory = ({ onClose }: ResumeCategoryProps) => {
-  const { devSkill, occupation, onClickDevSkill, onClickOccupation, onClickSearchKeyword } =
+  const { devSkill, occupation, isTypeProject, onClickDevSkill, onClickOccupation, onClickSearchKeyword } =
     useResumeCategory(onClose);
 
   return (
     <div className="flex flex-col gap-4">
       <div className="flex justify-between gap-2 max-h-50 overflow-y-auto hide-scrollbar">
         <CategoryList
-          title="개발 연차"
+          title="기술 스택"
           categories={DEVELOP_SKILLS}
           checkedList={devSkill}
           onClickCategory={onClickDevSkill}
         />
-        <CategoryList
-          title="개발 직군"
-          categories={DEVELOP_OCCUPATIONS}
-          checkedList={occupation}
-          onClickCategory={onClickOccupation}
-        />
+        {!isTypeProject && (
+          <CategoryList
+            title="개발 직군"
+            categories={DEVELOP_OCCUPATIONS}
+            checkedList={occupation}
+            onClickCategory={onClickOccupation}
+          />
+        )}
       </div>
       <Button onClick={onClickSearchKeyword}>검색하기</Button>
     </div>

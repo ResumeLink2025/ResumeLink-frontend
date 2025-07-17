@@ -186,6 +186,14 @@ export type ProjectDetailType = {
   tags: string[];
   updatedAt: string;
   userId?: string;
+  user?: {
+    profile: {
+      nickname: string;
+      imageUrl: string;
+    };
+  };
+  isFavorite: boolean;
+  favoriteCount: number;
 };
 
 export type ProjectInfoToUseResumeType = {

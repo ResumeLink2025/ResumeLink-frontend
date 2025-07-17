@@ -4,7 +4,6 @@ import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
-import { RESUME_RESPONSE } from '@/fixtures/resume';
 import useGetResumeDetail from '@/hooks/apis/resume/useGetResumeDetail';
 import { PageWrapper } from '@/layouts';
 import { cn } from '@/utils/styleMerge';
@@ -20,8 +19,8 @@ interface ResumeDetailProps {
 }
 
 const ResumeDetail = ({ id }: ResumeDetailProps) => {
-  const { isThemeBlack, resumeRef, onClickDownLoadResume } = useResumeDetail();
   const { data: resumeDetail } = useGetResumeDetail(id, true);
+  const { isThemeBlack, resumeRef, onClickDownLoadResume } = useResumeDetail(resumeDetail?.theme);
 
   return (
     <PageWrapper className="max-w-4xl my-12">
@@ -33,15 +32,19 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
         <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
           <div className="flex gap-8">
-            <Image
-              src={RESUME_RESPONSE.imageUrl}
-              className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50 object-cover')}
-              width={170}
-              height={170}
-              placeholder="blur"
-              blurDataURL={IMAGE_BLUR}
-              alt="user-image"
-            />
+            {resumeDetail?.imageUrl ? (
+              <Image
+                src={resumeDetail.imageUrl}
+                className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50 object-cover')}
+                width={170}
+                height={170}
+                placeholder="blur"
+                blurDataURL={IMAGE_BLUR}
+                alt="user-image"
+              />
+            ) : (
+              <div className="size-[170px] rounded-[10px] bg-gray-30" />
+            )}
             <div className="flex flex-col justify-center gap-3">
               <Typography type="hero2" className="text-current-mode">
                 {resumeDetail?.title}

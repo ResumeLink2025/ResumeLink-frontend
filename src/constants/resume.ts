@@ -86,6 +86,7 @@ export type CertificatesType = {
 
 export interface ResumeDetailType {
   id: string;
+  imageUrl?: string;
   userId: string;
   title: string;
   theme: string;
@@ -97,5 +98,6 @@ export interface ResumeDetailType {
   categories: string[];
   activities?: ActivitiesType[];
   certificates?: CertificatesType[];
+  isFavorited: boolean;
   isPublic: boolean;
 }

@@ -9,15 +9,12 @@ const useSortProfileSection = () => {
   const currentType = searchParams.get('type');
   const [sortProfile, setSortProfile] = useState(searchParams.get('sort') || 'popular');
 
-  const createQueryString = useCallback(
-    (name: string, value: string) => {
-      const params = new URLSearchParams(searchParams.toString());
-      params.set(name, value);
+  const createQueryString = useCallback((name: string, value: string) => {
+    const params = new URLSearchParams();
+    params.set(name, value);
 
-      return params.toString();
-    },
-    [searchParams],
-  );
+    return params.toString();
+  }, []);
 
   const onClickChangeType = (type: string) => {
     router.push(`${pathname}?${createQueryString('type', type)}`);

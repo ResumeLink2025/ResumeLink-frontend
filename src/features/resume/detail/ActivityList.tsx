@@ -20,7 +20,7 @@ const ActivityList = ({ activities, isThemeBlack }: ActivityListProps) => {
       <Typography type="heading2" className="text-current-mode">
         개발 경험
       </Typography>
-      <div className="flex flex-col gap-6">
+      <div className="flex flex-col gap-5">
         {activities?.map((activity, idx) => (
           <div key={idx} className="py-3 px-4 flex flex-col gap-1">
             <Typography type="title1" className="text-current-mode">

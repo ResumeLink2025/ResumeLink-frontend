@@ -2,7 +2,6 @@ import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
-import { USER_INFO } from '@/constants/resume';
 
 import useUserInfoSection from './hooks/useUserInfoSection';
 import UserInfoField from './UserInfoField';
@@ -26,15 +25,19 @@ const UserInfoSection = ({ id }: UserInfoSectionProps) => {
         기본 정보
       </Typography>
       <div className="flex gap-6">
-        <Image
-          src={USER_INFO.image}
-          width={168}
-          height={168}
-          alt="user-image"
-          placeholder="blur"
-          blurDataURL={IMAGE_BLUR}
-          className="rounded-[10px] flex-shrink-0"
-        />
+        {myProfile?.profile.imageUrl ? (
+          <Image
+            src={myProfile.profile.imageUrl}
+            width={168}
+            height={168}
+            alt="user-image"
+            placeholder="blur"
+            blurDataURL={IMAGE_BLUR}
+            className="rounded-[10px] flex-shrink-0"
+          />
+        ) : (
+          <div className="size-[168px] rounded-[10px] flex-shrink-0 bg-gray-30" />
+        )}
         <div className="flex-1 grid grid-cols-2">
           <UserInfoField label="이름" value={myProfile?.profile.nickname} />
           <UserInfoField
