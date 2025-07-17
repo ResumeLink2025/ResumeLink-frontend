@@ -1,9 +1,7 @@
 'use client';
 
 import Typography from '@/components/common/Typography';
-import { PROFILE_LIST } from '@/fixtures/profiles';
 
-import { ProfileCard } from '../components';
 import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
 
 export type ProfileData = UserProfileType & {
@@ -24,7 +22,6 @@ export default function ViewProfileSection({
   setActiveTab,
   onEditClick,
 }: ViewProfileSectionProps) {
-  // 생일 출력용 포맷 함수
   const formatBirthday = (birthday?: string | Date | null) => {
     if (!birthday) return '-';
     if (typeof birthday === 'string') return birthday || '-';
@@ -34,12 +31,9 @@ export default function ViewProfileSection({
     return '-';
   };
 
-  const skills = profile.skill?.generalSkills ?? [];
-  const position =
-    Array.isArray(profile.desirePositions) && profile.desirePositions.length > 0
-      ? profile.desirePositions[0]
-      : '-';
-
+  const generalSkills = profile.skill.generalSkills ?? [];
+  const customSkills = profile.skill.customSkills ?? [];
+  const allSkills = [...generalSkills, ...customSkills];
   return (
     <div className="flex flex-col items-center w-full min-h-[calc(100vh-155px)] py-12 bg-white">
       <Typography type="title1" className="text-black mb-6">
@@ -47,7 +41,6 @@ export default function ViewProfileSection({
       </Typography>
       {/* 메인 프로필 2단 영역 */}
       <div className="w-full max-w-4xl grid grid-cols-2 gap-10 bg-white rounded-2xl shadow-md p-10 mb-10">
-        {/* 왼쪽 : 프로필 사진, 희망 직무, 연차 */}
         <div className="flex flex-col items-center gap-8">
           {/* 프로필 사진 */}
           <div className="flex flex-col items-center gap-2 w-full">
@@ -55,28 +48,29 @@ export default function ViewProfileSection({
               프로필 사진
             </Typography>
             <div className="w-[200px] aspect-square bg-gray-200 rounded-md flex items-center justify-center overflow-hidden">
-              {profile.profileImageUrl ? (
-                <img src={profile.profileImageUrl} alt="프로필 사진" className="object-cover w-full h-full" />
+              {profile.imageUrl ? (
+                <img src={profile.imageUrl} alt="프로필 사진" className="object-cover w-full h-full" />
               ) : (
                 <span className="text-gray-500 text-sm">사진 없음</span>
               )}
             </div>
           </div>
-          {/* 희망직무/연차 */}
+
           <div className="w-full">
             <Typography type="body4" className="text-black mb-1">
               희망 직무
             </Typography>
-            <span className="block mb-4">{position}</span>
+            <span className="block mb-4">
+              {!!profile.user.desirePositions[0] && profile.user.desirePositions[0].position.name}
+            </span>
             <Typography type="body4" className="text-black mb-1">
               연차
             </Typography>
-            <span>{profile.contact || '-'}</span>
+            <span>{`${profile.experienceYears}년차` || '-'}</span>
           </div>
         </div>
-        {/* 오른쪽 : 프로필 기본정보/스택 */}
+
         <div className="flex flex-col justify-center gap-6 w-full">
-          {/* 기본정보 */}
           <div>
             <Typography type="body4" className="text-black">
               닉네임
@@ -93,14 +87,14 @@ export default function ViewProfileSection({
             </Typography>
             <div className="mb-2">{formatBirthday(profile.birthday)}</div>
           </div>
-          {/* 기술스택 */}
+
           <div>
             <Typography type="body4" className="text-black mb-1">
               기술 스택
             </Typography>
-            {skills.length > 0 ? (
+            {allSkills.length > 0 ? (
               <div className="flex flex-wrap gap-2 mt-2">
-                {skills.map((skill, idx) => (
+                {allSkills.map((skill, idx) => (
                   <span key={idx} className="px-3 py-1 bg-yellow-100 text-yellow-600 rounded-full text-sm">
                     {skill}
                   </span>
@@ -146,9 +140,14 @@ export default function ViewProfileSection({
           </button>
         </section>
         <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4 w-full max-w-4xl justify-items-center">
-          {PROFILE_LIST.map((profile) => (
-            <ProfileCard key={profile.id} {...profile} />
-          ))}
+          {/* {RESUME_LIST &&
+        resumeList?.map((resume) => (
+          <ResumeProfileCard key={resume.id} onClick={onClickResumeHeart} {...resume} />
+        ))}
+      {projectList &&
+        projectList?.map((project) => (
+          <ProjectProfileCard key={project.id} onClick={onClickProjectHeart} {...project} />
+        ))} */}
         </section>
       </div>
     </div>
