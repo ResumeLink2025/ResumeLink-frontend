@@ -1,4 +1,6 @@
-import { Suspense } from 'react';
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 
 import { PageWrapper } from '@/layouts';
 
@@ -6,12 +8,13 @@ import ProfileList from './ProfileList';
 import SearchSection from './SearchSection';
 
 const DevelopersHub = () => {
+  const params = useSearchParams();
+  const listType = params.get('type') as string;
+
   return (
     <PageWrapper>
-      <Suspense>
-        <SearchSection />
-      </Suspense>
-      <ProfileList />
+      <SearchSection />
+      <ProfileList listType={listType} />
     </PageWrapper>
   );
 };

@@ -1,13 +1,24 @@
-import { PROFILE_LIST } from '@/fixtures/profiles';
+import ProjectProfileCard from '../components/ProjectProfileCard';
+import ResumeProfileCard from '../components/ResumeProfileCard';
+import useProfileList from './hooks/useProfileList';
 
-import { ProfileCard } from '../components';
+interface ProfileListProps {
+  listType: string;
+}
 
-const ProfileList = () => {
+const ProfileList = ({ listType }: ProfileListProps) => {
+  const { resumeList, projectList, onClickResumeHeart, onClickProjectHeart } = useProfileList(listType);
+
   return (
     <div className="grid grid-cols-5 gap-4 py-15">
-      {PROFILE_LIST.map((profile) => (
-        <ProfileCard key={profile.id} {...profile} />
-      ))}
+      {resumeList &&
+        resumeList?.map((resume) => (
+          <ResumeProfileCard key={resume.id} onClick={onClickResumeHeart} {...resume} />
+        ))}
+      {projectList &&
+        projectList?.map((project) => (
+          <ProjectProfileCard key={project.id} onClick={onClickProjectHeart} {...project} />
+        ))}
     </div>
   );
 };

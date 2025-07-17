@@ -3,8 +3,12 @@ import Input from '@/components/common/Input';
 
 import useDefaultInfoField from './hooks/useDefaultInfoField';
 
-const DefaultInfoField = () => {
-  const { imageUrl, errors, handleUploadImageFile, register } = useDefaultInfoField();
+interface DefaultInfoFieldProps {
+  defaultImageUrl?: string;
+}
+
+const DefaultInfoField = ({ defaultImageUrl }: DefaultInfoFieldProps) => {
+  const { imageUrl, errors, handleUploadImageFile, register } = useDefaultInfoField(defaultImageUrl);
 
   return (
     <div className="flex flex-col mt-12 gap-3">
@@ -28,7 +32,7 @@ const DefaultInfoField = () => {
           <Input label="종료일" type="date" {...register('endDate')} errorMessage={errors.endDate?.message} />
         </div>
       </div>
-      <Typography className="text-red-600">{errors.projectImage?.message}</Typography>
+      <Typography className="text-red-600">{errors.imgUrl?.message}</Typography>
     </div>
   );
 };

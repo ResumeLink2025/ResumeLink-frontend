@@ -16,7 +16,7 @@ export default function useLogin(setLogin: (token: string) => void) {
     setGlobalError('');
 
     try {
-      const response = await fetch(`http://localhost:8080/api/auth/login/local`, {
+      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login/local`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),

@@ -1,26 +1,26 @@
-import { Button, Tag } from '@/components/common';
-import { RESUME_RESPONSE } from '@/fixtures/resume';
+import { Button } from '@/components/common';
+import useGetMyProfile from '@/hooks/apis/profile/useGetMyProfile';
+
+import useHeaderSection from './hooks/useHeaderSection';
 
 interface ActionButtonsProps {
+  resumeId: string;
+  userId?: string;
   onClickDownLoadResume: () => void;
 }
 
-const ActionButtons = ({ onClickDownLoadResume }: ActionButtonsProps) => {
+const ActionButtons = ({ resumeId, userId, onClickDownLoadResume }: ActionButtonsProps) => {
+  const { data: myProfile } = useGetMyProfile();
+  const { onClickDeleteResume, onClickRouteUpdatePage } = useHeaderSection(resumeId);
+
   return (
-    <div className="flex items-center justify-between mb-4">
-      <div className="flex gap-3">
-        {RESUME_RESPONSE.categories.map((category) => (
-          <Tag key={category} styleType="outline">
-            # {category}
-          </Tag>
-        ))}
-      </div>
-      {false ? (
+    <div className="flex justify-end mb-4">
+      {userId === myProfile?.profile.id ? (
         <div className="flex items-center">
-          <Button size="small" styleType="white" className="w-15">
+          <Button size="small" styleType="white" className="w-15" onClick={onClickRouteUpdatePage}>
             수정
           </Button>
-          <Button size="small" styleType="white" className="w-15 mr-3">
+          <Button size="small" styleType="white" className="w-15 mr-3" onClick={onClickDeleteResume}>
             삭제
           </Button>
           <Button onClick={onClickDownLoadResume} size="small" styleType="gray25" className="w-40">

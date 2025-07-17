@@ -10,8 +10,10 @@ const useSortProfileSection = () => {
   const [sortProfile, setSortProfile] = useState(searchParams.get('sort') || 'popular');
 
   const createQueryString = useCallback(
-    (name: string, value: string) => {
+    (name: string, value: string, resetKeys: string[] = []) => {
       const params = new URLSearchParams(searchParams.toString());
+
+      resetKeys.forEach((key) => params.delete(key));
       params.set(name, value);
 
       return params.toString();
@@ -20,7 +22,8 @@ const useSortProfileSection = () => {
   );
 
   const onClickChangeType = (type: string) => {
-    router.push(`${pathname}?${createQueryString('type', type)}`);
+    const resetKeys = ['searchTerm', 'skillNames', 'positionNames'];
+    router.push(`${pathname}?${createQueryString('type', type, resetKeys)}`);
   };
 
   const onChangeSortProfile = (e: React.ChangeEvent<HTMLSelectElement>) => {

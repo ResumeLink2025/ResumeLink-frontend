@@ -1,14 +1,23 @@
 import { Button } from '@/components/common';
 
-const ActionButtons = () => {
+import useActionButton from './hooks/useActionButton';
+
+interface ActionButtonProps {
+  userId?: string;
+  projectNumber?: number;
+}
+
+const ActionButtons = ({ userId, projectNumber }: ActionButtonProps) => {
+  const { myProfile, onClickRouteUpdateProject, onClickDeleteProject } = useActionButton(projectNumber);
+
   return (
     <>
-      {false ? (
+      {userId === myProfile?.profile.id ? (
         <div className="flex items-center">
-          <Button size="small" styleType="white" className="w-15">
+          <Button size="small" styleType="white" className="w-15" onClick={onClickRouteUpdateProject}>
             수정
           </Button>
-          <Button size="small" styleType="white" className="w-15 mr-3">
+          <Button size="small" styleType="white" className="w-15 mr-3" onClick={onClickDeleteProject}>
             삭제
           </Button>
         </div>

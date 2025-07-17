@@ -1,8 +1,10 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
+import { routeProjectPage } from '@/constants/routes';
 import useCreateProject from '@/hooks/apis/project/useCreateProject';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import useUpdateProject from '@/hooks/apis/project/useUpdateProject';
@@ -12,8 +14,8 @@ import type { ProjectFormDataType } from '../schemas/projectSchema';
 import { projectFormSchema } from '../schemas/projectSchema';
 
 const useProjectFormSection = (id?: string) => {
+  const router = useRouter();
   const hasProjectId = !!id;
-
   const { data: projectDetail } = useGetProjectDetail(String(id), hasProjectId);
 
   const methods = useForm<ProjectFormDataType>({
@@ -33,12 +35,16 @@ const useProjectFormSection = (id?: string) => {
   const { mutate: createProjectMutate } = useCreateProject({
     onSuccess: () => {
       toast.success('프로젝트 생성이 완료되었습니다!');
+
+      router.replace(routeProjectPage);
     },
   });
 
   const { mutate: updateProjectMutate } = useUpdateProject(String(id), {
     onSuccess: () => {
       toast.success('프로젝트 수정이 완료되었습니다!');
+
+      router.replace(routeProjectPage);
     },
   });
 
@@ -58,6 +64,9 @@ const useProjectFormSection = (id?: string) => {
       if (projectDetail.status) {
         setProjectStatus(projectDetail.status);
       }
+      if (projectDetail.isPublic) {
+        setIsPublic(projectDetail.isPublic);
+      }
       reset({
         projectName: projectDetail.projectName || '',
         startDate: projectDetail.startDate ? formatDate(projectDetail.startDate) : '',
@@ -66,10 +75,10 @@ const useProjectFormSection = (id?: string) => {
         projectDesc: projectDetail.projectDesc || '',
         role: projectDetail.role || '',
         isPublic: projectDetail.isPublic || false,
-        tags: [],
+        tags: projectDetail.tags || [],
       });
     }
-  }, [hasProjectId, projectDetail, setValue]);
+  }, [hasProjectId, projectDetail]);
 
   useEffect(() => {
     setValue('status', projectStatus);
