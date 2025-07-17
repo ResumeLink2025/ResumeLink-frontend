@@ -2,14 +2,15 @@ import { useQuery } from '@tanstack/react-query';
 import type { AxiosError } from 'axios';
 
 import { get } from '@/apis/httpClient';
-import type { ResumeFormDataType } from '@/features/resume/schemas/resumeSchema';
+import type { ResumeDetailType } from '@/constants/resume';
 
 export const RESUME_DETAIL = 'resumeDetail';
 
-const useGetResumeDetail = (id: string) => {
-  return useQuery<ResumeFormDataType, AxiosError>({
+const useGetResumeDetail = (id: string, hasProjectId: boolean) => {
+  return useQuery<ResumeDetailType, AxiosError>({
     queryKey: [RESUME_DETAIL, id],
     queryFn: () => get(`/api/resumes/${id}`),
+    enabled: hasProjectId,
   });
 };
 

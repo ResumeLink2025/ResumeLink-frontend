@@ -1,8 +1,8 @@
 import { Typography } from '@/components/common';
-import type { DevelopExperienceType, DevelopOccupationType } from '@/constants/developersHub';
+import type { DevelopOccupationType, DevelopSkillType } from '@/constants/developersHub';
 import { cn } from '@/utils/styleMerge';
 
-type CategoryType = DevelopExperienceType | DevelopOccupationType;
+type CategoryType = DevelopSkillType | DevelopOccupationType;
 
 interface CategoryListProps<T extends CategoryType> {
   title: string;
@@ -35,7 +35,7 @@ const CategoryList = <T extends CategoryType>({
             isChecked(category) ? 'bg-primary hover:bg-primaryHover' : 'bg-gray-10 hover:bg-gray-25',
           )}
         >
-          {'occupation' in category ? category.occupation : category.year}
+          {'occupation' in category ? category.occupation : category.skill}
         </div>
       ))}
     </div>

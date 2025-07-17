@@ -1,22 +1,28 @@
 import { useEffect } from 'react';
 import { useFormContext } from 'react-hook-form';
 
-import { USER_INFO } from '@/constants/resume';
+import useGetMyProfile from '@/hooks/apis/profile/useGetMyProfile';
 
 import type { ResumeFormDataType } from './../schemas/resumeSchema';
 
 const useUserInfoSection = () => {
   const { setValue } = useFormContext<ResumeFormDataType>();
+  const { data: myProfile } = useGetMyProfile();
 
   useEffect(() => {
-    setValue('skills', USER_INFO.skills);
-    setValue('positions', USER_INFO.positions);
-  }, [setValue]);
+    if (!myProfile) return;
 
-  return {
-    skills: USER_INFO.skills,
-    positions: USER_INFO.positions,
-  };
+    setValue(
+      'skills',
+      myProfile?.profile.user.userSkills.map((skill) => skill.skill.name),
+    );
+    setValue(
+      'positions',
+      myProfile?.profile.user.desirePositions.map((position) => position.position.name).join(','),
+    );
+  }, [setValue, myProfile]);
+
+  return { myProfile };
 };
 
 export default useUserInfoSection;
