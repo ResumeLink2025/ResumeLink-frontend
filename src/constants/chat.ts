@@ -103,3 +103,25 @@ export interface CoffeeChatListResponse {
   data: CoffeeChat[];
   total: number;
 }
+
+export interface SendMessageResponse {
+  success: true;
+  data: {
+    messageId: string;
+    chatRoomId: string;
+    content: string;
+    messageType: 'TEXT' | 'IMAGE' | 'FILE';
+    createdAt: string;
+    sender: {
+      userId: string;
+      nickname: string;
+    };
+  };
+}
+
+export interface SendMessageErrorResponse {
+  success: false;
+  message: string;
+}
+
+export type SendMessageResult = SendMessageResponse | SendMessageErrorResponse;

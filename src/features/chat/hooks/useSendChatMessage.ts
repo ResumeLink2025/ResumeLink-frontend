@@ -1,34 +1,25 @@
-import { useMutation, useQueryClient } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 
-import { FetchApiError, sendMessage } from '../apis/chatApi';
+import type { SendMessageResult } from '@/constants/chat';
+
 import { sendRealtimeMessage } from '../apis/socket';
 
 export function useSendChatMessage() {
-  const qc = useQueryClient();
-
   return useMutation({
-    mutationFn: async ({ chatRoomId, content }: { chatRoomId: string; content: string }) => {
-      console.log('[useSendChatMessage] mutationFn 호출:', chatRoomId, content);
-      return await sendMessage(chatRoomId, content, 'TEXT');
+    mutationFn: ({ chatRoomId, content }: { chatRoomId: string; content: string }) => {
+      return new Promise<SendMessageResult>((resolve, reject) => {
+        sendRealtimeMessage(chatRoomId, content, (response: SendMessageResult) => {
+          if (response.success) {
+            resolve(response);
+          } else {
+            reject(response.message);
+          }
+        });
+      });
     },
-    onSuccess: (data, variables) => {
-      console.log(
-        '[useSendChatMessage] onSuccess - 소켓 메시지 전송:',
-        variables.chatRoomId,
-        variables.content,
-      );
-      sendRealtimeMessage(variables.chatRoomId, variables.content); // 성공 후 소켓 전송
-      qc.invalidateQueries({ queryKey: ['chatRoomMessages', variables.chatRoomId] });
-    },
-    onError: (error: unknown, variables) => {
-      console.error('메시지 저장 실패 – 롤백 필요', variables);
-      if (error instanceof FetchApiError) {
-        console.error(`[${error.api}] ${error.status} – ${error.message}`);
-        alert(`메시지 전송 실패 (${error.status}) : ${error.message}`);
-      } else {
-        console.error('알 수 없는 오류', error);
-        alert('메시지 전송 중 오류가 발생했습니다. 잠시 후 다시 시도해 주세요.');
-      }
+    onError: (error: string) => {
+      console.error('메시지 전송 실패:', error);
+      alert(`메시지 전송 실패: ${error}`);
     },
   });
 }

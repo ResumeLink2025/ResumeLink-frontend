@@ -187,9 +187,11 @@ export const deleteChatRoomParticipant = (chatRoomId: string) =>
     method: 'DELETE',
   });
 
-export const getUnreadCount = (chatRoomId: string) =>
-  fetchApi<{ unreadCount: number }>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${chatRoomId}/unread-count`,
+export async function getUnreadCount(roomId: string): Promise<{ data: { unreadCount: number } }> {
+  const result = await fetchApi<{ unreadCount: number }>(
+    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/unread-count`,
     {},
     { showToast: false },
   );
+  return { data: result };
+}

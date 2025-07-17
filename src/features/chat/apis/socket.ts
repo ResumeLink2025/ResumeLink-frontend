@@ -1,12 +1,12 @@
 import type { Socket } from 'socket.io-client';
 import { io } from 'socket.io-client';
 
-import type { Message } from '@/constants/chat';
+import type { Message, SendMessageResult } from '@/constants/chat';
 
 let socket: Socket | null = null;
 
 export function connectSocket(token: string): Socket {
-  console.log(token, '보낸 토큰');
+  console.log('connectSocket 실행', token);
   socket = io('http://localhost:8080', {
     auth: { token },
   });
@@ -21,10 +21,6 @@ export function connectSocket(token: string): Socket {
 
   socket.on('connect_error', (error) => {
     console.error('Socket 연결 에러:', error);
-  });
-
-  socket.on('error', (error) => {
-    console.error('Socket 에러:', error);
   });
 
   return socket;
@@ -44,10 +40,18 @@ export function getSocket() {
   return socket;
 }
 
-export const sendRealtimeMessage = (id: string, txt: string) =>
-  getSocket().emit('message:send', { chatRoomId: id, content: txt, messageType: 'TEXT' }, () =>
-    console.log('[WS] send ack'),
-  );
+export function sendRealtimeMessage(
+  chatRoomId: string,
+  content: string,
+  callback?: (response: SendMessageResult) => void,
+) {
+  if (!socket) {
+    console.error('Socket이 연결되지 않았습니다.');
+    return;
+  }
+
+  socket.emit('message:send', { chatRoomId, content, type: 'TEXT' }, callback);
+}
 
 export function subscribeNewMessage(callback: (message: Message) => void) {
   console.log('[Socket] subscribeNewMessage 등록');

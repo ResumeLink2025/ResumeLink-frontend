@@ -17,19 +17,20 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
 
-  const { messages, isLoading, isSending } = useChatRoom({ chatId });
+  const { messages, isLoading } = useChatRoom({ chatId });
 
   const sendMessage = useSendChatMessage();
-
-  const lastSentMessageRef = useRef<string | null>(null);
+  const [isSending, setIsSending] = useState(false);
 
   const handleSend = async () => {
-    if (!inputValue.trim()) return;
-
-    lastSentMessageRef.current = inputValue;
-    await sendMessage.mutateAsync({ chatRoomId: chatId, content: inputValue });
-
-    setInputValue('');
+    if (!inputValue.trim() || isSending) return;
+    setIsSending(true);
+    try {
+      await sendMessage.mutateAsync({ chatRoomId: chatId, content: inputValue });
+      setInputValue('');
+    } finally {
+      setIsSending(false);
+    }
   };
   useEffect(() => {
     if (bottomRef.current) {
