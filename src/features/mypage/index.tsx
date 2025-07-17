@@ -4,7 +4,7 @@ import { PageWrapper } from '@/layouts';
 
 import MyPageSection from './MyPageSection';
 
-const Landing = () => {
+const MyPage = () => {
   return (
     <PageWrapper>
       <MyPageSection />
@@ -12,4 +12,4 @@ const Landing = () => {
   );
 };
 
-export default Landing;
+export default MyPage;

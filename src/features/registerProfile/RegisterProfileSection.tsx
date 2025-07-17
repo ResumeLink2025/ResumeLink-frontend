@@ -1,7 +1,6 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -19,12 +18,12 @@ import SummarySection from './SummarySeciton';
 import { DEVELOPERLIST, YEARLIST } from './types';
 
 type RegisterProfileSectionProps = {
+  mode: 'register' | 'edit';
   onSave?: (updatedProfile: UserProfileType) => void;
   onCancel?: () => void;
 };
 
-export default function RegisterProfileSection({ onSave, onCancel }: RegisterProfileSectionProps) {
-  const [editMode, setEditMode] = useState(true);
+export default function RegisterProfileSection({ onSave, onCancel, mode }: RegisterProfileSectionProps) {
   const methods = useForm<UserProfileType>({
     resolver: zodResolver(UserProfileSchema),
     defaultValues: {
@@ -38,7 +37,7 @@ export default function RegisterProfileSection({ onSave, onCancel }: RegisterPro
     try {
       await patchUserProfile(data);
       toast.success('프로필이 저장되었습니다.');
-      setEditMode(false);
+
       if (onSave) onSave(data);
     } catch (err) {
       console.error(err);
@@ -49,7 +48,7 @@ export default function RegisterProfileSection({ onSave, onCancel }: RegisterPro
   return (
     <div className="flex items-center justify-center w-full h-full bg-white py-20">
       <div className="w-full max-w-2xl flex flex-col items-center px-4">
-        <ProfileHederSection title={editMode ? '내 정보 수정' : '추가 정보 입력'} />
+        <ProfileHederSection title={mode === 'edit' ? '내 정보 수정' : '추가 정보 입력'} />
         <FormProvider {...methods}>
           <FormBody
             onSubmit={methods.handleSubmit(onSubmit, () => {
