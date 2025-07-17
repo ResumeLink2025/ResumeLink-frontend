@@ -14,7 +14,9 @@ export default function useRegister() {
   const [globalError, setGlobalError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
+
   const handleRegister = async ({ email, password }: RegisterParams) => {
+
     setIsLoading(true);
     setGlobalError('');
 
@@ -23,6 +25,7 @@ export default function useRegister() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email, password }),
+
       });
 
       if (!res.ok) {

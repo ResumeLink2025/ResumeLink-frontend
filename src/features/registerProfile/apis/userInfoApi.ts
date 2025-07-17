@@ -7,6 +7,7 @@ export type PatchUserProfilePayload = Omit<UserProfileType, 'birthday'> & {
 export async function patchUserProfile(data: PatchUserProfilePayload) {
   const token = localStorage.getItem('accessToken');
   const response = await fetch('http://localhost:8080/api/profiles', {
+
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -38,4 +39,5 @@ export async function uploadImage(file: File): Promise<string> {
 
   const data = await response.json();
   return data.imageUrl;
+
 }

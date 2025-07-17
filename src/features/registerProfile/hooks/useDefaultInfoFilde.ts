@@ -43,10 +43,12 @@ const useDefaultInfoField = () => {
   };
 
   const handleGender = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+
     const value = e.target.value || null; // 빈 값일 때 null 처리
     setGender(value);
     setValue('gender', value, { shouldDirty: true, shouldValidate: false });
   };
+
   const handleDesirePosition = (e: ChangeEvent<HTMLSelectElement>) => {
     const value = e.target.value;
     setDesirePosition(value);

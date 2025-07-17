@@ -1,16 +1,17 @@
 'use client';
 
 import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useRouter } from 'next/navigation';
 import { FormProvider, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
-
 import DevSkillField from '../project/DevSkillField';
 import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
 import { UserProfileSchema } from '../registerProfile/shcemas/userProfileSchema';
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
 import { patchUserProfile, uploadImage } from './apis/userInfoApi';
+
 import BasicInfoSection from './BasicInfoSection';
 import useDefaultInfoField from './hooks/useDefaultInfoFilde';
 import { ProfileHederSection } from './ProfileHeaderSection';
@@ -19,7 +20,9 @@ import SummarySection from './SummarySeciton';
 import { DEVELOPERLIST, YEARLIST } from './types';
 
 export default function RegisterProfileSection() {
+
   const router = useRouter();
+
   const methods = useForm<UserProfileType>({
     resolver: zodResolver(UserProfileSchema),
     defaultValues: {
@@ -31,6 +34,7 @@ export default function RegisterProfileSection() {
 
   const onSubmit = async (data: UserProfileType) => {
     try {
+
       let imageUrl = null;
 
       if (data.profileImage instanceof File) {
@@ -52,6 +56,7 @@ export default function RegisterProfileSection() {
       await patchUserProfile(processedData);
       toast.success('프로필이 저장되었습니다.');
       router.replace('/developersHub?type=resume&sort=popular');
+
     } catch (err) {
       console.error(err);
       toast.error('저장 실패');
@@ -90,6 +95,7 @@ function FormBody({ onSubmit }: FormBodyProps) {
       <DevSkillField className="col-span-2" />
       <SummarySection className="col-span-2" />
       <ActionButtonSection className="col-span-2" />
+
     </form>
   );
 }

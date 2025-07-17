@@ -1,16 +1,21 @@
+'use client';
+
 import { Tag, Typography } from '@/components/common';
-import type { UserProjectType } from '@/constants/resume';
-import { USER_PROJECT_LIST } from '@/constants/resume';
+import type { ProjectDetailType } from '@/constants/project';
+import useGetMyProject from '@/hooks/apis/project/useGetMyProject';
 import { cn } from '@/utils/styleMerge';
 
 interface ProjectFieldProps {
-  selectedProjects: UserProjectType[];
+  selectedProjects: ProjectDetailType[];
   isSubmitted: boolean;
   errorMessage?: string;
-  onClickProject: (project: UserProjectType) => void;
+  onClickProject: (project: ProjectDetailType) => void;
 }
 
 const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProject }: ProjectFieldProps) => {
+  const { data: myProjectList } = useGetMyProject();
+
+  console.log('myProjectList', myProjectList);
   return (
     <div className="p-5 border-2 border-dashed border-gray-60 rounded-[10px] flex flex-col gap-4">
       <div className="flex items-center gap-2">
@@ -18,7 +23,7 @@ const ProjectField = ({ selectedProjects, isSubmitted, errorMessage, onClickProj
         <Tag size="small">필수</Tag>
       </div>
       <div className="flex flex-col gap-2">
-        {USER_PROJECT_LIST.map((project) => (
+        {myProjectList?.map((project) => (
           <div
             key={project.id}
             onClick={() => onClickProject(project)}
