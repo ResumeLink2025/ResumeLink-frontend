@@ -18,7 +18,7 @@ export const projectFormSchema = z.object({
   role: z.string().min(30, '프로젝트에서 맡은 역할 소개는 최소 30글자 이상이어야 합니다.'),
   skill: z.object({
     generalSkills: z.array(z.string()).min(1, '기술스택은 1개 이상 선택해야 합니다.'),
-    customSkills: z.array(z.string()),
+    customSkills: z.array(z.string()).optional(),
   }),
   tags: z.array(z.string()),
   isPublic: z.boolean(),

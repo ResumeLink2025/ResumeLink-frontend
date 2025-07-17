@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
 import useUploadImage from '@/hooks/apis/image/useUploadImage';
 
@@ -15,6 +16,9 @@ const useDefaultInfoField = (defaultImageUrl?: string) => {
   const { mutate: uploadImage } = useUploadImage({
     onSuccess: (response) => {
       setValue('imgUrl', response.imageUrl);
+    },
+    onError: () => {
+      toast.error('이미지 업로드중 올류가 발생했습니다.');
     },
   });
   const [imageUrl, setImageUrl] = useState<string | null>(defaultImageUrl ?? null);

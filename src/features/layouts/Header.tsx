@@ -6,8 +6,10 @@ import { useEffect, useState } from 'react';
 
 import { useAuthStore } from '@/app/store/useAuthStore';
 import { routeMainPage } from '@/constants/routes';
+import { ACCESS_TOKEN } from '@/constants/token';
 import Container from '@/layouts/Container';
 import Wrapper from '@/layouts/Wrapper';
+import LocalStorage from '@/utils/localStorage';
 
 import NavLink from './components/NavLink';
 
@@ -43,7 +45,7 @@ const Header = () => {
     })();
   }, []);
   const handleLogout = () => {
-    localStorage.removeItem('accessToken');
+    LocalStorage.removeItem(ACCESS_TOKEN);
     setLogout();
   };
 
@@ -51,16 +53,20 @@ const Header = () => {
     <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
       <Container>
         <div className="flex justify-between h-15">
-          <Link href="/" className="flex items-center">
+          <Link href={routeMainPage} className="flex items-center">
             <Image src="/images/logo.svg" width={120} height={21} alt="logo" />
           </Link>
         </div>
 
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-2">
-            <NavLink navHref={routeMainPage} title="개발자 허브" />
-            <NavLink navHref="/resume/create" title="이력서 생성" />
-            <NavLink navHref="/project/create" title="프로젝트 작성" />
+            {LocalStorage.getItem(ACCESS_TOKEN) && (
+              <>
+                <NavLink navHref={routeMainPage} title="개발자 허브" />
+                <NavLink navHref="/resume/create" title="이력서 생성" />
+                <NavLink navHref="/project/create" title="프로젝트 작성" />
+              </>
+            )}
           </div>
 
           {mounted && (

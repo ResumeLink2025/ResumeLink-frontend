@@ -64,7 +64,9 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
               </Typography>
             </div>
           </div>
-          <ActivityList isThemeBlack={isThemeBlack} activities={resumeDetail?.activities} />
+          {resumeDetail?.activities && resumeDetail.activities.length > 0 && (
+            <ActivityList isThemeBlack={isThemeBlack} activities={resumeDetail?.activities} />
+          )}
           <ProjectList isThemeBlack={isThemeBlack} projects={resumeDetail?.projects} />
           <div className="flex flex-col gap-3">
             <Typography type="heading2" className="text-current-mode">

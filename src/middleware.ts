@@ -1,17 +1,11 @@
 import { type NextRequest, NextResponse } from 'next/server';
 
-import { ACCESS_TOKEN } from './constants/token';
-import LocalStorage from './utils/localStorage';
-
-export function middleware(request: NextRequest) {
-  if (!LocalStorage.getItem(ACCESS_TOKEN)) {
-    return NextResponse.redirect(new URL('/login', request.url));
-  }
-
+export async function middleware(request: NextRequest) {
   const url = request.nextUrl;
 
-  if (url.pathname === '/developersHub' && !url.searchParams.get('type')) {
+  if (url.pathname === '/developersHub' && !url.searchParams.get('type') && !url.searchParams.get('sort')) {
     url.searchParams.set('type', 'resume');
+    url.searchParams.set('sort', 'popular');
 
     return NextResponse.redirect(url);
   }

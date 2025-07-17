@@ -11,15 +11,17 @@ const useGetResumeList = (
   searchTerm: string | null,
   skillNames: string | null,
   positionNames?: string | null,
+  sort?: string | null,
 ) => {
   return useQuery<ResumeDetailType[], AxiosError>({
-    queryKey: [RESUME_LIST, listType, searchTerm, skillNames, positionNames],
+    queryKey: [RESUME_LIST, listType, searchTerm, skillNames, positionNames, sort],
     queryFn: () => {
       const params = new URLSearchParams();
 
       if (searchTerm) params.set('searchTerm', searchTerm);
       if (skillNames) params.set('skillNames', skillNames);
       if (positionNames) params.set('positionNames', positionNames);
+      if (sort) params.set('sortBy', sort);
 
       const queryString = params.toString();
 
