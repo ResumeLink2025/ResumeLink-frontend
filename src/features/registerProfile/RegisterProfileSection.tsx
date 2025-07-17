@@ -19,7 +19,6 @@ import SummarySection from './SummarySeciton';
 import { DEVELOPERLIST, YEARLIST } from './types';
 
 export default function RegisterProfileSection() {
-
   const router = useRouter();
 
   const methods = useForm<UserProfileType>({
@@ -33,7 +32,6 @@ export default function RegisterProfileSection() {
 
   const onSubmit = async (data: UserProfileType) => {
     try {
-
       let imageUrl = null;
 
       if (data.profileImage instanceof File) {
@@ -55,7 +53,6 @@ export default function RegisterProfileSection() {
       await patchUserProfile(processedData);
       toast.success('프로필이 저장되었습니다.');
       router.replace('/developersHub?type=resume&sort=popular');
-
     } catch (err) {
       console.error(err);
       toast.error('저장 실패');
@@ -91,10 +88,9 @@ function FormBody({ onSubmit }: FormBodyProps) {
       <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadImageFile} />
       <BasicInfoSection />
       <AdditionalInfoSection jobOptions={DEVELOPERLIST} yearOptions={YEARLIST} />
-      <DevSkillField className="col-span-2" />
+      <DevSkillField defaultGeneralSkills={[]} defaultCustomSkills={[]} className="col-span-2" />
       <SummarySection className="col-span-2" />
       <ActionButtonSection className="col-span-2" />
-
     </form>
   );
 }

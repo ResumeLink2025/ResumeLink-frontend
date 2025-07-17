@@ -1,6 +1,5 @@
 import type { SingleValue, StylesConfig } from 'react-select';
 import Select from 'react-select';
-
 interface OptionType {
   label: string;
   value: string;
