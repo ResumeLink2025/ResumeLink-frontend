@@ -14,7 +14,9 @@ interface UseChatRoomProps {
 export function useChatRoom({ chatId }: UseChatRoomProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isSending, setIsSending] = useState(false);
-
+  useEffect(() => {
+    console.log('[useChatRoom] chatId:', chatId);
+  }, [chatId]);
   const { data, isLoading } = useQuery({
     queryKey: ['chatRoomMessages', chatId],
     queryFn: () => getMessages(chatId, 1, 20),
@@ -34,8 +36,8 @@ export function useChatRoom({ chatId }: UseChatRoomProps) {
 
   const handleNewMessage = useCallback(
     async (msg: { messageId: string; chatRoomId: string }) => {
-      console.log('[room handleNewMessage] called', msg, chatId);
-      console.log(msg, chatId, 'check');
+      // console.log('[room handleNewMessage] called', msg, chatId);
+      // console.log(msg, chatId, 'check');
       if (msg.chatRoomId !== chatId) return;
       console.log(msg, chatId, 'check2');
       try {

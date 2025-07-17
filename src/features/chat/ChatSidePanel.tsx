@@ -78,6 +78,7 @@ export default function ChatSidePanel() {
                   onBack={async () => {
                     await handleBackEvent();
                   }}
+                  onMessageSent={fetchAllChatsWithDetails}
                   onLeaveChat={handleLeaveChat}
                 />
               ) : (

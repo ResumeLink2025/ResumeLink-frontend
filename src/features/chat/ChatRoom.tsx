@@ -9,10 +9,17 @@ interface ChatRoomViewProps {
   chatId: string;
   onBack: () => void;
   onLeaveChat: () => void;
+  onMessageSent: () => void;
   chatRoomInfo: ChatRoom | null;
 }
 
-export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo }: ChatRoomViewProps) {
+export default function ChatRoomView({
+  chatId,
+  onBack,
+  onLeaveChat,
+  chatRoomInfo,
+  onMessageSent,
+}: ChatRoomViewProps) {
   const [inputValue, setInputValue] = useState('');
   const scrollRef = useRef<HTMLDivElement>(null);
   const bottomRef = useRef<HTMLDivElement>(null);
@@ -27,6 +34,7 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
     setIsSending(true);
     try {
       await sendMessage.mutateAsync({ chatRoomId: chatId, content: inputValue });
+      onMessageSent();
       setInputValue('');
     } finally {
       setIsSending(false);

@@ -15,6 +15,10 @@ export async function fetchApi<T>(
   { showToast = true } = {},
 ): Promise<T> {
   const token = localStorage.getItem('accessToken');
+  console.log(token);
+  if (!token) {
+    throw new FetchApiError('No access token found', 401, url);
+  }
   const headers: HeadersInit = {
     'Content-Type': 'application/json',
     ...(token ? { Authorization: `Bearer ${token}` } : {}),
@@ -188,10 +192,10 @@ export const deleteChatRoomParticipant = (chatRoomId: string) =>
   });
 
 export async function getUnreadCount(roomId: string): Promise<{ data: { unreadCount: number } }> {
-  const result = await fetchApi<{ unreadCount: number }>(
+  const response = await fetchApi<{ data: { unreadCount: number } }>(
     `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/unread-count`,
     {},
     { showToast: false },
   );
-  return { data: result };
+  return { data: response.data }; // <= 한 번 더 .data로!
 }

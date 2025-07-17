@@ -140,3 +140,14 @@ export interface NewMessageNotification {
     nickname: string;
   };
 }
+
+export interface UnreadCountInner {
+  data: {
+    unreadCount: number;
+  };
+}
+export interface UnreadCountResponse {
+  data: UnreadCountInner;
+  message: string;
+  success: boolean;
+}

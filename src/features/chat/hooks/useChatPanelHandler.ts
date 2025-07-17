@@ -1,3 +1,4 @@
+// useChatPanelHandler.ts
 import { useCallback, useEffect, useRef, useState } from 'react';
 
 import type { ChatRoom, CoffeeChat, NewMessageNotification } from '@/constants/chat';
@@ -27,7 +28,6 @@ export function useChatPanelHandler() {
   const [chatRoomInfo, setChatRoomInfo] = useState<ChatRoom | null>(null);
   const prevRoomId = useRef<string | null>(null);
 
-  // 1. 리스트/방 정보 최초 로딩
   const fetchAllChatsWithDetails = useCallback(async () => {
     try {
       const [{ data: rawCoffeeChats }, { data: chatRoomList }] = await Promise.all([
@@ -41,11 +41,8 @@ export function useChatPanelHandler() {
         Promise.all([getChatRoomDetail(room.id), getUnreadCount(room.id)])
           .then(([detailRes, unreadRes]) => {
             const detail = detailRes.data;
-            const unreadCount = unreadRes.unreadCount ?? 0;
-            return {
-              ...detail,
-              unreadCount,
-            };
+            const unreadCount = unreadRes.data?.unreadCount ?? 0;
+            return { ...detail, unreadCount };
           })
           .catch((err) => {
             console.warn(`❌ ${room.id} 처리 실패`, err);
@@ -54,9 +51,9 @@ export function useChatPanelHandler() {
       );
 
       const chatRoomDetails = await Promise.all(chatRoomDetailPromises);
-
+      console.log(chatRoomDetails, 'chatRoomDetails');
       const acceptedChats = chatRoomDetails
-        .filter((room): room is ChatRoom => room !== null)
+        .filter((room): room is ChatRoom & { unreadCount: number } => room !== null)
         .map((room) => {
           const sender = room.participants[0].user;
           const receiver = room.participants[1].user;
@@ -65,10 +62,7 @@ export function useChatPanelHandler() {
             authProvider: '',
             createdAt: '',
             email: '',
-            profile: {
-              nickname: '',
-              imageUrl: '',
-            },
+            profile: { nickname: '', imageUrl: '' },
           };
 
           return {
@@ -88,7 +82,6 @@ export function useChatPanelHandler() {
 
       const chatMap = new Map<string, CoffeeChat>();
       [...pendingChats, ...acceptedChats].forEach((chat) => chatMap.set(chat.id, chat));
-
       const merged = [...chatMap.values()].sort(
         (a, b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
       );
@@ -102,37 +95,44 @@ export function useChatPanelHandler() {
     }
   }, []);
 
-  // 2. 소켓 연결 (최초 1회)
   useEffect(() => {
-    fetchAllChatsWithDetails();
-    const token = localStorage.getItem('accessToken');
-    if (!token) return;
-    connectSocket(token);
-  }, [fetchAllChatsWithDetails]);
+    if (isOpen) {
+      fetchAllChatsWithDetails();
+    }
+  }, [isOpen]);
 
-  // 3. 실시간 새 메시지 이벤트 수신 → unreadCount 카톡처럼 관리
-  useEffect(() => {
-    function handleNewMessage(msg: NewMessageNotification) {
-      // 1) unreadCount 증가 (현재 열려있는 방이 아니라면)
+  const handleNewMessage = useCallback(
+    (msg: NewMessageNotification) => {
       setChatList((prev) =>
         prev.map((chat) =>
           chat.id === msg.chatRoomId
             ? {
                 ...chat,
                 unreadCount: selectedChatId === msg.chatRoomId ? 0 : (chat.unreadCount ?? 0) + 1,
-                message: msg.content, // 마지막 메시지 실시간 갱신
+                message: msg.content,
               }
             : chat,
         ),
       );
-    }
+      console.log(chatList, 'select');
+    },
+    [selectedChatId],
+  );
+
+  useEffect(() => {
     subscribeNewMessage(handleNewMessage);
     return () => {
       unsubscribeNewMessage(handleNewMessage);
     };
-  }, [selectedChatId]);
+  }, [handleNewMessage]);
 
-  // 4. 채팅방 입장시: joinRoom + 방 unreadCount 0으로 리셋 + 읽음 리스너 등록
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken');
+    if (!token) return;
+    fetchAllChatsWithDetails();
+    connectSocket(token);
+  }, [fetchAllChatsWithDetails]);
+
   useEffect(() => {
     if (!selectedChatId) {
       prevRoomId.current = null;
@@ -140,9 +140,7 @@ export function useChatPanelHandler() {
       return;
     }
 
-    // 읽음 이벤트 (ex: 서버에서 읽음 처리 됐을 때, 필요에 따라 갱신)
     const handleMessageRead = (payload: { chatRoomId: string; messageId: string; userId: string }) => {
-      // 현재 방의 unreadCount 0으로 리셋
       setChatList((prev) =>
         prev.map((chat) => (chat.id === payload.chatRoomId ? { ...chat, unreadCount: 0 } : chat)),
       );
@@ -156,10 +154,8 @@ export function useChatPanelHandler() {
         joinRoom(selectedChatId);
         prevRoomId.current = selectedChatId;
 
-        // joinRoom 이후에 읽음 리스너 등록
         subscribeMessageReadAfterConnect(handleMessageRead);
 
-        // (카톡처럼 방 들어오면 미읽음 0으로)
         setChatList((prev) =>
           prev.map((chat) => (chat.id === selectedChatId ? { ...chat, unreadCount: 0 } : chat)),
         );
