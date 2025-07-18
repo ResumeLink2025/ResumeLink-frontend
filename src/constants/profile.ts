@@ -4,26 +4,14 @@ export type ProfileType = {
     customInterest?: string[];
     customPosition?: string[];
     customSkill?: string[];
+    desirePositions?: string[];
     employmentStatus: string;
     experienceYears: number;
+    generalSkills: string[];
     gender?: string;
     id: string;
     imageUrl: string;
     nickname: string;
     summary: string;
-    user: {
-      desirePositions: {
-        position: {
-          id: string;
-          name: string;
-        };
-      }[];
-      userSkills: {
-        skill: {
-          id: number;
-          name: string;
-        };
-      }[];
-    };
   };
 };

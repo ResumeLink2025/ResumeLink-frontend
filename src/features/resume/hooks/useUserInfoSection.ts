@@ -12,14 +12,8 @@ const useUserInfoSection = () => {
   useEffect(() => {
     if (!myProfile) return;
 
-    setValue(
-      'skills',
-      myProfile?.profile.user.userSkills.map((skill) => skill.skill.name),
-    );
-    setValue(
-      'positions',
-      myProfile?.profile.user.desirePositions.map((position) => position.position.name).join(','),
-    );
+    setValue('skills', myProfile?.profile.generalSkills);
+    setValue('positions', myProfile?.profile.desirePositions);
   }, [setValue, myProfile]);
 
   return { myProfile };

@@ -60,18 +60,23 @@ const Header = () => {
         </div>
 
         <div className="flex justify-between items-center h-[35px]">
-          {!isLoggedIn && (
-            <div className="flex gap-2">
-              <NavLink navHref="/developersHub" title="개발자 허브" />
-              <NavLink navHref="/resume/create" title="이력서 생성" />
-              <NavLink navHref="/project/create" title="프로젝트 작성" />
-              <NavLink navHref="/mypage" title="마이 페이지" />
-            </div>
-          )}
-
+          <div className="flex gap-2">
+            {isLoggedIn && (
+              <>
+                <NavLink navHref="/developersHub" title="개발자 허브" />
+                <NavLink navHref="/resume/create" title="이력서 생성" />
+                <NavLink navHref="/project/create" title="프로젝트 작성" />
+                <NavLink navHref="/mypage" title="마이 페이지" />
+              </>
+            )}
+          </div>
           {mounted && (
             <div className="flex gap-5">
-              {!isLoggedIn ? (
+              {isLoggedIn ? (
+                <Link href="/" className="font-medium text-[16px] leading-[145%]" onClick={handleLogout}>
+                  로그아웃
+                </Link>
+              ) : (
                 <>
                   <Link href="/login" className="font-medium text-[16px] leading-[145%]">
                     로그인
@@ -80,10 +85,6 @@ const Header = () => {
                     회원가입
                   </Link>
                 </>
-              ) : (
-                <Link href="/" className="font-medium text-[16px] leading-[145%]" onClick={handleLogout}>
-                  로그아웃
-                </Link>
               )}
             </div>
           )}

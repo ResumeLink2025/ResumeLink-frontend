@@ -42,15 +42,13 @@ const UserInfoSection = ({ id }: UserInfoSectionProps) => {
           <UserInfoField label="이름" value={myProfile?.profile.nickname} />
           <UserInfoField
             label="관심 직군"
-            value={myProfile?.profile.user.desirePositions
-              .map((position) => position.position.name)
-              .join(',')}
+            value={myProfile?.profile.desirePositions.map((position: string) => position).join(',')}
           />
           <UserInfoField label="기술 스택">
             <div className="flex flex-wrap gap-1">
-              {myProfile?.profile.user.userSkills.map((skill) => (
-                <Tag key={skill.skill.id} styleType="gray" size="medium">
-                  {skill.skill.name}
+              {myProfile?.profile.generalSkills.map((skill: string) => (
+                <Tag key={skill} styleType="gray" size="medium">
+                  {skill}
                 </Tag>
               ))}
             </div>
