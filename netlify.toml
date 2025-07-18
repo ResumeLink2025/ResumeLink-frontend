@@ -27,3 +27,9 @@
     url = ":url"
     w = ":width"
     q = ":quality"
+
+[[redirects]]
+  from = "/api/*"
+  to = "http://api.resumelink.co.kr/:splat"
+  status = 200
+  force = true
