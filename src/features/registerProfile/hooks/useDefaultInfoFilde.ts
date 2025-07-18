@@ -9,58 +9,84 @@ const useDefaultInfoField = () => {
     register,
     formState: { errors },
     setValue,
+    watch,
   } = useFormContext<UserProfileType>();
 
+  // imageUrl(미리보기 용), 닉네임, 생일, 성별, 희망직무(배열), 연차
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [nickName, setNickName] = useState<string>('');
-  const [birthday, setBirthday] = useState<Date | null>(null);
+  const [birthday, setBirthday] = useState<string | null>(null);
   const [gender, setGender] = useState<UserProfileType['gender']>(null);
-  const [desirePosition, setDesirePosition] = useState<string>('');
+  const [desirePositions, setDesirePositions] = useState<string[]>([]); // ★ 배열로 변경
   const [experienceYears, setExperienceYears] = useState<number>(0);
 
+  // 이미지 업로드 핸들러
   const handleUploadImageFile = (files?: FileList | null) => {
     if (!files || files.length === 0) {
       setImageUrl(null);
-      setValue('profileImage', null, { shouldDirty: true, shouldValidate: false });
+      setValue('imageUrl', null, { shouldDirty: true, shouldValidate: false });
       return;
     }
     const file = files[0];
-    setValue('profileImage', file, { shouldDirty: true, shouldValidate: false });
-    setImageUrl(URL.createObjectURL(file));
+    const previewUrl = URL.createObjectURL(file);
+    setValue('imageUrl', previewUrl, { shouldDirty: true, shouldValidate: false }); // 실제 API에는 파일 업로드 별도
+    setImageUrl(previewUrl);
   };
 
+  // 닉네임
   const handleNickName = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     setNickName(value);
     setValue('nickname', value, { shouldDirty: true, shouldValidate: false });
   };
 
+  // 생일
   const handleBirthday = (e: ChangeEvent<HTMLInputElement>) => {
-    const value = e.target.value;
-    const date = value ? new Date(value) : null;
-    setBirthday(date);
-    setValue('birthday', date, { shouldDirty: true, shouldValidate: true });
+    const value = e.target.value || null;
+    setBirthday(value);
+    setValue('birthday', value, { shouldDirty: true, shouldValidate: true });
   };
 
+  // 성별
   const handleGender = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
-
-    const value = e.target.value || null; // 빈 값일 때 null 처리
-    setGender(value);
+    const value = e.target.value || null;
+    setGender(value as UserProfileType['gender']);
     setValue('gender', value, { shouldDirty: true, shouldValidate: false });
   };
 
-  const handleDesirePosition = (e: ChangeEvent<HTMLSelectElement>) => {
+  // 희망직무 (배열형, 단일 선택도 배열로)
+  const handleDesirePosition = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = e.target.value;
-    setDesirePosition(value);
+    setDesirePositions([value]); // ★ 배열로 set
     setValue('desirePositions', [value], { shouldDirty: true, shouldValidate: false });
   };
 
+  // 만약 복수 선택 지원이면
+  // const handleDesirePositions = (values: string[]) => {
+  //   setDesirePositions(values);
+  //   setValue('desirePositions', values, { shouldDirty: true, shouldValidate: false });
+  // }
+
+  // 연차
   const handleExperienceYears = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = Number(e.target.value);
     setExperienceYears(value);
     setValue('experienceYears', value, { shouldDirty: true, shouldValidate: false });
   };
 
+  // 마운트 시 기존 값 세팅
+  useEffect(() => {
+    // 초기값 세팅 (폼에 watch 있으면 여기서 가져와도 됨)
+    setImageUrl(watch('imageUrl') ?? null);
+    setNickName(watch('nickname') ?? '');
+    setBirthday(watch('birthday') ?? null);
+    setGender(watch('gender') ?? null);
+    setDesirePositions(watch('desirePositions') ?? []);
+    setExperienceYears(watch('experienceYears') ?? 0);
+    // eslint-disable-next-line
+  }, []);
+
+  // 이미지 URL 정리
   useEffect(() => {
     return () => {
       if (imageUrl) URL.revokeObjectURL(imageUrl);
@@ -74,7 +100,7 @@ const useDefaultInfoField = () => {
     nickName,
     birthday,
     gender,
-    desirePosition,
+    desirePositions, // ★ 배열 상태로 반환
     experienceYears,
     handleUploadImageFile,
     handleNickName,
@@ -82,6 +108,7 @@ const useDefaultInfoField = () => {
     handleGender,
     handleDesirePosition,
     handleExperienceYears,
+    setValue, // 필요하면 외부에서도 set 가능
   };
 };
 

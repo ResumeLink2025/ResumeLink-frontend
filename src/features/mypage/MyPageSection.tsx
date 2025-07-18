@@ -43,7 +43,7 @@ export default function MyPageSection() {
     };
 
     fetchProfile();
-  }, []); // 최초 1회만 실행
+  }, []);
   return (
     <div className="min-h-[calc(100vh-155px)] mt-16">
       {profile && (

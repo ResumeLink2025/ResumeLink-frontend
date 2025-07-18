@@ -8,7 +8,7 @@ import DevSkillField from '../project/DevSkillField';
 import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
 import ActionButtonSection from './ActionButtonSection';
 import AdditionalInfoSection from './AdditionalInfoSection';
-import { patchUserProfile } from './apis/userInfoApi';
+import { patchUserProfile, uploadImage } from './apis/userInfoApi';
 import BasicInfoSection from './BasicInfoSection';
 import useDefaultInfoField from './hooks/useDefaultInfoFilde';
 import { ProfileHederSection } from './ProfileHeaderSection';
@@ -23,6 +23,16 @@ type RegisterProfileSectionProps = {
   initialProfile?: UserProfileType;
 };
 
+interface SkillShape {
+  skill: {
+    generalSkills?: string[];
+    customSkills?: string[];
+  };
+}
+
+// 유니언 타입으로 타입 정의
+type SubmitProfile = UserProfileType | (UserProfileType & SkillShape);
+
 export default function RegisterProfileSection({
   onSave,
   onCancel,
@@ -31,43 +41,64 @@ export default function RegisterProfileSection({
 }: RegisterProfileSectionProps) {
   const router = useRouter();
 
-  const defaultProfile: UserProfileType = initialProfile ?? {
-    id: '',
-    nickname: '',
-    birthday: null,
-    gender: null,
-    customSkill: null,
-    customInterest: null,
-    customPosition: null,
-    experienceYears: 0,
-    employmentStatus: null,
-    imageUrl: null,
-    summary: null,
-    updatedAt: '',
-    skill: {
-      generalSkills: [],
-      customSkills: [],
-    },
-    user: {
-      userSkills: [],
-      desirePositions: [],
-    },
+  const defaultProfile: UserProfileType = {
+    id: initialProfile?.id ?? '',
+    nickname: initialProfile?.nickname ?? '',
+    birthday: initialProfile?.birthday ?? null,
+    gender: initialProfile?.gender ?? null,
+    customSkill: initialProfile?.customSkill ?? {},
+    customInterest: initialProfile?.customInterest ?? {},
+    customPosition: initialProfile?.customPosition ?? {},
+    experienceYears: initialProfile?.experienceYears ?? 0,
+    employmentStatus: initialProfile?.employmentStatus ?? null,
+    imageUrl: initialProfile?.imageUrl ?? null,
+    summary: initialProfile?.summary ?? null,
+    updatedAt: initialProfile?.updatedAt ?? '',
+    userSkills: initialProfile?.userSkills ?? [],
+    desirePositions: initialProfile?.desirePositions ?? [],
   };
 
   const methods = useForm<UserProfileType>({
     defaultValues: defaultProfile,
+    mode: 'onBlur',
   });
 
-  const skillNames = methods.watch('user.userSkills')?.map((us) => us.skill.name) ?? [];
-  const customSkills: string[] = defaultProfile.customSkill ? [defaultProfile.customSkill] : [];
+  const userSkills = methods.watch('userSkills') ?? [];
+  const customSkills = Object.keys(initialProfile?.customSkill ?? {});
 
-  const onSubmit: SubmitHandler<UserProfileType> = async (data) => {
+  const onSubmit: SubmitHandler<SubmitProfile> = async (data) => {
+    let imageUrl = 'imageUrl' in data ? data.imageUrl : null;
+
+    if ('profileImage' in data && data.profileImage && data.profileImage instanceof File) {
+      imageUrl = await uploadImage(data.profileImage);
+    }
+
+    // 타입가드: skill 프로퍼티가 있으면 변환
+    let userSkills: string[];
+    let customSkill: Record<string, true>;
+
+    if ('skill' in data && data.skill) {
+      userSkills = data.skill.generalSkills ?? [];
+      customSkill = (data.skill.customSkills ?? []).reduce((acc, key) => {
+        acc[key] = true;
+        return acc;
+      }, {} as Record<string, true>);
+    } else {
+      userSkills = 'userSkills' in data && data.userSkills ? data.userSkills : [];
+      customSkill = 'customSkill' in data && data.customSkill ? data.customSkill : {};
+    }
+
+    const payload: UserProfileType = {
+      ...(data as UserProfileType),
+      userSkills,
+      customSkill,
+      imageUrl,
+    };
+
     try {
-      const imageUrl = null;
-      await patchUserProfile({ ...data, imageUrl });
+      await patchUserProfile(payload);
       toast.success('프로필이 저장되었습니다.');
-
-      if (onSave) onSave(data);
+      if (onSave) onSave(payload);
       if (mode === 'register') {
         router.replace('/developersHub?type=resume&sort=popular');
       }
@@ -75,6 +106,7 @@ export default function RegisterProfileSection({
       console.error(err);
       toast.error('저장 실패');
     }
+    console.log(payload);
   };
 
   return (
@@ -85,7 +117,7 @@ export default function RegisterProfileSection({
           <FormBody
             onSubmit={methods.handleSubmit(onSubmit)}
             onCancel={onCancel}
-            defaultGeneralSkills={skillNames}
+            defaultUserSkills={userSkills}
             defaultCustomSkills={customSkills}
           />
         </FormProvider>
@@ -97,11 +129,11 @@ export default function RegisterProfileSection({
 type FormBodyProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onCancel?: () => void;
-  defaultGeneralSkills: string[];
+  defaultUserSkills: string[];
   defaultCustomSkills: string[];
 };
 
-function FormBody({ onSubmit, onCancel, defaultGeneralSkills, defaultCustomSkills }: FormBodyProps) {
+function FormBody({ onSubmit, onCancel, defaultUserSkills, defaultCustomSkills }: FormBodyProps) {
   const { imageUrl, handleUploadImageFile } = useDefaultInfoField();
 
   return (
@@ -110,7 +142,7 @@ function FormBody({ onSubmit, onCancel, defaultGeneralSkills, defaultCustomSkill
       <BasicInfoSection />
       <AdditionalInfoSection jobOptions={DEVELOPERLIST} yearOptions={YEARLIST} />
       <DevSkillField
-        defaultGeneralSkills={defaultGeneralSkills}
+        defaultGeneralSkills={defaultUserSkills}
         defaultCustomSkills={defaultCustomSkills}
         className="col-span-2"
       />

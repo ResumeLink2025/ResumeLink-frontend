@@ -1,44 +1,22 @@
 import { z } from 'zod';
 
+// z.record(z.any())는 {}나 null 모두 가능 (OK)
 export const UserProfileSchema = z.object({
-  id: z.string(),
+  id: z.string().optional(), // DB PK
   nickname: z.string(),
-  birthday: z.string().nullable(),
+  birthday: z.string().nullable(), // string or null (프론트는 Date를 string으로 변환 필요)
   gender: z.string().nullable(),
-  customSkill: z.string().nullable(),
-  customInterest: z.string().nullable(),
-  customPosition: z.string().nullable(),
+  customSkill: z.record(z.any()).nullable(),
+  customInterest: z.record(z.any()).nullable(),
+  customPosition: z.record(z.any()).nullable(),
   experienceYears: z.number().int().nonnegative(),
   employmentStatus: z.string().nullable(),
   imageUrl: z.string().nullable(),
   summary: z.string().nullable(),
-  updatedAt: z.string(),
-  skill: z.object({
-    generalSkills: z.array(z.string()).default([]),
-    customSkills: z.array(z.string()).default([]),
-  }),
-  user: z.object({
-    userSkills: z
-      .array(
-        z.object({
-          skill: z.object({
-            id: z.string(),
-            name: z.string(),
-          }),
-        }),
-      )
-      .default([]),
-    desirePositions: z
-      .array(
-        z.object({
-          position: z.object({
-            id: z.string(),
-            name: z.string(),
-          }),
-        }),
-      )
-      .default([]),
-  }),
+  profileImage: z.any().optional(),
+  updatedAt: z.string().optional(),
+  userSkills: z.array(z.string()), // ★백엔드가 원하는 string[] 그대로
+  desirePositions: z.array(z.string()), // ★백엔드가 원하는 string[] 그대로
 });
 
 export type UserProfileType = z.infer<typeof UserProfileSchema>;
