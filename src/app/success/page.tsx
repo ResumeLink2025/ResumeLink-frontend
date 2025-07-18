@@ -31,7 +31,7 @@ export default function SuccessPage() {
 
         const profile = await getMyProfile(accessToken);
         if (!cancelled) {
-          if (profile.gender === null) {
+          if (profile.nickname === null) {
             router.replace('/registerInfo');
           } else {
             router.replace('/developersHub?type=resume&sort=popular');
