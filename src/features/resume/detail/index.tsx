@@ -20,10 +20,13 @@ interface ResumeDetailProps {
 
 const ResumeDetail = ({ id }: ResumeDetailProps) => {
   const { data: resumeDetail } = useGetResumeDetail(id, true);
+
   const { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat } = useResumeDetail(
     resumeDetail?.theme,
   );
+
   const testUserId = 'c8878e96-b683-41db-b438-7c935cd78dde';
+
   return (
     <PageWrapper className="max-w-4xl my-12">
       <ActionButtons

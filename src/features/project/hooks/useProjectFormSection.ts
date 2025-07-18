@@ -78,7 +78,7 @@ const useProjectFormSection = (id?: string) => {
         tags: projectDetail.tags || [],
       });
     }
-  }, [hasProjectId, projectDetail]);
+  }, [hasProjectId, projectDetail, reset]);
 
   useEffect(() => {
     setValue('status', projectStatus);

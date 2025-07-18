@@ -3,7 +3,6 @@ import { useSearchParams } from 'next/navigation';
 import toast from 'react-hot-toast';
 
 import useDeleteProjectLike from '@/hooks/apis/like/useDeleteProjectLike';
-import useDeleteResumeLike from '@/hooks/apis/like/useDeleteResumeLike';
 import usePostProjectLike from '@/hooks/apis/like/usePostProjectLike';
 import usePostResumeLike from '@/hooks/apis/like/usePostResumeLike';
 import useGetProjectList, { PROJECT_LIST } from '@/hooks/apis/project/useGetProjectList';
@@ -30,7 +29,6 @@ const useProfileList = (listType: string) => {
       toast.error('이력서 스크랩에 실패했습니다.');
     },
   });
-  const { mutate: deleteResumeLikeMutate } = useDeleteResumeLike();
 
   const { mutate: postProjectLikeMutate } = usePostProjectLike({
     onSuccess: () => {
@@ -50,13 +48,7 @@ const useProfileList = (listType: string) => {
   const onClickResumeHeart = (e: React.MouseEvent<HTMLDivElement>, id: string) => {
     e.stopPropagation();
 
-    const targetResume = resumeList?.find((resume) => resume.id === id);
-
-    if (targetResume?.isFavorited) {
-      deleteResumeLikeMutate(id);
-    } else {
-      postResumeLikeMutate(id);
-    }
+    postResumeLikeMutate(id);
   };
 
   const onClickProjectHeart = (e: React.MouseEvent<HTMLDivElement>, id: number) => {

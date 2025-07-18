@@ -11,14 +11,12 @@ const ProfileList = ({ listType }: ProfileListProps) => {
 
   return (
     <div className="grid grid-cols-5 gap-4 py-15">
-      {resumeList &&
-        resumeList?.map((resume) => (
-          <ResumeProfileCard key={resume.id} onClick={onClickResumeHeart} {...resume} />
-        ))}
-      {projectList &&
-        projectList?.map((project) => (
-          <ProjectProfileCard key={project.id} onClick={onClickProjectHeart} {...project} />
-        ))}
+      {resumeList?.map((resume) => (
+        <ResumeProfileCard key={resume.id} onClick={onClickResumeHeart} {...resume} />
+      ))}
+      {projectList?.map((project) => (
+        <ProjectProfileCard key={project.id} onClick={onClickProjectHeart} {...project} />
+      ))}
     </div>
   );
 };
