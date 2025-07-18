@@ -27,7 +27,7 @@ const Header = () => {
     } else {
       setLogout();
     }
-  }, []);
+  }, [setLogin, setLogout]);
 
   useEffect(() => {
     (async () => {
@@ -44,7 +44,8 @@ const Header = () => {
         setLogout();
       }
     })();
-  }, []);
+  }, [setLogin, setLogout]);
+
   const handleLogout = () => {
     LocalStorage.removeItem(ACCESS_TOKEN);
     setLogout();

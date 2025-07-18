@@ -112,19 +112,14 @@ const useResumeFormSection = (id?: string) => {
         resumeImgUrl: resumeDetail.resumeImgUrl || myProfile?.profile?.imageUrl,
       });
     }
-  }, [hasResumeId, resumeDetail, myProjectList, reset]);
+  }, [hasResumeId, resumeDetail, myProjectList, myProfile, reset]);
 
   useEffect(() => {
-    if (myProfile?.profile?.generalSkills) {
-      setValue('skills', myProfile?.profile.generalSkills);
+    if (myProfile?.profile?.generalSkills && myProfile?.profile?.desirePositions) {
+      setValue('skills', myProfile?.profile?.generalSkills);
+      setValue('positions', myProfile?.profile?.desirePositions);
     }
-  }, [myProfile?.profile.generalSkills, setValue]);
-
-  useEffect(() => {
-    if (myProfile?.profile?.desirePositions) {
-      setValue('positions', myProfile?.profile.desirePositions);
-    }
-  }, [myProfile?.profile.desirePositions, setValue]);
+  }, [myProfile, setValue]);
 
   useEffect(() => {
     setValue('categories', selectedCategoriesState);

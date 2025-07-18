@@ -118,7 +118,7 @@ export function useChatPanelHandler() {
         return updated;
       });
     },
-    [queryClient],
+    [queryClient, selectedChatId],
   );
 
   useEffect(() => {

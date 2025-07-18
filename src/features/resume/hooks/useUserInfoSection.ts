@@ -15,7 +15,7 @@ const useUserInfoSection = ({ myProfile, resumeImageUrl }: Omit<UserInfoSectionP
       setValue('resumeImgUrl', response.imageUrl);
     },
     onError: () => {
-      toast.error('이미지 업로드중 올류가 발생했습니다.');
+      toast.error('이미지 업로드중 오류가 발생했습니다.');
     },
   });
 
