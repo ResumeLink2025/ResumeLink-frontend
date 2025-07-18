@@ -1,7 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
-import { Suspense } from 'react';
+import { useEffect, useState } from 'react';
 
 import { PageWrapper } from '@/layouts';
 
@@ -10,15 +10,22 @@ import SearchSection from './SearchSection';
 
 const DevelopersHub = () => {
   const params = useSearchParams();
-  const listType = params.get('type') as string;
+  const [listType, setListType] = useState<string | null>(null);
+
+  useEffect(() => {
+    const type = params.get('type');
+    setListType(type);
+  }, [params]);
+
+  if (listType === null) {
+    return <div>Loading...</div>;
+  }
 
   return (
-    <Suspense fallback={<div>Loading...</div>}>
-      <PageWrapper>
-        <SearchSection />
-        <ProfileList listType={listType} />
-      </PageWrapper>
-    </Suspense>
+    <PageWrapper>
+      <SearchSection />
+      <ProfileList listType={listType} />
+    </PageWrapper>
   );
 };
 
