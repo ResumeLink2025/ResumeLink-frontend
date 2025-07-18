@@ -13,14 +13,24 @@ interface Props {
 export default function AdditionalInfoSection({ jobOptions, yearOptions }: Props) {
   const { setValue, watch } = useFormContext<UserProfileType>();
 
+  // string[]로 watch!
+  const desirePositions: string[] = watch('desirePositions') ?? [];
+  // 선택된 직무(단일 선택)
+  const selectedJob = desirePositions.length > 0 ? desirePositions[0] : '';
+
+  const experienceYears = watch('experienceYears');
+
   return (
     <>
       <div className="flex flex-col gap-2">
         <Typography type="body4">희망 직무</Typography>
         <CustomSelectBox
           options={jobOptions}
-          value={watch('desirePositions')[0]}
-          onChange={(v) => setValue('desirePositions', [v], { shouldDirty: true })}
+          value={selectedJob}
+          onChange={(v) => {
+            // value(string)만 배열로 감싸서 저장
+            setValue('desirePositions', v ? [v] : [], { shouldDirty: true });
+          }}
         />
       </div>
 
@@ -28,7 +38,7 @@ export default function AdditionalInfoSection({ jobOptions, yearOptions }: Props
         <Typography type="body4">연차</Typography>
         <CustomSelectBox
           options={yearOptions}
-          value={String(watch('experienceYears'))}
+          value={experienceYears !== undefined && experienceYears !== null ? String(experienceYears) : ''}
           onChange={(v) => setValue('experienceYears', Number(v), { shouldDirty: true })}
         />
       </div>

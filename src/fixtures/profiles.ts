@@ -1,4 +1,4 @@
-export const PROFILE_LIST = Array.from({ length: 30 }).map((_, idx) => ({
+export const PROFILE_LIST = Array.from({ length: 2 }).map((_, idx) => ({
   id: idx,
   imageUrl:
     'https://fastly.picsum.photos/id/616/200/200.jpg?hmac=QEzyEzU6nVn4d_vdALhsT9UAtTUEVhwrT-kM5ogBqKM',

@@ -1,49 +1,52 @@
 import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
-import type { DevSkillFieldProps } from '../../project/DevSkillField';
 import type { UserProfileType } from '../shcemas/userProfileSchema';
 
 const useDevSkillField = ({
-  defaultGeneralSkills = [],
+  defaultUserSkills = [],
   defaultCustomSkills = [],
-}: Omit<DevSkillFieldProps, 'className'>) => {
+}: {
+  defaultUserSkills?: string[];
+  defaultCustomSkills?: string[];
+}) => {
   const {
     setValue,
+    control,
     formState: { errors, isSubmitted },
   } = useFormContext<UserProfileType>();
 
-  // 최초 mount 시에만 초기값 세팅!
-  const [generalSkills, setGeneralSkills] = useState<string[]>(defaultGeneralSkills);
-  const [customSkills, setCustomSkills] = useState<string[]>(defaultCustomSkills);
+  // 커스텀 skill 입력 상태만 별도 관리
   const [typingSkill, setTypingSkill] = useState('');
 
-  // form value도 최초 mount 시에만 동기화
-  useEffect(() => {
-    setGeneralSkills(defaultGeneralSkills || []);
-    setValue('skill.generalSkills', defaultGeneralSkills || []);
-    setCustomSkills(defaultCustomSkills || []);
-    setValue('skill.customSkills', defaultCustomSkills || []);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // form state에서 직접 watch
+  const userSkills: string[] = useWatch({ control, name: 'userSkills' }) ?? [];
+  const customSkillObj: Record<string, true> = useWatch({ control, name: 'customSkill' }) ?? {};
+  const customSkills: string[] = Object.keys(customSkillObj ?? {});
 
+  // mount 시 form에 값 세팅
   useEffect(() => {
-    setValue('skill.generalSkills', generalSkills);
-  }, [generalSkills, setValue]);
+    setValue('userSkills', defaultUserSkills);
+    setValue(
+      'customSkill',
+      defaultCustomSkills.reduce<Record<string, true>>((acc, key) => {
+        acc[key] = true;
+        return acc;
+      }, {}),
+    );
+  }, [defaultUserSkills, defaultCustomSkills, setValue]);
 
-  useEffect(() => {
-    setValue('skill.customSkills', customSkills);
-  }, [customSkills, setValue]);
-
+  // 기본 스킬(checkbox 등) 클릭 토글
   const onClickSkill = (skill: string) => {
-    setGeneralSkills((prev) => (prev.includes(skill) ? prev.filter((s) => s !== skill) : [...prev, skill]));
+    const next = userSkills.includes(skill) ? userSkills.filter((s) => s !== skill) : [...userSkills, skill];
+    setValue('userSkills', next, { shouldDirty: true });
   };
 
-  const onChangeTypingSkill = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTypingSkill(e.target.value);
-  };
+  // 커스텀 스킬 입력
+  const onChangeTypingSkill = (e: React.ChangeEvent<HTMLInputElement>) => setTypingSkill(e.target.value);
 
+  // 커스텀 스킬 추가 (Enter)
   const onEnterAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
@@ -53,19 +56,24 @@ const useDevSkillField = ({
         setTypingSkill('');
         return;
       }
-      setCustomSkills((prev) => [...prev, typingSkill]);
+      // object로 변환해서 추가
+      setValue('customSkill', { ...customSkillObj, [typingSkill]: true }, { shouldDirty: true });
       setTypingSkill('');
     }
   };
 
+  // 커스텀 스킬 삭제
   const onClickDeleteCustomSkill = (skill: string) => {
-    setCustomSkills((prev) => prev.filter((customSkill) => customSkill !== skill));
+    // skill만 뺀 object로 변환
+    const updated = { ...customSkillObj };
+    delete updated[skill];
+    setValue('customSkill', updated, { shouldDirty: true });
   };
 
   return {
     errors,
     isSubmitted,
-    generalSkills,
+    userSkills,
     typingSkill,
     customSkills,
     onClickSkill,

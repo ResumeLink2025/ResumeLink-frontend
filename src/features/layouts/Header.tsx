@@ -60,13 +60,10 @@ const Header = () => {
 
         <div className="flex justify-between items-center h-[35px]">
           <div className="flex gap-2">
-            {LocalStorage.getItem(ACCESS_TOKEN) && (
-              <>
-                <NavLink navHref={routeMainPage} title="개발자 허브" />
-                <NavLink navHref="/resume/create" title="이력서 생성" />
-                <NavLink navHref="/project/create" title="프로젝트 작성" />
-              </>
-            )}
+            <NavLink navHref="/developersHub" title="개발자 허브" />
+            <NavLink navHref="/resume/create" title="이력서 생성" />
+            <NavLink navHref="/project/create" title="프로젝트 작성" />
+            <NavLink navHref="/mypage" title="마이 페이지" />
           </div>
 
           {mounted && (

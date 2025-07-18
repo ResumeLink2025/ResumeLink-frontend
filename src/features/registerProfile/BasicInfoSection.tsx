@@ -31,7 +31,7 @@ export default function BasicInfoSection() {
       <input
         type="date"
         className="appearance-auto border border-gray-40 rounded-[10px] cursor-pointer h-[45px] px-3 py-2 focus:ring-yellow-300"
-        {...register('birthday', { valueAsDate: true })}
+        {...register('birthday')}
       />
     </div>
   );
