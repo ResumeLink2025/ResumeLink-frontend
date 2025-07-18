@@ -52,7 +52,7 @@ const DevSkillField = ({ defaultGeneralSkills, defaultCustomSkills, className }:
           onChange={onChangeTypingSkill}
           onKeyDown={onEnterAddSkill}
         />
-        {/* 커스텀 스킬 태그 목록 */}
+
         <div className="flex flex-wrap gap-2 mt-3">
           {customSkills.map((customSkill) => (
             <div

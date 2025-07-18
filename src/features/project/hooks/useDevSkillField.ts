@@ -4,7 +4,6 @@ import toast from 'react-hot-toast';
 
 import type { DevSkillFieldProps } from '../DevSkillField';
 import type { ProjectFormDataType } from '../schemas/projectSchema';
-
 const useDevSkillField = ({
   defaultGeneralSkills,
   defaultCustomSkills,

@@ -1,5 +1,7 @@
 'use client';
 
+import { zodResolver } from '@hookform/resolvers/zod';
+
 import { useRouter } from 'next/navigation';
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
@@ -15,6 +17,7 @@ import { ProfileHederSection } from './ProfileHeaderSection';
 import ProfileImageSection from './ProfileImageSection';
 import SummarySection from './SummarySeciton';
 import { DEVELOPERLIST, YEARLIST } from './types';
+
 
 type RegisterProfileSectionProps = {
   mode: 'register' | 'edit';
@@ -39,6 +42,7 @@ export default function RegisterProfileSection({
   mode,
   initialProfile,
 }: RegisterProfileSectionProps) {
+
   const router = useRouter();
 
   const defaultProfile: UserProfileType = {
@@ -62,6 +66,7 @@ export default function RegisterProfileSection({
     defaultValues: defaultProfile,
     mode: 'onBlur',
   });
+
 
   const userSkills = methods.watch('userSkills') ?? [];
   const customSkills = Object.keys(initialProfile?.customSkill ?? {});
@@ -102,6 +107,7 @@ export default function RegisterProfileSection({
       if (mode === 'register') {
         router.replace('/developersHub?type=resume&sort=popular');
       }
+
     } catch (err) {
       console.error(err);
       toast.error('저장 실패');
@@ -148,6 +154,7 @@ function FormBody({ onSubmit, onCancel, defaultUserSkills, defaultCustomSkills }
       />
       <SummarySection className="col-span-2" />
       <ActionButtonSection onCancel={onCancel} />
+
     </form>
   );
 }
