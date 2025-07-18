@@ -31,7 +31,7 @@ const ProjectProfileCard = ({
 
   return (
     <div
-      className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer"
+      className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer bg-white"
       onClick={() => router.push(`/project/${projectNumber}`)}
     >
       {imgUrl ? (
@@ -79,7 +79,7 @@ const ProjectProfileCard = ({
               alt="profile-image"
               width={24}
               height={24}
-              className="rounded-full object-cover border border-gray-30"
+              className="rounded-full object-cover border border-gray-30 min-h-6"
             />
           ) : (
             <div className="size-6 rounded-full bg-gray-30" />

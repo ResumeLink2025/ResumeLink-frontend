@@ -25,23 +25,24 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
     resumeDetail?.theme,
   );
 
-  const testUserId = 'c8878e96-b683-41db-b438-7c935cd78dde';
-
   return (
     <PageWrapper className="max-w-4xl my-12">
       <ActionButtons
         resumeId={id}
         userId={resumeDetail?.userId}
-        requestCoffeeChat={() => requestCoffeeChat(testUserId)}
+        requestCoffeeChat={() => requestCoffeeChat(String(resumeDetail?.userId))}
         onClickDownLoadResume={onClickDownLoadResume}
       />
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
         <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
           <div className="flex gap-8">
-            {resumeDetail?.imageUrl ? (
+            {resumeDetail?.resumeImgUrl ? (
               <Image
-                src={resumeDetail.imageUrl}
-                className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50 object-cover')}
+                src={resumeDetail.resumeImgUrl}
+                className={cn(
+                  'rounded-[10px]',
+                  isThemeBlack && 'border border-gray-50 h-[170px] object-cover',
+                )}
                 width={170}
                 height={170}
                 placeholder="blur"

@@ -104,11 +104,12 @@ const useResumeFormSection = (id?: string) => {
             endDate: activity.endDate && formatDate(activity.endDate),
           })) || [],
         certificates:
-          resumeDetail?.certificates?.map((certificate) => ({
+          resumeDetail.certificates?.map((certificate) => ({
             ...certificate,
             date: certificate.date && formatDate(certificate.date),
             grade: certificate.grade,
           })) || [],
+        resumeImgUrl: resumeDetail.resumeImgUrl || myProfile?.profile?.imageUrl,
       });
     }
   }, [hasResumeId, resumeDetail, myProjectList, reset]);
@@ -204,6 +205,7 @@ const useResumeFormSection = (id?: string) => {
     selectedProjects: selectedProjectsState,
     selectedThemeOption,
     myProfile,
+    resumeImageUrl: resumeDetail?.resumeImgUrl,
     isPublic,
     isSubmitted,
     errors,
