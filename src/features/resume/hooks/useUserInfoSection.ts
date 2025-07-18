@@ -13,7 +13,7 @@ const useUserInfoSection = () => {
     if (!myProfile) return;
 
     setValue('skills', myProfile?.profile.generalSkills);
-    setValue('positions', myProfile?.profile.desirePositions);
+    setValue('positions', myProfile?.profile.desirePositions?.map((position) => position).join(', '));
   }, [setValue, myProfile]);
 
   return { myProfile };

@@ -1,10 +1,6 @@
 import ProjectDetail from '@/features/project/detail';
 
-interface ProjectDetailPageProps {
-  params: { id: string };
-}
-
-const ProjectDetailPage = async ({ params }: ProjectDetailPageProps) => {
+const ProjectDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
   return <ProjectDetail id={id} />;

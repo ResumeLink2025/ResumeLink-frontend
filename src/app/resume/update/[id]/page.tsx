@@ -1,10 +1,6 @@
 import Resume from '@/features/resume';
 
-interface UpdateResumePageProps {
-  params: { id: string };
-}
-
-const UpdateResumePage = async ({ params }: UpdateResumePageProps) => {
+const UpdateResumePage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
   return <Resume id={id} />;

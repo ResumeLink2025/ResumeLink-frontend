@@ -1,10 +1,6 @@
 import ResumeDetail from '@/features/resume/detail';
 
-export interface ResumeDetailPageProps {
-  params: { id: string };
-}
-
-const ResumeDetailPage = async ({ params }: ResumeDetailPageProps) => {
+const ResumeDetailPage = async ({ params }: { params: Promise<{ id: string }> }) => {
   const { id } = await params;
 
   return <ResumeDetail id={id} />;
