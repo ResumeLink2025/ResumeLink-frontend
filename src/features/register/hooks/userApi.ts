@@ -4,12 +4,11 @@ export async function getMyProfile(token: string) {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  const res = await fetch('http://localhost:8080/api/profiles', { headers });
+  const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles`, { headers });
 
   let json;
   try {
     json = await res.json();
-    console.log('프로필 API 응답:', json);
   } catch (e) {
     console.error('프로필 응답 파싱 실패', e);
     json = null;

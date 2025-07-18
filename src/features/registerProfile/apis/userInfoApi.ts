@@ -6,8 +6,7 @@ export type PatchUserProfilePayload = Omit<UserProfileType, 'birthday'> & {
 
 export async function patchUserProfile(data: PatchUserProfilePayload) {
   const token = localStorage.getItem('accessToken');
-  const response = await fetch('http://localhost:8080/api/profiles', {
-
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles`, {
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -28,7 +27,7 @@ export async function uploadImage(file: File): Promise<string> {
   const formData = new FormData();
   formData.append('image', file);
 
-  const response = await fetch('http://localhost:8080/api/images', {
+  const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/images`, {
     method: 'POST',
     body: formData,
   });
@@ -39,5 +38,4 @@ export async function uploadImage(file: File): Promise<string> {
 
   const data = await response.json();
   return data.imageUrl;
-
 }

@@ -24,7 +24,7 @@ export async function authFetch(url: string, options: RequestInit = {}) {
     } else {
       isRefreshing = true;
 
-      const refreshRes = await fetch('http://localhost:8080/api/auth/refresh', {
+      const refreshRes = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
       });

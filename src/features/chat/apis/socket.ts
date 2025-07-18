@@ -6,30 +6,21 @@ import type { NewMessageNotification, SendMessageResult } from '@/constants/chat
 let socket: Socket | null = null;
 
 export function connectSocket(token: string): Socket {
-  console.log('connectSocket 실행', token);
-  socket = io('http://localhost:8080', {
+  socket = io(`${process.env.NEXT_PUBLIC_SERVER_URL}`, {
     auth: { token },
   });
 
-  socket.on('connect', () => {
-    console.log('Socket 연결 성공:', socket?.id);
-  });
+  socket.on('connect', () => {});
 
-  socket.on('disconnect', () => {
-    console.log('Socket 연결 해제');
-  });
+  socket.on('disconnect', () => {});
 
-  socket.on('connect_error', (error) => {
-    console.error('Socket 연결 에러:', error);
-  });
+  socket.on('connect_error', () => {});
 
   return socket;
 }
 
 export function joinRoom(chatRoomId: string) {
-  socket?.emit('room:join', { chatRoomId }, () => {
-    console.log(`✅ room ${chatRoomId} joined`);
-  });
+  socket?.emit('room:join', { chatRoomId }, () => {});
 }
 
 export function leaveRoom(chatRoomId: string) {
@@ -93,5 +84,12 @@ export function subscribeMessageReadAfterConnect(
     socket.once('connect', () => {
       socket?.on('message:read', callback);
     });
+  }
+}
+
+export function disconnectSocket() {
+  if (socket) {
+    socket.disconnect();
+    // 필요하다면 socket = null; // <- 연결 끊고 변수 초기화도 가능
   }
 }

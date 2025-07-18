@@ -17,9 +17,12 @@ export default function ChatSidePanel() {
     chatRoomInfo,
     handleLeaveChat,
     handleBackEvent,
+    profile,
+    setIsFlag,
   } = useChatPanelHandler();
 
-  // const totalUnreadCount = chatList.reduce((sum, chat) => sum + (chat.unreadCount ?? 0), 0);
+  const totalUnreadCount = chatList.reduce((sum, chat) => sum + (chat.unreadCount ?? 0), 0);
+  if (!profile) return;
 
   return (
     <>
@@ -29,11 +32,11 @@ export default function ChatSidePanel() {
           className="fixed bottom-16 right-4 z-[60] rounded-md bg-primary p-4 shadow-lg"
         >
           {/* 뱃지 */}
-          {/* {totalUnreadCount > 0 && (
+          {totalUnreadCount > 0 && (
             <span className="absolute -top-2 -right-2 min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
               {totalUnreadCount > 99 ? '99+' : totalUnreadCount}
             </span>
-          )} */}
+          )}
           💬
         </button>
       )}
@@ -73,9 +76,15 @@ export default function ChatSidePanel() {
                     await handleBackEvent();
                   }}
                   onLeaveChat={handleLeaveChat}
+                  profile={profile}
                 />
               ) : (
-                <ChatList chats={chatList} onSelectChat={setSelectedChatId} />
+                <ChatList
+                  chats={chatList}
+                  onSelectChat={setSelectedChatId}
+                  profile={profile}
+                  setIsFlag={setIsFlag}
+                />
               )}
             </div>
           </motion.div>

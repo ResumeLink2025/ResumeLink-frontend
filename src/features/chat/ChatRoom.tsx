@@ -1,7 +1,8 @@
 import { useQueryClient } from '@tanstack/react-query';
 import { useEffect, useRef, useState } from 'react';
 
-import type { ChatRoom, CoffeeChat } from '@/constants/chat';
+import type { ChatRoom } from '@/constants/chat';
+import type { ProfileType } from '@/constants/profile';
 
 import styles from './ChatRoomView.module.css';
 import { useChatRoom } from './hooks/useChatRoom';
@@ -12,9 +13,16 @@ interface ChatRoomViewProps {
   onBack: () => void;
   onLeaveChat: () => void;
   chatRoomInfo: ChatRoom | null;
+  profile: ProfileType;
 }
 
-export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo }: ChatRoomViewProps) {
+export default function ChatRoomView({
+  chatId,
+  onBack,
+  onLeaveChat,
+  chatRoomInfo,
+  profile,
+}: ChatRoomViewProps) {
   const [inputValue, setInputValue] = useState('');
   const [showLeaveConfirm, setShowLeaveConfirm] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -35,11 +43,11 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
 
       queryClient.invalidateQueries({ queryKey: ['chatRoomMessages', chatId] });
 
-      queryClient.invalidateQueries({ queryKey: ['chatList'] });
+      // queryClient.invalidateQueries({ queryKey: ['chatList'] });
 
-      queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
-        old.map((chat) => (chat.id === chatId ? { ...chat, message: inputValue, unreadCount: 0 } : chat)),
-      );
+      // queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
+      //   old.map((chat) => (chat.id === chatId ? { ...chat, message: inputValue, unreadCount: 0 } : chat)),
+      // );
 
       setInputValue('');
     } finally {
@@ -54,6 +62,9 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
   }, [messages]);
 
   if (!chatRoomInfo) return null;
+  const myUserId = profile.profile.id;
+
+  const opponent = chatRoomInfo.participants.find((p) => p.user.id !== myUserId);
 
   return (
     <div className="flex flex-1 flex-col h-full">
@@ -63,8 +74,9 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
           ← 뒤로
         </button>
         <p className="max-w-[120px] truncate font-semibold">
-          {chatRoomInfo.participants[1]?.user.profile.nickname || '알 수 없는 사용자'}
+          {opponent?.user.profile.nickname || '알 수 없는 사용자'}
         </p>
+
         <button onClick={() => setShowLeaveConfirm(true)} className="text-red-500 cursor-pointer">
           방 나가기
         </button>
@@ -81,16 +93,14 @@ export default function ChatRoomView({ chatId, onBack, onLeaveChat, chatRoomInfo
           <p className="text-center text-gray-400">아직 메시지가 없습니다.</p>
         )}
         {messages.map((m) => {
-          const myUserId = chatRoomInfo.participants[0]?.user.id;
           const isMine = m.sender?.id === myUserId;
-
           return (
             <div key={m.id} className={`flex ${isMine ? 'justify-end' : 'justify-start'}`}>
               <div
                 className={`
-                  max-w-[70%] rounded-lg px-3 py-2 text-sm
-                  ${isMine ? 'bg-primary text-black' : 'bg-gray-200 text-gray-900'}
-                `}
+          max-w-[70%] rounded-lg px-3 py-2 text-sm
+          ${isMine ? 'bg-primary text-black' : 'bg-gray-200 text-gray-900'}
+        `}
               >
                 <span>{m.text || '[내용 없음]'}</span>
                 <span className="mt-1 block text-[10px] text-gray-500 text-right">

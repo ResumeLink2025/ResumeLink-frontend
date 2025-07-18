@@ -15,7 +15,7 @@ export async function fetchApi<T>(
   { showToast = true } = {},
 ): Promise<T> {
   const token = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : null;
-  console.log('[fetchApi] accessToken:', token);
+
   if (!token) {
     throw new FetchApiError('No access token found', 401, url);
   }
@@ -30,7 +30,6 @@ export async function fetchApi<T>(
   if (res.status === 401) {
     try {
       res = await authFetch(url, options);
-      console.log(res, 'check');
     } catch {
       if (showToast) toast.error('인증이 만료되었습니다. 다시 로그인해주세요.');
       throw new FetchApiError('Unauthorized', 401, url);
@@ -197,5 +196,5 @@ export async function getUnreadCount(roomId: string): Promise<{ data: { unreadCo
     {},
     { showToast: false },
   );
-  return { data: response.data }; // <= 한 번 더 .data로!
+  return { data: response.data };
 }

@@ -22,7 +22,6 @@ export function useChatRoom({ chatId }: UseChatRoomProps) {
     .filter((m) => m.id !== undefined && m.id !== null)
     .sort((a, b) => new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime());
 
-  // 소켓 새 메시지 오면 refetch만 호출
   const handleNewMessage = useCallback(
     (msg: { messageId: string; chatRoomId: string }) => {
       if (msg.chatRoomId !== chatId) return;
