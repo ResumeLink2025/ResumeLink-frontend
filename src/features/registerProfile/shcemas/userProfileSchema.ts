@@ -1,36 +1,22 @@
 import { z } from 'zod';
 
-
+// z.record(z.any())는 {}나 null 모두 가능 (OK)
 export const UserProfileSchema = z.object({
-  nickname: z.string().min(1, '닉네임은 필수입니다.'),
-  birthday: z
-    .union([
-      z.coerce.date(), // string -> Date 자동 변환
-      z.literal(''), // 빈 문자열 허용
-    ])
-    .nullable()
-    .optional(),
-  gender: z.string().nullable().optional(),
-
-  skill: z.object({
-    generalSkills: z.array(z.string()).min(1, '기술스택은 1개 이상 선택해야 합니다.'),
-    customSkills: z.array(z.string()),
-  }),
-  desirePositions: z
-    .array(z.string())
-    .max(1, '희망 직무는 하나만 선택할 수 있습니다.')
-    .min(1, '희망 직무를 선택해주세요.'),
+  id: z.string().optional(), // DB PK
+  nickname: z.string(),
+  birthday: z.string().nullable(), // string or null (프론트는 Date를 string으로 변환 필요)
+  gender: z.string().nullable(),
+  customSkill: z.record(z.any()).nullable(),
+  customInterest: z.record(z.any()).nullable(),
+  customPosition: z.record(z.any()).nullable(),
   experienceYears: z.number().int().nonnegative(),
-  customInterest: z.unknown().nullish(),
-  customPosition: z.unknown().nullish(),
-  profileImage: z
-    .instanceof(File)
-    .refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
-      message: 'JPEG, JPG, PNG 형식만 허용됩니다.',
-    })
-    .optional()
-    .nullable(),
-  summary: z.string().max(1000).nullish(),
+  employmentStatus: z.string().nullable(),
+  imageUrl: z.string().nullable(),
+  summary: z.string().nullable(),
+  profileImage: z.any().optional(),
+  updatedAt: z.string().optional(),
+  userSkills: z.array(z.string()), // ★백엔드가 원하는 string[] 그대로
+  desirePositions: z.array(z.string()), // ★백엔드가 원하는 string[] 그대로
 });
 
 export type UserProfileType = z.infer<typeof UserProfileSchema>;

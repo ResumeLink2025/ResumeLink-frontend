@@ -1,67 +1,79 @@
 import { useEffect, useState } from 'react';
-import { useFormContext } from 'react-hook-form';
+import { useFormContext, useWatch } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import type { UserProfileType } from '../shcemas/userProfileSchema';
 
-const useDevSkillField = () => {
+const useDevSkillField = ({
+  defaultUserSkills = [],
+  defaultCustomSkills = [],
+}: {
+  defaultUserSkills?: string[];
+  defaultCustomSkills?: string[];
+}) => {
   const {
     setValue,
+    control,
     formState: { errors, isSubmitted },
   } = useFormContext<UserProfileType>();
 
+  // 커스텀 skill 입력 상태만 별도 관리
   const [typingSkill, setTypingSkill] = useState('');
-  const [generalSkills, setGeneralSkills] = useState<string[]>([]);
-  const [customSkills, setCustomSkills] = useState<string[]>([]);
 
+  // form state에서 직접 watch
+  const userSkills: string[] = useWatch({ control, name: 'userSkills' }) ?? [];
+  const customSkillObj: Record<string, true> = useWatch({ control, name: 'customSkill' }) ?? {};
+  const customSkills: string[] = Object.keys(customSkillObj ?? {});
+
+  // mount 시 form에 값 세팅
   useEffect(() => {
-    setValue('skill.generalSkills', generalSkills, { shouldDirty: true, shouldValidate: true });
-  }, [setValue, generalSkills]);
+    setValue('userSkills', defaultUserSkills);
+    setValue(
+      'customSkill',
+      defaultCustomSkills.reduce<Record<string, true>>((acc, key) => {
+        acc[key] = true;
+        return acc;
+      }, {}),
+    );
+  }, [defaultUserSkills, defaultCustomSkills, setValue]);
 
-  useEffect(() => {
-    setValue('skill.customSkills', customSkills);
-  }, [setValue, customSkills]);
-
+  // 기본 스킬(checkbox 등) 클릭 토글
   const onClickSkill = (skill: string) => {
-    if (generalSkills.includes(skill)) {
-      setGeneralSkills((prevState) => prevState.filter((prevSkill) => prevSkill !== skill));
-    } else {
-      setGeneralSkills((prevState) => [...prevState, skill]);
-    }
+    const next = userSkills.includes(skill) ? userSkills.filter((s) => s !== skill) : [...userSkills, skill];
+    setValue('userSkills', next, { shouldDirty: true });
   };
 
-  const onChangeTypingSkill = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setTypingSkill(e.target.value);
-  };
+  // 커스텀 스킬 입력
+  const onChangeTypingSkill = (e: React.ChangeEvent<HTMLInputElement>) => setTypingSkill(e.target.value);
 
+  // 커스텀 스킬 추가 (Enter)
   const onEnterAddSkill = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.nativeEvent.isComposing) {
       e.preventDefault();
-
-      if (typingSkill.trim() === '') {
-        return;
-      }
-
+      if (typingSkill.trim() === '') return;
       if (customSkills.includes(typingSkill)) {
         toast.error('이미 추가된 기술입니다.');
         setTypingSkill('');
-
         return;
       }
-
-      setCustomSkills((prevState) => [...prevState, typingSkill]);
+      // object로 변환해서 추가
+      setValue('customSkill', { ...customSkillObj, [typingSkill]: true }, { shouldDirty: true });
       setTypingSkill('');
     }
   };
 
+  // 커스텀 스킬 삭제
   const onClickDeleteCustomSkill = (skill: string) => {
-    setCustomSkills((prevState) => prevState.filter((customSkill) => customSkill !== skill));
+    // skill만 뺀 object로 변환
+    const updated = { ...customSkillObj };
+    delete updated[skill];
+    setValue('customSkill', updated, { shouldDirty: true });
   };
 
   return {
     errors,
     isSubmitted,
-    generalSkills,
+    userSkills,
     typingSkill,
     customSkills,
     onClickSkill,
