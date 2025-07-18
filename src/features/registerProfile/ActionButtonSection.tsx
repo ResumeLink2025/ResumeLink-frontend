@@ -8,6 +8,7 @@ export default function ActionButtonSection({
   submitText = '추가 정보 입력완료',
 }: ActionButtonSectionProps) {
   return (
+
     <div className="flex gap-4 col-span-2">
       <button
         type="submit"

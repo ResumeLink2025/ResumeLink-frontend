@@ -5,6 +5,7 @@ import { useRef } from 'react';
 import toast from 'react-hot-toast';
 
 import { Loader, Modal } from '@/components/common';
+import { createCoffeeChat } from '@/features/chat/apis/chatApi';
 
 const useResumeDetail = (theme?: string) => {
   const isThemeBlack = theme === 'black';
@@ -70,8 +71,11 @@ const useResumeDetail = (theme?: string) => {
       overlay.close();
     }
   };
+  const requestCoffeeChat = async (receiverId: string) => {
+    createCoffeeChat(receiverId);
+  };
 
-  return { isThemeBlack, resumeRef, onClickDownLoadResume };
+  return { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat };
 };
 
 export default useResumeDetail;

@@ -32,7 +32,6 @@ export default function useRegister() {
       }
 
       const { accessToken } = await res.json();
-
       if (accessToken) {
         localStorage.setItem('accessToken', accessToken);
         setLogin(accessToken);

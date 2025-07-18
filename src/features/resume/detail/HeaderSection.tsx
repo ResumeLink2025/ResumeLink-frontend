@@ -7,9 +7,15 @@ interface ActionButtonsProps {
   resumeId: string;
   userId?: string;
   onClickDownLoadResume: () => void;
+  requestCoffeeChat: () => Promise<void>;
 }
 
-const ActionButtons = ({ resumeId, userId, onClickDownLoadResume }: ActionButtonsProps) => {
+const ActionButtons = ({
+  resumeId,
+  userId,
+  onClickDownLoadResume,
+  requestCoffeeChat,
+}: ActionButtonsProps) => {
   const { data: myProfile } = useGetMyProfile();
   const { onClickDeleteResume, onClickRouteUpdatePage } = useHeaderSection(resumeId);
 
@@ -28,7 +34,7 @@ const ActionButtons = ({ resumeId, userId, onClickDownLoadResume }: ActionButton
           </Button>
         </div>
       ) : (
-        <Button size="small" className="w-32">
+        <Button size="small" className="w-32" onClick={requestCoffeeChat}>
           커피챗 신청하기
         </Button>
       )}

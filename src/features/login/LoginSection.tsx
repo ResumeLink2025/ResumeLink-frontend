@@ -11,7 +11,6 @@ import Input from '@/components/common/Input';
 
 import useLogin from './apis/loginApi';
 
-
 export default function LoginSection() {
   const router = useRouter();
   const { setLogin } = useAuthStore();
@@ -21,10 +20,7 @@ export default function LoginSection() {
   const [errorState, setErrorState] = useState({ id: '', password: '' });
   const [userInfo, setUserInfo] = useState({ id: '', password: '' });
 
-
   const togglePasswordType = () => setIsTypePassword((prev) => !prev);
-
-
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();

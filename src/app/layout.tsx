@@ -2,6 +2,7 @@ import './globals.css';
 
 import type { Metadata } from 'next';
 
+import ChatWrapper from '@/layouts/ChatWrapper';
 import Providers from '@/providers';
 import { generateMetadata } from '@/utils/generateMetadata';
 
@@ -20,6 +21,7 @@ const RootLayout = ({ children }: RootLayoutProps) => {
         <Providers>
           {children}
           <div id="portal-root" />
+          <ChatWrapper />
         </Providers>
       </body>
     </html>

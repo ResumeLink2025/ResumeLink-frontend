@@ -15,6 +15,7 @@ import NavLink from './components/NavLink';
 
 const Header = () => {
   const { isLoggedIn, setLogout, setLogin } = useAuthStore();
+
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
@@ -26,11 +27,11 @@ const Header = () => {
     } else {
       setLogout();
     }
-  }, [setLogin, setLogout]);
+  }, []);
 
   useEffect(() => {
     (async () => {
-      const res = await fetch('http://localhost:8080/api/auth/refresh', {
+      const res = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/refresh`, {
         method: 'POST',
         credentials: 'include',
       });
