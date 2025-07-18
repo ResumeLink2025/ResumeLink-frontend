@@ -13,12 +13,12 @@ const DevelopersHub = () => {
   const listType = params.get('type') as string;
 
   return (
-    <PageWrapper>
-      <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<div>Loading...</div>}>
+      <PageWrapper>
         <SearchSection />
         <ProfileList listType={listType} />
-      </Suspense>
-    </PageWrapper>
+      </PageWrapper>
+    </Suspense>
   );
 };
 
