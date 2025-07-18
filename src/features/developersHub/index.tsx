@@ -1,6 +1,7 @@
 'use client';
 
 import { useSearchParams } from 'next/navigation';
+import { Suspense } from 'react';
 
 import { PageWrapper } from '@/layouts';
 
@@ -13,8 +14,10 @@ const DevelopersHub = () => {
 
   return (
     <PageWrapper>
-      <SearchSection />
-      <ProfileList listType={listType} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <SearchSection />
+        <ProfileList listType={listType} />
+      </Suspense>
     </PageWrapper>
   );
 };
