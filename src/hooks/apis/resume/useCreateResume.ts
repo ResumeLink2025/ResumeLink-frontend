@@ -5,7 +5,11 @@ import type { AxiosError } from 'axios';
 import { post } from '@/apis/httpClient';
 import type { ResumeFormDataType } from '@/features/resume/schemas/resumeSchema';
 
-const useCreateResume = (options?: UseMutationOptions<unknown, AxiosError, ResumeFormDataType>) => {
+export type createResumeResponseType = { id: string };
+
+const useCreateResume = (
+  options?: UseMutationOptions<createResumeResponseType, AxiosError, ResumeFormDataType>,
+) => {
   return useMutation({
     mutationFn: (data: ResumeFormDataType) => post('/api/resumes', data),
     ...options,

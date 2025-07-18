@@ -10,7 +10,9 @@ import { Loader, Modal, Typography } from '@/components/common';
 import type { ProjectDetailType } from '@/constants/project';
 import { THEME_OPTIONS } from '@/constants/resume';
 import { routeMainPage } from '@/constants/routes';
+import useGetMyProfile from '@/hooks/apis/profile/useGetMyProfile';
 import useGetMyProject from '@/hooks/apis/project/useGetMyProject';
+import type { createResumeResponseType } from '@/hooks/apis/resume/useCreateResume';
 import useCreateResume from '@/hooks/apis/resume/useCreateResume';
 import useGetResumeDetail from '@/hooks/apis/resume/useGetResumeDetail';
 import { RESUME_LIST } from '@/hooks/apis/resume/useGetResumeList';
@@ -29,15 +31,16 @@ const useResumeFormSection = (id?: string) => {
 
   const { data: resumeDetail } = useGetResumeDetail(String(id), hasResumeId);
   const { data: myProjectList } = useGetMyProject();
+  const { data: myProfile } = useGetMyProfile();
 
   const methods = useForm<ResumeFormDataType>({ resolver: zodResolver(resumeFormSchema) });
 
   const { mutate: createResumeMutate, isPending: isCreatingResume } = useCreateResume({
-    onSuccess: () => {
+    onSuccess: (response: createResumeResponseType) => {
       toast.success('이력서 생성이 완료되었습니다!');
       queryClient.invalidateQueries({ queryKey: [RESUME_LIST, 'resume'] });
 
-      router.replace(routeMainPage);
+      router.replace(`/resume/${response.id}`);
     },
     onError: () => {
       toast.error('이력서 생성 중 에러가 발생했습니다.');
@@ -93,6 +96,7 @@ const useResumeFormSection = (id?: string) => {
         experienceNote: resumeDetail.experienceNote || '',
         theme: resumeDetail.theme || 'light',
         isPublic: resumeDetail.isPublic || false,
+        categories: resumeDetail.categories || [],
         activities:
           resumeDetail?.activities?.map((activity) => ({
             ...activity,
@@ -108,6 +112,13 @@ const useResumeFormSection = (id?: string) => {
       });
     }
   }, [hasResumeId, resumeDetail, myProjectList, reset]);
+
+  useEffect(() => {
+    if (myProfile?.profile?.generalSkills && myProfile?.profile?.desirePositions) {
+      setValue('skills', myProfile?.profile?.generalSkills);
+      setValue('positions', myProfile?.profile?.desirePositions);
+    }
+  }, [myProfile]);
 
   useEffect(() => {
     setValue('categories', selectedCategoriesState);
@@ -192,6 +203,7 @@ const useResumeFormSection = (id?: string) => {
     selectedCategories: selectedCategoriesState,
     selectedProjects: selectedProjectsState,
     selectedThemeOption,
+    myProfile,
     isPublic,
     isSubmitted,
     errors,
