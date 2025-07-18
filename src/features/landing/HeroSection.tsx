@@ -2,13 +2,14 @@ import Image from 'next/image';
 import { useRouter } from 'next/navigation';
 
 import { Button, Typography } from '@/components/common';
-import { routeLoginPage } from '@/constants/routes';
+import useRedirectPath from '@/hooks/useRedirectPath';
 
 import { SlideUpMotion } from '../components';
 
 const HeroSection = () => {
   const router = useRouter();
 
+  const routePath = useRedirectPath();
   return (
     <div className="p-10">
       <div className="relative h-150 p-5 rounded-lg overflow-hidden">
@@ -26,7 +27,7 @@ const HeroSection = () => {
             </Typography>
           </SlideUpMotion>
           <SlideUpMotion delay={0.9}>
-            <Button onClick={() => router.push(routeLoginPage)} className="w-36 mt-4">
+            <Button onClick={() => router.push(routePath)} className="w-36 mt-4">
               시작하기
             </Button>
           </SlideUpMotion>

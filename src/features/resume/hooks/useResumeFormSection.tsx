@@ -115,11 +115,16 @@ const useResumeFormSection = (id?: string) => {
   }, [hasResumeId, resumeDetail, myProjectList, reset]);
 
   useEffect(() => {
-    if (myProfile?.profile?.generalSkills && myProfile?.profile?.desirePositions) {
-      setValue('skills', myProfile?.profile?.generalSkills);
-      setValue('positions', myProfile?.profile?.desirePositions);
+    if (myProfile?.profile?.generalSkills) {
+      setValue('skills', myProfile?.profile.generalSkills);
     }
-  }, [myProfile]);
+  }, [myProfile?.profile.generalSkills, setValue]);
+
+  useEffect(() => {
+    if (myProfile?.profile?.desirePositions) {
+      setValue('positions', myProfile?.profile.desirePositions);
+    }
+  }, [myProfile?.profile.desirePositions, setValue]);
 
   useEffect(() => {
     setValue('categories', selectedCategoriesState);
