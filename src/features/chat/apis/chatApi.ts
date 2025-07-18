@@ -79,7 +79,7 @@ export class FetchApiError extends Error {
  * 커피챗 생성
  */
 export const createCoffeeChat = (receiverId: string) =>
-  fetchApi<CoffeeChat>(`${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats`, {
+  fetchApi<CoffeeChat>(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/coffee-chats`, {
     method: 'POST',
     body: JSON.stringify({ receiverId }),
   });
@@ -89,7 +89,7 @@ export const createCoffeeChat = (receiverId: string) =>
  */
 export const getCoffeeChats = () =>
   fetchApi<CoffeeChatListResponse>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats?type=received`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/coffee-chats?type=received`,
     {},
     { showToast: false },
   );
@@ -98,14 +98,18 @@ export const getCoffeeChats = () =>
  * 커피챗 상세 조회
  */
 export const getCoffeeChatDetail = (id: string) =>
-  fetchApi<CoffeeChat>(`${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats/${id}`, {}, { showToast: false });
+  fetchApi<CoffeeChat>(
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/coffee-chats/${id}`,
+    {},
+    { showToast: false },
+  );
 
 /**
  * 커피챗 상태 변경
  */
 export const updateCoffeeChatStatus = (id: string, status: 'accepted' | 'rejected') =>
   fetchApi<CoffeeChat>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats/${id}/status`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/coffee-chats/${id}/status`,
     {
       method: 'PATCH',
       body: JSON.stringify({ status }),
@@ -117,7 +121,7 @@ export const updateCoffeeChatStatus = (id: string, status: 'accepted' | 'rejecte
  * 커피챗 취소
  */
 export const cancelCoffeeChat = (id: string) =>
-  fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/coffee-chats/${id}`, {
+  fetchApi<void>(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/coffee-chats/${id}`, {
     method: 'DELETE',
   });
 
@@ -125,14 +129,18 @@ export const cancelCoffeeChat = (id: string) =>
  * 채팅방 목록 조회
  */
 export const getChatRooms = () =>
-  fetchApi<ChatRoomListResponse>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms`, {}, { showToast: false });
+  fetchApi<ChatRoomListResponse>(
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms`,
+    {},
+    { showToast: false },
+  );
 
 /**
  * 채팅방 상세 조회
  */
 export const getChatRoomDetail = (id: string) =>
   fetchApi<ChatRoomResponse>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${id}`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms/${id}`,
     {},
     { showToast: false },
   );
@@ -150,7 +158,7 @@ export const getMessages = (roomId: string, page = 1, limit = 20) =>
       total: number;
     };
   }>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages?page=${page}&limit=${limit}`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms/${roomId}/messages?page=${page}&limit=${limit}`,
     {},
     { showToast: false },
   );
@@ -164,7 +172,7 @@ export const sendMessage = (
   messageType: 'TEXT' | 'IMAGE' | 'FILE' = 'TEXT',
 ) =>
   fetchApi<Message>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/messages`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms/${roomId}/messages`,
     {
       method: 'POST',
       body: JSON.stringify(
@@ -186,13 +194,13 @@ export const sendMessage = (
  */
 
 export const deleteChatRoomParticipant = (chatRoomId: string) =>
-  fetchApi<void>(`${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${chatRoomId}/participants`, {
+  fetchApi<void>(`${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms/${chatRoomId}/participants`, {
     method: 'DELETE',
   });
 
 export async function getUnreadCount(roomId: string): Promise<{ data: { unreadCount: number } }> {
   const response = await fetchApi<{ data: { unreadCount: number } }>(
-    `${process.env.NEXT_PUBLIC_BASE_API}/chats/rooms/${roomId}/unread-count`,
+    `${process.env.NEXT_PUBLIC_SERVER_UR}/api/chats/rooms/${roomId}/unread-count`,
     {},
     { showToast: false },
   );

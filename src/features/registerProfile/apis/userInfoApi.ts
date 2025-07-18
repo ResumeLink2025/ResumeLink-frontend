@@ -8,7 +8,6 @@ export async function patchUserProfile(data: PatchUserProfilePayload) {
   const token = localStorage.getItem('accessToken');
 
   const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/profiles`, {
-
     method: 'PATCH',
     headers: {
       'Content-Type': 'application/json',
@@ -22,7 +21,6 @@ export async function patchUserProfile(data: PatchUserProfilePayload) {
     throw new Error(errorData.message || `Error! status: ${response.status}`);
   }
   return response.json();
-  console.log(data);
 }
 
 export async function uploadImage(file: File): Promise<string> {

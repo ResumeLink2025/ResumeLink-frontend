@@ -102,8 +102,6 @@ export function useChatPanelHandler() {
     staleTime: 0,
   });
 
-  useEffect(() => {}, [isFlag, isOpen]);
-
   const handleNewMessage = useCallback(
     (msg: NewMessageNotification) => {
       queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) => {

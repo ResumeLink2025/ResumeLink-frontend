@@ -1,5 +1,7 @@
 'use client';
 
+import Image from 'next/image';
+
 import Typography from '@/components/common/Typography';
 
 import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
@@ -58,7 +60,7 @@ export default function ViewProfileSection({
             </Typography>
             <div className="w-[180px] aspect-square bg-gray-100 rounded-xl flex items-center justify-center overflow-hidden shadow">
               {profile.imageUrl ? (
-                <img src={profile.imageUrl} alt="프로필 사진" className="object-cover w-full h-full" />
+                <Image src={profile.imageUrl} alt="프로필 사진" className="object-cover w-full h-full" />
               ) : (
                 <span className="text-gray-400 text-base">사진 없음</span>
               )}

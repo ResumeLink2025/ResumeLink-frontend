@@ -1,7 +1,7 @@
 export async function getMyProfile(accessToken: string, queryParams?: Record<string, string>) {
   try {
     // 쿼리 파라미터가 있으면 URL에 붙임
-    let url = 'http://localhost:8080/api/profiles';
+    let url = `${process.env.NEXT_PUBLIC_SERVER_UR}/api/profiles`;
     if (queryParams && Object.keys(queryParams).length > 0) {
       const queryString = new URLSearchParams(queryParams).toString();
       url += `?${queryString}`;
