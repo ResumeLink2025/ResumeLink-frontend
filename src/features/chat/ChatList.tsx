@@ -76,13 +76,13 @@ export default function ChatList({ chats, onSelectChat, profile, setIsFlag }: Ch
               <div className="mt-2 flex gap-2">
                 <button
                   onClick={() => handleStatusChange(chat, 'accepted')}
-                  className="flex-1 rounded bg-primary py-1 text-[13px] text-white"
+                  className="flex-1 rounded bg-primary py-1 text-[13px] text-white cursor-pointer"
                 >
                   수락
                 </button>
                 <button
                   onClick={() => handleStatusChange(chat, 'rejected')}
-                  className="flex-1 rounded bg-gray-25 py-1 text-[13px] text-black"
+                  className="flex-1 rounded bg-gray-25 py-1 text-[13px] text-black cursor-pointer"
                 >
                   거절
                 </button>

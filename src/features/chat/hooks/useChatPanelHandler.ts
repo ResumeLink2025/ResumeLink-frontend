@@ -4,7 +4,6 @@ import { useCallback, useEffect, useRef, useState } from 'react';
 import type { ChatRoom, CoffeeChat, NewMessageNotification, RequesterUser, User } from '@/constants/chat';
 import type { ProfileType } from '@/constants/profile';
 import {
-  deleteChatRoomParticipant,
   getChatRoomDetail,
   getChatRooms,
   getCoffeeChats,
@@ -25,6 +24,7 @@ import {
 type CoffeeChatWithRoom = CoffeeChat & { chatRoom?: { id: string; message?: string } };
 
 async function fetchAllChatsWithDetails(): Promise<CoffeeChat[]> {
+  console.log('채팅 불러올거야!!');
   const [{ data: rawCoffeeChats }, { data: chatRoomList }] = await Promise.all([
     getCoffeeChats(),
     getChatRooms(),
@@ -186,12 +186,20 @@ export function useChatPanelHandler() {
   // 채팅방 나가기
   const handleLeaveChat = async () => {
     if (!selectedChatId) return;
-    try {
-      await deleteChatRoomParticipant(selectedChatId);
-      leaveRoom(selectedChatId);
 
-      await queryClient.invalidateQueries({ queryKey: ['chatList'] });
-      setSelectedChatId(null);
+    try {
+      // leaveRoom 호출 시, 콜백으로 성공/실패 처리
+      leaveRoom(selectedChatId, (response) => {
+        if (response.success) {
+          // 성공적으로 나간 경우
+          console.log('채팅방에서 성공적으로 나갔습니다.');
+          queryClient.invalidateQueries({ queryKey: ['chatList'] });
+          setSelectedChatId(null);
+        } else {
+          // 실패한 경우
+          console.error('채팅방 나가기 실패:', response.message);
+        }
+      });
     } catch (err) {
       console.error('채팅방 참가자 삭제 실패:', err);
     }

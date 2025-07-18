@@ -23,7 +23,12 @@ export function joinRoom(chatRoomId: string) {
   socket?.emit('room:join', { chatRoomId }, () => {});
 }
 
-export function leaveRoom(chatRoomId: string) {
+interface LeaveRoomResponse {
+  success: boolean;
+  message: string;
+}
+
+export function leaveRoom(chatRoomId: string, callback?: (response: LeaveRoomResponse) => void) {
   if (!socket || !socket.connected) {
     console.warn('소켓 연결이 없습니다. 방을 나갈 수 없습니다.');
     return;
@@ -32,8 +37,11 @@ export function leaveRoom(chatRoomId: string) {
     console.warn('chatRoomId가 없습니다. 방을 나갈 수 없습니다.');
     return;
   }
-  socket.emit('room:leave', { chatRoomId });
+
+  // 마지막 인자로 callback 넘기기 (없으면 빈 함수)
+  socket.emit('room:leave', { chatRoomId }, callback ?? (() => {}));
 }
+
 export function getSocket() {
   if (!socket) throw new Error('Socket not connected');
   return socket;
