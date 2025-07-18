@@ -106,7 +106,6 @@ export default function RegisterProfileSection({
       console.error(err);
       toast.error('저장 실패');
     }
-    console.log(payload);
   };
 
   return (

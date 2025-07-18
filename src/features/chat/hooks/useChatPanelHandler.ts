@@ -24,7 +24,6 @@ import {
 type CoffeeChatWithRoom = CoffeeChat & { chatRoom?: { id: string; message?: string } };
 
 async function fetchAllChatsWithDetails(): Promise<CoffeeChat[]> {
-  console.log('채팅 불러올거야!!');
   const [{ data: rawCoffeeChats }, { data: chatRoomList }] = await Promise.all([
     getCoffeeChats(),
     getChatRooms(),
