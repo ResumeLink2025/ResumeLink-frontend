@@ -34,7 +34,7 @@ export default function MyPageSection() {
         }
 
         const data = await res.json();
-        console.log(data.profile);
+
         setProfile(data.profile);
       } catch {
         setProfile(null);
