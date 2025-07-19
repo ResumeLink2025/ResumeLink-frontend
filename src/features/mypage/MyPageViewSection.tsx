@@ -3,6 +3,7 @@ import Image from 'next/image';
 import Typography from '@/components/common/Typography';
 
 import type { UserProfileType } from '../registerProfile/shcemas/userProfileSchema';
+import MyPortfolio from './MyPortfolio';
 
 export type ProfileData = UserProfileType & {
   contact?: string;
@@ -185,7 +186,7 @@ export default function ViewProfileSection({
           </button>
         </section>
         <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full max-w-4xl justify-items-center">
-          {/* 카드 컴포넌트 들어갈 곳 */}
+          <MyPortfolio activeTab={activeTab} />
         </section>
       </div>
     </div>
