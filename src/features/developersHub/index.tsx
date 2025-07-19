@@ -9,7 +9,7 @@ import SearchSection from './SearchSection';
 const DevelopersHub = () => {
   const listType = useDevelopersHub();
 
-  if (!listType) return;
+  if (!listType) return null;
 
   return (
     <PageWrapper>
