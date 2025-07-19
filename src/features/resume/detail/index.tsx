@@ -13,17 +13,22 @@ import Certificate from './Certificate';
 import ActionButtons from './HeaderSection';
 import useResumeDetail from './hooks/useResumeDetail';
 import ProjectList from './ProjectList';
+import ResumeDetailSkeleton from './ResumeDetailSkeleton';
 
 interface ResumeDetailProps {
   id: string;
 }
 
 const ResumeDetail = ({ id }: ResumeDetailProps) => {
-  const { data: resumeDetail } = useGetResumeDetail(id, true);
+  const { data: resumeDetail, isLoading } = useGetResumeDetail(id, true);
 
   const { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat } = useResumeDetail(
     resumeDetail?.theme,
   );
+
+  if (isLoading) {
+    return <ResumeDetailSkeleton />;
+  }
 
   return (
     <PageWrapper className="max-w-4xl my-12">
@@ -32,7 +37,7 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
         userId={resumeDetail?.userId}
         requestCoffeeChat={async () => {
           if (!resumeDetail?.userId) return;
-          await requestCoffeeChat(resumeDetail.userId); // await 꼭 붙이기!
+          await requestCoffeeChat(resumeDetail.userId);
         }}
         onClickDownLoadResume={onClickDownLoadResume}
       />

@@ -60,7 +60,9 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
           errorMessage={errors.projects?.message}
           isSubmitted={isSubmitted}
         />
-        <ExperienceField register={register} errorMessage={errors.experienceNote?.message} />
+        {!!id === false && (
+          <ExperienceField register={register} errorMessage={errors.experienceNote?.message} />
+        )}
         <ActivityField />
         <CertificateField />
         <ThemeField selectedThemeOption={selectedThemeOption} onChangeThemeOption={onChangeThemeOption} />

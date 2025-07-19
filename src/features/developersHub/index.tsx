@@ -1,26 +1,15 @@
 'use client';
 
-import { useSearchParams } from 'next/navigation';
-import { useEffect, useState } from 'react';
-
-import { Loader } from '@/components/common';
 import { PageWrapper } from '@/layouts';
 
+import useDevelopersHub from './hooks/useDevelopersHub';
 import ProfileList from './ProfileList';
 import SearchSection from './SearchSection';
 
 const DevelopersHub = () => {
-  const params = useSearchParams();
-  const [listType, setListType] = useState<string | null>(null);
+  const listType = useDevelopersHub();
 
-  useEffect(() => {
-    const type = params.get('type');
-    setListType(type);
-  }, [params]);
-
-  if (listType === null) {
-    return <Loader />;
-  }
+  if (!listType) return;
 
   return (
     <PageWrapper>

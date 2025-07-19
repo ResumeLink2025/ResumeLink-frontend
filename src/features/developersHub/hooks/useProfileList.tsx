@@ -17,8 +17,19 @@ const useProfileList = (listType: string) => {
   const positionNames = params.get('positionNames');
   const sort = params.get('sort');
 
-  const { data: resumeList } = useGetResumeList(listType, searchTerm, skillNames, positionNames, sort);
-  const { data: projectList } = useGetProjectList(listType, searchTerm, skillNames, sort);
+  const { data: resumeList, isLoading: isResumeListLoading } = useGetResumeList(
+    listType,
+    searchTerm,
+    skillNames,
+    positionNames,
+    sort,
+  );
+  const { data: projectList, isLoading: isProjectListLoading } = useGetProjectList(
+    listType,
+    searchTerm,
+    skillNames,
+    sort,
+  );
 
   const { mutate: postResumeLikeMutate } = usePostResumeLike({
     onSuccess: () => {
@@ -66,6 +77,8 @@ const useProfileList = (listType: string) => {
   return {
     resumeList,
     projectList,
+    isResumeListLoading,
+    isProjectListLoading,
     onClickResumeHeart,
     onClickProjectHeart,
   };
