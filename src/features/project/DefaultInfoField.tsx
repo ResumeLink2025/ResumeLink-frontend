@@ -15,7 +15,7 @@ const DefaultInfoField = ({ defaultImageUrl }: DefaultInfoFieldProps) => {
       <Typography type="heading2">기본 정보</Typography>
       <div className="flex items-center gap-6">
         <ImageUpload size="large" previewUrl={imageUrl} uploadFile={handleUploadImageFile} />
-        <div className="flex-1 grid grid-cols-2 gap-4">
+        <div className="flex flex-col flex-1 input-sm:grid input-sm:grid-cols-2 gap-4">
           <Input
             label="프로젝트 이름"
             className="col-span-2"

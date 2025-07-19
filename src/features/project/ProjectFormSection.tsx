@@ -29,7 +29,7 @@ const ProjectFormSection = ({ id }: ProjectParamsProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form className="flex flex-col gap-10" onSubmit={handleSubmit(onSubmitProject)}>
+      <form className="flex flex-col gap-10 px-4" onSubmit={handleSubmit(onSubmitProject)}>
         <DefaultInfoField defaultImageUrl={projectDetail?.imgUrl} />
         <StatusField
           isSubmitted={isSubmitted}

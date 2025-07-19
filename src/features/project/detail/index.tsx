@@ -27,15 +27,15 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
   }
 
   return (
-    <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10">
-      <div className="flex gap-8">
+    <PageWrapper className="max-w-4xl mt-6 mb-10 flex flex-col gap-10 px-4">
+      <div className="flex flex-col project-md:flex-row gap-8">
         {projectDetail?.imgUrl ? (
           <Image
             src={projectDetail.imgUrl}
             width={190}
             height={190}
             alt={projectDetail.imgUrl}
-            className="rounded-[10px] shrink-0 h-[190px] object-cover"
+            className="rounded-[10px] shrink-0 w-auto project-md:w-[190px] h-[190px] object-cover"
             placeholder="blur"
             blurDataURL={IMAGE_BLUR}
           />
