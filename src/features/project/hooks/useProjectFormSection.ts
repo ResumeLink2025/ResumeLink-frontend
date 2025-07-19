@@ -7,6 +7,7 @@ import toast from 'react-hot-toast';
 
 import { routeProjectPage } from '@/constants/routes';
 import { PROFILE_LIST } from '@/fixtures/profiles';
+import type { createProjectResponseType } from '@/hooks/apis/project/useCreateProject';
 import useCreateProject from '@/hooks/apis/project/useCreateProject';
 import { MY_PROJECTS } from '@/hooks/apis/project/useGetMyProject';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
@@ -37,11 +38,11 @@ const useProjectFormSection = (id?: string) => {
   });
 
   const { mutate: createProjectMutate } = useCreateProject({
-    onSuccess: () => {
+    onSuccess: (response: createProjectResponseType) => {
       toast.success('프로젝트 생성이 완료되었습니다!');
       queryClient.invalidateQueries({ queryKey: [PROFILE_LIST, MY_PROJECTS] });
 
-      router.replace(routeProjectPage);
+      router.replace(`/project/${response.data.projectNumber}`);
     },
   });
 
