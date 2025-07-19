@@ -9,7 +9,7 @@ export interface ProjectParamsProps {
 
 const Project = ({ id }: ProjectParamsProps) => {
   return (
-    <PageWrapper className="max-w-3xl my-12">
+    <PageWrapper className="max-w-3xl my-12 px-4">
       <Typography type="heading1">{id ? '프로젝트 수정하기' : '프로젝트 작성하기'}</Typography>
       <ProjectFormSection id={id} />
     </PageWrapper>
