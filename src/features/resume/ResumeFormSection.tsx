@@ -39,7 +39,7 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
 
   return (
     <FormProvider {...methods}>
-      <form className="mt-6 flex flex-col gap-14" onSubmit={handleSubmit(onSubmitResume)}>
+      <form className="mt-6 flex flex-col gap-14 px-4" onSubmit={handleSubmit(onSubmitResume)}>
         <UserInfoSection id={id} myProfile={myProfile} resumeImageUrl={resumeImageUrl} />
         <TitleField register={register} errorMessage={errors.title?.message} />
         <Textarea

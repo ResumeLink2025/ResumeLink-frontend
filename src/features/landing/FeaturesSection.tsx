@@ -16,7 +16,7 @@ const FeaturesSection = () => {
   const routePath = useRedirectPath();
 
   return (
-    <>
+    <div className="px-8">
       <div ref={featuresRef} className="mt-20 h-5" />
       {inView && (
         <FadeInOutMotion delay={0.5}>
@@ -29,7 +29,7 @@ const FeaturesSection = () => {
             </Typography>
           </div>
 
-          <div className="my-10 grid grid-cols-3 gap-4">
+          <div className="my-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {FEATURES_EXPLAIN.map((explain) => (
               <FeatureCard key={explain.id} {...explain} delay={explain.id * 0.35} />
             ))}
@@ -44,7 +44,7 @@ const FeaturesSection = () => {
           </SlideUpMotion>
         </FadeInOutMotion>
       )}
-    </>
+    </div>
   );
 };
 

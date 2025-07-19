@@ -16,8 +16,8 @@ const SearchSection = () => {
   const { currentType } = useSortProfileSection();
 
   return (
-    <div className="mt-12 flex flex-col">
-      <div className="flex justify-between">
+    <div className="mt-12 flex flex-col px-4">
+      <div className="flex flex-col justify-between lg:flex-row gap-4">
         <FadeInOutMotion key={currentType}>
           <div className="flex flex-col gap-1">
             <Typography type="heading1">
@@ -32,12 +32,12 @@ const SearchSection = () => {
             </Typography>
           </div>
         </FadeInOutMotion>
-        <div className="flex gap-6">
+        <div className="flex flex-col gap-6 input-lg:flex-row">
           <DropDown onClose={onCloseMenu}>
             <DropDown.Trigger onClick={onClickToggle} size="large">
               카테고리 선택
             </DropDown.Trigger>
-            <DropDown.Menu isOpen={isOpen} size="large" direction="left">
+            <DropDown.Menu isOpen={isOpen} size="large">
               <ResumeCategory onClose={onCloseMenu} />
             </DropDown.Menu>
           </DropDown>
