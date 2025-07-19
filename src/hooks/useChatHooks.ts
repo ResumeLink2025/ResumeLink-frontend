@@ -26,18 +26,7 @@ export function useUpdateChatStatus(): UseMutationResult<
   return useMutation<CoffeeChat, Error, { id: string; status: 'accepted' | 'rejected' }>({
     mutationFn: ({ id, status }) => chatApi.updateCoffeeChatStatus(id, status),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['coffeeChats'] });
-    },
-  });
-}
-
-export function useCancelChat(): UseMutationResult<void, Error, string> {
-  const qc = useQueryClient();
-
-  return useMutation<void, Error, string>({
-    mutationFn: (id: string) => chatApi.cancelCoffeeChat(id),
-    onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ['coffeeChats'] });
+      qc.invalidateQueries({ queryKey: ['chatList'] });
     },
   });
 }
