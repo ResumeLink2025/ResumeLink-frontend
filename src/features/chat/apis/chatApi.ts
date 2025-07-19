@@ -1,3 +1,5 @@
+import toast from 'react-hot-toast';
+
 import { httpClient, post } from '@/apis/httpClient';
 import type {
   ChatRoomListResponse,
@@ -8,8 +10,52 @@ import type {
   UnreadCountResponse,
 } from '@/constants/chat';
 
+export async function withToast<T>(
+  promise: Promise<T>,
+  {
+    showToast = false,
+    successMsg,
+    errorMsg,
+  }: {
+    showToast?: boolean;
+    successMsg?: string;
+    errorMsg?: string;
+  } = {},
+): Promise<T> {
+  try {
+    const data = await promise;
+    if (showToast && successMsg) toast.success(successMsg);
+    return data;
+  } catch (err: unknown) {
+    let message = errorMsg || '요청 실패';
+
+    if (typeof err === 'object' && err !== null && 'response' in err) {
+      const resp = (err as { response?: unknown }).response;
+      if (typeof resp === 'object' && resp !== null && 'data' in resp) {
+        const data = (resp as { data?: unknown }).data;
+        if (
+          typeof data === 'object' &&
+          data !== null &&
+          'message' in data &&
+          typeof (data as { message?: unknown }).message === 'string'
+        ) {
+          message = (data as { message: string }).message;
+        }
+      }
+    }
+
+    if (showToast) toast.error(message);
+    throw err;
+  }
+}
+
 // 커피챗 생성
-export const createCoffeeChat = (receiverId: string) => post<CoffeeChat>('/api/coffee-chats', { receiverId });
+export const createCoffeeChat = (receiverId: string, showToast = false) =>
+  withToast(post<CoffeeChat>('/api/coffee-chats', { receiverId }), {
+    showToast,
+    successMsg: '커피챗 신청 완료!',
+    errorMsg: '커피챗 신청 실패',
+  });
 
 // 커피챗 목록 조회
 export const getCoffeeChats = () =>
