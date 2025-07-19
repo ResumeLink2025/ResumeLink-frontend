@@ -23,6 +23,15 @@
   /* 최대 넓이 */
   --w-desktop: 1260px;
 
+  /* 반응형 범위 */
+  --breakpoint-list-xs: 510px;
+  --breakpoint-list-sm: 735px;
+  --breakpoint-list-md: 970px;
+  --breakpoint-list-lg: 1205px;
+
+  --breakpoint-input-sm: 500px;
+  --breakpoint-input-lg: 628px;
+
   /* 그림자 */
   --shadow-button: rgba(17, 17, 26, 0.05) 0px 1px 0px, rgba(17, 17, 26, 0.1) 0px 0px 8px;
   --shadow-input: rgba(17, 17, 26, 0.1) 0px 0px 16px;
