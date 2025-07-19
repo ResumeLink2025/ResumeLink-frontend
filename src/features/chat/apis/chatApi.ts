@@ -50,7 +50,7 @@ export async function withToast<T>(
 }
 
 // 커피챗 생성
-export const createCoffeeChat = (receiverId: string, showToast = false) =>
+export const createCoffeeChat = (receiverId: string, showToast = true) =>
   withToast(post<CoffeeChat>('/api/coffee-chats', { receiverId }), {
     showToast,
     successMsg: '커피챗 신청 완료!',
