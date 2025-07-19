@@ -52,7 +52,7 @@ const Header = () => {
   };
 
   return (
-    <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50">
+    <Wrapper className="bg-white border-b-gray-20 border-b-1 fixed z-50 px-4">
       <Container>
         <div className="flex justify-between h-15">
           <Link href={routeMainPage} className="flex items-center">

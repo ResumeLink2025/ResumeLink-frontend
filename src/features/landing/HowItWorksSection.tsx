@@ -6,9 +6,9 @@ import HowItWorksStep from './HowItWorksStep';
 
 const HowItWorksSection = () => {
   return (
-    <div className="flex flex-col mt-20">
+    <div className="flex flex-col mt-20 px-8">
       <SlideUpMotion delay={1.5}>
-        <Typography type="heading1" className="block mb-2">
+        <Typography type="heading1" className="block mb-2 ">
           ResumeLink, 이렇게 활용해 보세요!
         </Typography>
         <Typography type="body1" className="text-gray-60">
