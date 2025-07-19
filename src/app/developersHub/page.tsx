@@ -1,9 +1,10 @@
 import { Suspense } from 'react';
 
+import { Loader } from '@/components/common';
 import DevelopersHub from '@/features/developersHub';
 
 const DevelopersHubPage = () => (
-  <Suspense fallback={<div>Loading...</div>}>
+  <Suspense fallback={<Loader />}>
     <DevelopersHub />
   </Suspense>
 );
