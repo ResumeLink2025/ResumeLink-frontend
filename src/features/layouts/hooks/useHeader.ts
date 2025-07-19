@@ -8,6 +8,11 @@ const useHeader = () => {
   const { isLoggedIn, setLogout, setLogin } = useAuthStore();
 
   const [isMounted, setIsMounted] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
 
   const handleLogout = () => {
     LocalStorage.removeItem(ACCESS_TOKEN);
@@ -25,7 +30,7 @@ const useHeader = () => {
     }
   }, [setLogin, setLogout]);
 
-  return { isLoggedIn, isMounted, handleLogout };
+  return { isLoggedIn, isMenuOpen, isMounted, toggleMenu, handleLogout };
 };
 
 export default useHeader;
