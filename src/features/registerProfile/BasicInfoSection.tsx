@@ -8,11 +8,16 @@ import type { UserProfileType } from '../registerProfile/shcemas/userProfileSche
 import { genderList } from './types';
 
 export default function BasicInfoSection() {
-  const { register, setValue } = useFormContext<UserProfileType>();
+  const { register, setValue, watch } = useFormContext<UserProfileType>();
+
+  const handleGender = (e: React.ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
+    setValue('gender', e.target.value || '', { shouldDirty: true, shouldValidate: false });
+  };
 
   return (
     <div className="flex flex-col gap-3">
       <Input label="닉네임" size="medium" placeholder="닉네임" {...register('nickname')} />
+
       <Typography type="body4" className="text-gray-70">
         성별
       </Typography>
@@ -21,13 +26,13 @@ export default function BasicInfoSection() {
         label="성별"
         size="medium"
         options={genderList}
-        onChange={(e) => setValue('gender', e.target.value as 'male' | 'female')}
+        value={watch('gender') ?? ''}
+        onChange={handleGender}
       />
 
       <Typography type="body4" className="text-gray-70">
         생일
       </Typography>
-
       <input
         type="date"
         className="appearance-auto border border-gray-40 rounded-[10px] cursor-pointer h-[45px] px-3 py-2 focus:ring-yellow-300"

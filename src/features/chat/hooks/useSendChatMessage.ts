@@ -18,7 +18,6 @@ export function useSendChatMessage() {
       });
     },
     onError: (error: string) => {
-      console.error('메시지 전송 실패:', error);
       alert(`메시지 전송 실패: ${error}`);
     },
   });

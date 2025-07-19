@@ -133,10 +133,17 @@ export function useChatPanelHandler() {
     if (!token) return;
     connectSocket(token);
     setIsFlag(true);
-    getMyProfile(token).then((profile) => {
-      console.log(profile);
-      setProfile(profile); // 상태에 저장
-    });
+    const fetchProfile = async () => {
+      try {
+        const res = await getMyProfile();
+        setProfile(res);
+      } catch (e) {
+        // 에러 핸들링
+        console.error(e);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   // 채팅방 진입하면 unreadCount 0 처리
@@ -190,12 +197,11 @@ export function useChatPanelHandler() {
       leaveRoom(selectedChatId, (response) => {
         if (response.success) {
           // 성공적으로 나간 경우
-          console.log('채팅방에서 성공적으로 나갔습니다.');
+
           queryClient.invalidateQueries({ queryKey: ['chatList'] });
           setSelectedChatId(null);
         } else {
           // 실패한 경우
-          console.error('채팅방 나가기 실패:', response.message);
         }
       });
     } catch (err) {

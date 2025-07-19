@@ -2,6 +2,7 @@ import type { ChangeEvent } from 'react';
 import { useEffect, useState } from 'react';
 import { useFormContext } from 'react-hook-form';
 
+import { uploadImage } from '../apis/userInfoApi';
 import type { UserProfileType } from '../shcemas/userProfileSchema';
 
 const useDefaultInfoField = () => {
@@ -20,18 +21,25 @@ const useDefaultInfoField = () => {
   const [desirePositions, setDesirePositions] = useState<string[]>([]); // ★ 배열로 변경
   const [experienceYears, setExperienceYears] = useState<number>(0);
 
-  const handleUploadImageFile = (files?: FileList | null) => {
+  const handleUploadImageFile = async (files?: FileList | null) => {
     if (!files || files.length === 0) {
-      setImageUrl(null);
+      setImageUrl(null); // 미리보기용
       setValue('imageUrl', null, { shouldDirty: true, shouldValidate: false });
       return;
     }
-    const file = files[0];
-    const previewUrl = URL.createObjectURL(file);
-    setValue('imageUrl', previewUrl, { shouldDirty: true, shouldValidate: false });
-    setImageUrl(previewUrl);
-  };
 
+    const file = files[0];
+
+    const previewUrl = URL.createObjectURL(file);
+    setImageUrl(previewUrl);
+
+    try {
+      const serverUrl = await uploadImage(file); // 이게 실제 url
+      setValue('imageUrl', serverUrl, { shouldDirty: true, shouldValidate: false });
+    } catch {
+      setValue('imageUrl', null, { shouldDirty: true, shouldValidate: false });
+    }
+  };
   // 닉네임
   const handleNickName = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -82,7 +90,6 @@ const useDefaultInfoField = () => {
     setGender(watch('gender') ?? null);
     setDesirePositions(watch('desirePositions') ?? []);
     setExperienceYears(watch('experienceYears') ?? 0);
-    // eslint-disable-next-line
   }, []);
 
   // 이미지 URL 정리
