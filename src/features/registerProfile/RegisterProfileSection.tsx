@@ -1,6 +1,7 @@
 'use client';
 
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { FormProvider, type SubmitHandler, useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
@@ -29,8 +30,6 @@ interface SkillShape {
     customSkills?: string[];
   };
 }
-
-// 유니언 타입으로 타입 정의
 type SubmitProfile = UserProfileType | (UserProfileType & SkillShape);
 
 export default function RegisterProfileSection({
@@ -63,6 +62,17 @@ export default function RegisterProfileSection({
     mode: 'onBlur',
   });
 
+  useEffect(() => {
+    if (initialProfile) {
+      methods.reset({
+        ...defaultProfile,
+        ...initialProfile,
+        // birthday 초기값도 항상 YYYY-MM-DD로 세팅!
+        birthday: initialProfile.birthday ? initialProfile.birthday.split('T')[0] : null,
+      });
+    }
+  }, [initialProfile]);
+
   const userSkills = methods.watch('userSkills') ?? [];
   const customSkills = Object.keys(initialProfile?.customSkill ?? {});
 
@@ -87,11 +97,18 @@ export default function RegisterProfileSection({
       customSkill = 'customSkill' in data && data.customSkill ? data.customSkill : {};
     }
 
+    // birthday가 ISO string이라면 YYYY-MM-DD로 변환해서 보냄
+    let birthday: string | null = null;
+    if (data.birthday) {
+      birthday = typeof data.birthday === 'string' ? data.birthday.split('T')[0] : null;
+    }
+
     const payload: UserProfileType = {
       ...(data as UserProfileType),
       userSkills,
       customSkill,
       imageUrl,
+      birthday, // 변환한 값으로 덮어씀!
     };
 
     try {

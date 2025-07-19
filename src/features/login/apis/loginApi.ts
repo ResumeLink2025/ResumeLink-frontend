@@ -1,5 +1,8 @@
+import type { AxiosError } from 'axios';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+
+import { post } from '@/apis/httpClient';
 
 type LoginParams = {
   email: string;
@@ -16,21 +19,11 @@ export default function useLogin(setLogin: (token: string) => void) {
     setGlobalError('');
 
     try {
-      const response = await fetch(`${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/login/local`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, password }),
+      const { accessToken } = await post<{ accessToken: string }>('/api/auth/login/local', {
+        email,
+        password,
       });
 
-      if (!response.ok) {
-        const { message } = await response.json();
-        setGlobalError(
-          response.status === 401 ? '이메일 또는 비밀번호가 올바르지 않습니다.' : message ?? '로그인 실패',
-        );
-        return;
-      }
-
-      const { accessToken } = await response.json();
       if (!accessToken) {
         setGlobalError('로그인 응답에 문제가 있습니다. 다시 시도해주세요.');
         return;
@@ -41,8 +34,14 @@ export default function useLogin(setLogin: (token: string) => void) {
 
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
-      console.error(err);
-      setGlobalError('네트워크 오류가 발생했습니다.');
+      const error = err as AxiosError<{ message?: string }>;
+      if (error.response?.status === 401) {
+        setGlobalError('이메일 또는 비밀번호가 올바르지 않습니다.');
+      } else if (error.response?.data?.message) {
+        setGlobalError(error.response.data.message ?? '로그인 실패');
+      } else {
+        setGlobalError('네트워크 오류가 발생했습니다.');
+      }
     } finally {
       setIsLoading(false);
     }

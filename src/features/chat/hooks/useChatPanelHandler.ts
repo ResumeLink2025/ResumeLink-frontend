@@ -133,10 +133,17 @@ export function useChatPanelHandler() {
     if (!token) return;
     connectSocket(token);
     setIsFlag(true);
-    getMyProfile(token).then((profile) => {
-      console.log(profile);
-      setProfile(profile); // 상태에 저장
-    });
+    const fetchProfile = async () => {
+      try {
+        const res = await getMyProfile();
+        setProfile(res);
+      } catch (e) {
+        // 에러 핸들링
+        console.error(e);
+      }
+    };
+
+    fetchProfile();
   }, []);
 
   // 채팅방 진입하면 unreadCount 0 처리
