@@ -4,6 +4,7 @@ import Image from 'next/image';
 
 import { Tag, Typography } from '@/components/common';
 import { IMAGE_BLUR } from '@/constants/imageBlur';
+import { createCoffeeChat } from '@/features/chat/apis/chatApi';
 import ProjectDetailSkeleton from '@/features/skeleton/project/DetailSkeleton';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import { PageWrapper } from '@/layouts';
@@ -44,7 +45,14 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
         <div className="flex flex-col w-full gap-5">
           <div className="flex items-center justify-between">
             <Typography type="heading1">{projectDetail?.projectName}</Typography>
-            <ActionButtons userId={projectDetail?.userId} projectNumber={projectDetail?.projectNumber} />
+            <ActionButtons
+              userId={projectDetail?.userId}
+              projectNumber={projectDetail?.projectNumber}
+              requestCoffeeChat={async () => {
+                if (!projectDetail?.userId) return;
+                await createCoffeeChat(projectDetail.userId);
+              }}
+            />
           </div>
           <div className="flex flex-col gap-2">
             <Typography type="title2">프로젝트 진행 기간</Typography>

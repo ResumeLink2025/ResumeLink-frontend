@@ -5,9 +5,10 @@ import useActionButton from './hooks/useActionButton';
 interface ActionButtonProps {
   userId?: string;
   projectNumber?: number;
+  requestCoffeeChat: () => Promise<void>;
 }
 
-const ActionButtons = ({ userId, projectNumber }: ActionButtonProps) => {
+const ActionButtons = ({ userId, projectNumber, requestCoffeeChat }: ActionButtonProps) => {
   const { myProfile, onClickRouteUpdateProject, onClickDeleteProject } = useActionButton(projectNumber);
 
   return (
@@ -22,7 +23,7 @@ const ActionButtons = ({ userId, projectNumber }: ActionButtonProps) => {
           </Button>
         </div>
       ) : (
-        <Button size="small" className="w-32">
+        <Button size="small" className="w-32" onClick={requestCoffeeChat}>
           커피챗 신청하기
         </Button>
       )}
