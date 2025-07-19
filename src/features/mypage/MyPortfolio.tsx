@@ -11,7 +11,19 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
   if (loading) return <div>로딩중...</div>;
 
   return (
-    <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4 py-15 w-full">
+
+    <div
+      className="
+        grid w-full max-w-6xl px-2
+        grid-cols-1
+        sm:grid-cols-2
+        md:grid-cols-3
+        lg:grid-cols-4
+        xl:grid-cols-5
+        gap-6
+      "
+    >
+
       {activeTab === 'resume'
         ? resumeList?.map((resume) => <ResumeProfileCard key={resume.id} {...resume} />)
         : projectList?.map((project) => <ProjectProfileCard key={project.id} {...project} />)}
