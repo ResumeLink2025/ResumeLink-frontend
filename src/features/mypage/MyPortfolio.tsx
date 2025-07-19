@@ -11,6 +11,7 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
   if (loading) return <div>로딩중...</div>;
 
   return (
+
     <div
       className="
         w-full
@@ -37,6 +38,7 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
           ? resumeList?.map((resume) => <ResumeProfileCard key={resume.id} {...resume} />)
           : projectList?.map((project) => <ProjectProfileCard key={project.id} {...project} />)}
       </div>
+
     </div>
   );
 }
