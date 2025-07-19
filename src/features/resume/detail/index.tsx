@@ -29,7 +29,10 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
       <ActionButtons
         resumeId={id}
         userId={resumeDetail?.userId}
-        requestCoffeeChat={() => requestCoffeeChat(id)}
+        requestCoffeeChat={async () => {
+          if (!resumeDetail?.userId) return;
+          await requestCoffeeChat(resumeDetail.userId); // await 꼭 붙이기!
+        }}
         onClickDownLoadResume={onClickDownLoadResume}
       />
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
