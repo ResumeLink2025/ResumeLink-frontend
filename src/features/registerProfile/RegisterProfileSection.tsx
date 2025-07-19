@@ -73,7 +73,6 @@ export default function RegisterProfileSection({
       imageUrl = await uploadImage(data.profileImage);
     }
 
-    // 타입가드: skill 프로퍼티가 있으면 변환
     let userSkills: string[];
     let customSkill: Record<string, true>;
 

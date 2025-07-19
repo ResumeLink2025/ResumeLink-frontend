@@ -134,6 +134,7 @@ export function useChatPanelHandler() {
     connectSocket(token);
     setIsFlag(true);
     getMyProfile(token).then((profile) => {
+      console.log(profile);
       setProfile(profile); // 상태에 저장
     });
   }, []);

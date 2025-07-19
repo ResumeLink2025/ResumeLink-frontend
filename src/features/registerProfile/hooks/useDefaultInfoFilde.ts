@@ -20,7 +20,6 @@ const useDefaultInfoField = () => {
   const [desirePositions, setDesirePositions] = useState<string[]>([]); // ★ 배열로 변경
   const [experienceYears, setExperienceYears] = useState<number>(0);
 
-  // 이미지 업로드 핸들러
   const handleUploadImageFile = (files?: FileList | null) => {
     if (!files || files.length === 0) {
       setImageUrl(null);
@@ -29,7 +28,7 @@ const useDefaultInfoField = () => {
     }
     const file = files[0];
     const previewUrl = URL.createObjectURL(file);
-    setValue('imageUrl', previewUrl, { shouldDirty: true, shouldValidate: false }); // 실제 API에는 파일 업로드 별도
+    setValue('imageUrl', previewUrl, { shouldDirty: true, shouldValidate: false });
     setImageUrl(previewUrl);
   };
 

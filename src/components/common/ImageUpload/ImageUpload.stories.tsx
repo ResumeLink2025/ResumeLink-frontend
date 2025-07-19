@@ -31,7 +31,6 @@ export const DefaultImageUpload: StoryObj<ImageUploadType> = {
 
       const file = files[0];
 
-      console.log('file', file);
       const imageUrl = URL.createObjectURL(file);
 
       setImageUrl(imageUrl);
