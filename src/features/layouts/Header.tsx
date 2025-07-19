@@ -21,16 +21,13 @@ const Header = () => {
   useEffect(() => {
     setMounted(true);
 
-    const base = process.env.NEXT_PUBLIC_SERVER_URL ?? 'http://localhost:3000'; // 기본값 확인
-    console.log('Server URL:', base); // 환경변수 값 출력
-
     const storedAccessToken = localStorage.getItem('accessToken');
     if (storedAccessToken) {
       setLogin(storedAccessToken);
     } else {
       setLogout();
     }
-  }, []);
+  }, [setLogin, setLogout]);
 
   useEffect(() => {
     (async () => {
@@ -47,7 +44,8 @@ const Header = () => {
         setLogout();
       }
     })();
-  }, []);
+  }, [setLogin, setLogout]);
+
   const handleLogout = () => {
     LocalStorage.removeItem(ACCESS_TOKEN);
     setLogout();

@@ -23,6 +23,8 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
     selectedCategories,
     selectedProjects,
     selectedThemeOption,
+    myProfile,
+    resumeImageUrl,
     isPublic,
     isSubmitted,
     errors,
@@ -38,7 +40,7 @@ const ResumeFormSection = ({ id }: ResumeProps) => {
   return (
     <FormProvider {...methods}>
       <form className="mt-6 flex flex-col gap-14" onSubmit={handleSubmit(onSubmitResume)}>
-        <UserInfoSection id={id} />
+        <UserInfoSection id={id} myProfile={myProfile} resumeImageUrl={resumeImageUrl} />
         <TitleField register={register} errorMessage={errors.title?.message} />
         <Textarea
           label="자기 소개"

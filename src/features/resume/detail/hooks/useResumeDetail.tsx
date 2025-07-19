@@ -8,7 +8,7 @@ import { Loader, Modal } from '@/components/common';
 import { createCoffeeChat } from '@/features/chat/apis/chatApi';
 
 const useResumeDetail = (theme?: string) => {
-  const isThemeBlack = theme === 'black';
+  const isThemeBlack = theme === 'dark';
 
   const resumeRef = useRef<HTMLDivElement | null>(null);
   const overlay = useOverlay();

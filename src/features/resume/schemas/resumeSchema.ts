@@ -3,13 +3,22 @@ import { z } from 'zod';
 export const resumeFormSchema = z.object({
   title: z.string().min(1, '제목을 입력해야 합니다.'),
   summary: z.string().min(50, '자기 소개는 최소 50글자 이상이어야 합니다.'),
+  resumeImgUrl: z
+    .union([
+      z.instanceof(File).refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
+        message: 'JPEG, JPG, PNG 형식만 허용됩니다.',
+      }),
+      z.string().url(),
+      z.null(),
+    ])
+    .optional(),
   experienceNote: z.string().min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.'),
   categories: z
     .array(z.string())
     .min(1, '개발자 카테고리는 1개 이상 선택해야 합니다.')
     .max(5, '개발자 카테고리는 5개까지만 선택 가능합니다.'),
-  skills: z.array(z.string()).optional(),
-  positions: z.string().optional(),
+  skills: z.array(z.string()),
+  positions: z.array(z.string()),
   projects: z
     .array(
       z.object({

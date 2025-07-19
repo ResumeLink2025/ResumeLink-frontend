@@ -20,6 +20,7 @@ interface ResumeDetailProps {
 
 const ResumeDetail = ({ id }: ResumeDetailProps) => {
   const { data: resumeDetail } = useGetResumeDetail(id, true);
+
   const { isThemeBlack, resumeRef, onClickDownLoadResume, requestCoffeeChat } = useResumeDetail(
     resumeDetail?.theme,
   );
@@ -38,10 +39,13 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
         <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
           <div className="flex gap-8">
-            {resumeDetail?.imageUrl ? (
+            {resumeDetail?.resumeImgUrl ? (
               <Image
-                src={resumeDetail.imageUrl}
-                className={cn('rounded-[10px]', isThemeBlack && 'border border-gray-50 object-cover')}
+                src={resumeDetail.resumeImgUrl}
+                className={cn(
+                  'rounded-[10px]',
+                  isThemeBlack && 'border border-gray-50 h-[170px] object-cover',
+                )}
                 width={170}
                 height={170}
                 placeholder="blur"

@@ -7,7 +7,7 @@ export type ProfileType = {
     desirePositions?: string[];
     employmentStatus: string;
     experienceYears: number;
-    generalSkills: string[];
+    generalSkills?: string[];
     gender?: string;
     id: string;
     imageUrl: string;

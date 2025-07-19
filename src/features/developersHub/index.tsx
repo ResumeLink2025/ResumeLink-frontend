@@ -3,6 +3,7 @@
 import { useSearchParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
+import { Loader } from '@/components/common';
 import { PageWrapper } from '@/layouts';
 
 import ProfileList from './ProfileList';
@@ -18,7 +19,7 @@ const DevelopersHub = () => {
   }, [params]);
 
   if (listType === null) {
-    return <div>Loading...</div>;
+    return <Loader />;
   }
 
   return (

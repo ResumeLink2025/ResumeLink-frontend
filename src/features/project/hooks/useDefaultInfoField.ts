@@ -18,7 +18,7 @@ const useDefaultInfoField = (defaultImageUrl?: string) => {
       setValue('imgUrl', response.imageUrl);
     },
     onError: () => {
-      toast.error('이미지 업로드중 올류가 발생했습니다.');
+      toast.error('이미지 업로드중 오류가 발생했습니다.');
     },
   });
   const [imageUrl, setImageUrl] = useState<string | null>(defaultImageUrl ?? null);

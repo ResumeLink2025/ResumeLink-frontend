@@ -19,6 +19,7 @@ httpClient.interceptors.request.use(
 
     // if (config.method?.toLowerCase() === 'get') {
     //   config.headers['ngrok-skip-browser-warning'] = '69420';
+    //   config.headers['Accept'] = 'application/json';
     // }
 
     return config;

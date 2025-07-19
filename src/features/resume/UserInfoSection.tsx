@@ -1,17 +1,17 @@
-import Image from 'next/image';
-
-import { Tag, Typography } from '@/components/common';
-import { IMAGE_BLUR } from '@/constants/imageBlur';
+import { ImageUpload, Tag, Typography } from '@/components/common';
+import type { ProfileType } from '@/constants/profile';
 
 import useUserInfoSection from './hooks/useUserInfoSection';
 import UserInfoField from './UserInfoField';
 
-interface UserInfoSectionProps {
+export interface UserInfoSectionProps {
   id?: string;
+  myProfile?: ProfileType;
+  resumeImageUrl?: string;
 }
 
-const UserInfoSection = ({ id }: UserInfoSectionProps) => {
-  const { myProfile } = useUserInfoSection();
+const UserInfoSection = ({ id, myProfile, resumeImageUrl }: UserInfoSectionProps) => {
+  const { imageUrl, handleUploadImageFile } = useUserInfoSection({ myProfile, resumeImageUrl });
 
   return (
     <div className="flex flex-col">
@@ -25,19 +25,7 @@ const UserInfoSection = ({ id }: UserInfoSectionProps) => {
         기본 정보
       </Typography>
       <div className="flex gap-6">
-        {myProfile?.profile.imageUrl ? (
-          <Image
-            src={myProfile.profile.imageUrl}
-            width={168}
-            height={168}
-            alt="user-image"
-            placeholder="blur"
-            blurDataURL={IMAGE_BLUR}
-            className="rounded-[10px] flex-shrink-0"
-          />
-        ) : (
-          <div className="size-[168px] rounded-[10px] flex-shrink-0 bg-gray-30" />
-        )}
+        <ImageUpload size="large" previewUrl={imageUrl} uploadFile={handleUploadImageFile} />
         <div className="flex-1 grid grid-cols-2">
           <UserInfoField label="이름" value={myProfile?.profile.nickname} />
           <UserInfoField
@@ -46,7 +34,7 @@ const UserInfoSection = ({ id }: UserInfoSectionProps) => {
           />
           <UserInfoField label="기술 스택">
             <div className="flex flex-wrap gap-1">
-              {myProfile?.profile.generalSkills.map((skill: string) => (
+              {myProfile?.profile?.generalSkills?.map((skill: string) => (
                 <Tag key={skill} styleType="gray" size="medium">
                   {skill}
                 </Tag>

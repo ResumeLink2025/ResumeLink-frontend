@@ -9,12 +9,12 @@ import { cn } from '@/utils/styleMerge';
 export type ResumeProfileType = {
   id: string;
   imageUrl?: string;
+  resumeImgUrl?: string;
   title: string;
   positions: string[];
   skills: string[];
   categories?: string[];
   summary?: string;
-  avatarUrl?: string;
   nickname?: string;
   favoriteCount?: number;
   isFavorited?: boolean;
@@ -27,11 +27,11 @@ type ResumeProfileCardProps = {
 const ResumeProfileCard = ({
   id,
   imageUrl,
+  resumeImgUrl,
   title,
   positions,
   skills,
   summary,
-  avatarUrl,
   nickname,
   favoriteCount,
   isFavorited,
@@ -41,12 +41,12 @@ const ResumeProfileCard = ({
 
   return (
     <div
-      className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer"
+      className="shadow-button min-w-[230px] rounded-[10px] cursor-pointer bg-white"
       onClick={() => router.push(`/resume/${id}`)}
     >
-      {imageUrl ? (
+      {resumeImgUrl ? (
         <Image
-          src={imageUrl}
+          src={resumeImgUrl}
           alt={title}
           width={230}
           height={200}
@@ -95,13 +95,13 @@ const ResumeProfileCard = ({
       </div>
       <div className="bg-white border-t-1 border-gray-20 flex items-center justify-between rounded-b-[10px] py-[6px] px-2">
         <div className="flex items-center gap-2">
-          {avatarUrl ? (
+          {imageUrl ? (
             <Image
-              src={avatarUrl}
+              src={imageUrl}
               alt="profile-image"
               width={24}
               height={24}
-              className="rounded-full object-cover border border-gray-30"
+              className="rounded-full object-cover border border-gray-30 min-h-6"
             />
           ) : (
             <div className="size-6 rounded-full bg-gray-30" />

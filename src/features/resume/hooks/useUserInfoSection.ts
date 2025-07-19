@@ -1,22 +1,44 @@
-import { useEffect } from 'react';
+import { useState } from 'react';
 import { useFormContext } from 'react-hook-form';
+import toast from 'react-hot-toast';
 
-import useGetMyProfile from '@/hooks/apis/profile/useGetMyProfile';
+import useUploadImage from '@/hooks/apis/image/useUploadImage';
 
-import type { ResumeFormDataType } from './../schemas/resumeSchema';
+import type { ResumeFormDataType } from '../schemas/resumeSchema';
+import type { UserInfoSectionProps } from '../UserInfoSection';
 
-const useUserInfoSection = () => {
+const useUserInfoSection = ({ myProfile, resumeImageUrl }: Omit<UserInfoSectionProps, 'id'>) => {
   const { setValue } = useFormContext<ResumeFormDataType>();
-  const { data: myProfile } = useGetMyProfile();
 
-  useEffect(() => {
-    if (!myProfile) return;
+  const { mutate: uploadImage } = useUploadImage({
+    onSuccess: (response) => {
+      setValue('resumeImgUrl', response.imageUrl);
+    },
+    onError: () => {
+      toast.error('이미지 업로드중 오류가 발생했습니다.');
+    },
+  });
 
-    setValue('skills', myProfile?.profile.generalSkills);
-    setValue('positions', myProfile?.profile.desirePositions?.map((position) => position).join(', '));
-  }, [setValue, myProfile]);
+  const [imageUrl, setImageUrl] = useState<string | null>(
+    resumeImageUrl ?? myProfile?.profile.imageUrl ?? null,
+  );
 
-  return { myProfile };
+  const handleUploadImageFile = (files?: FileList | null) => {
+    if (!files) {
+      setImageUrl(null);
+      setValue('resumeImgUrl', null);
+
+      return;
+    }
+
+    const imageFile = files[0];
+    const imageURL = URL.createObjectURL(imageFile);
+
+    setImageUrl(imageURL);
+    uploadImage(imageFile);
+  };
+
+  return { imageUrl, handleUploadImageFile };
 };
 
 export default useUserInfoSection;

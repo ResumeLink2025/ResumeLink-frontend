@@ -1,11 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod';
+import { useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import toast from 'react-hot-toast';
 
 import { routeProjectPage } from '@/constants/routes';
+import { PROFILE_LIST } from '@/fixtures/profiles';
 import useCreateProject from '@/hooks/apis/project/useCreateProject';
+import { MY_PROJECTS } from '@/hooks/apis/project/useGetMyProject';
 import useGetProjectDetail from '@/hooks/apis/project/useGetProjectDetail';
 import useUpdateProject from '@/hooks/apis/project/useUpdateProject';
 import { formatDate } from '@/utils/date';
@@ -14,6 +17,7 @@ import type { ProjectFormDataType } from '../schemas/projectSchema';
 import { projectFormSchema } from '../schemas/projectSchema';
 
 const useProjectFormSection = (id?: string) => {
+  const queryClient = useQueryClient();
   const router = useRouter();
   const hasProjectId = !!id;
   const { data: projectDetail } = useGetProjectDetail(String(id), hasProjectId);
@@ -35,6 +39,7 @@ const useProjectFormSection = (id?: string) => {
   const { mutate: createProjectMutate } = useCreateProject({
     onSuccess: () => {
       toast.success('프로젝트 생성이 완료되었습니다!');
+      queryClient.invalidateQueries({ queryKey: [PROFILE_LIST, MY_PROJECTS] });
 
       router.replace(routeProjectPage);
     },
@@ -43,6 +48,7 @@ const useProjectFormSection = (id?: string) => {
   const { mutate: updateProjectMutate } = useUpdateProject(String(id), {
     onSuccess: () => {
       toast.success('프로젝트 수정이 완료되었습니다!');
+      queryClient.invalidateQueries({ queryKey: [PROFILE_LIST, MY_PROJECTS] });
 
       router.replace(routeProjectPage);
     },
@@ -78,7 +84,7 @@ const useProjectFormSection = (id?: string) => {
         tags: projectDetail.tags || [],
       });
     }
-  }, [hasProjectId, projectDetail]);
+  }, [hasProjectId, projectDetail, reset]);
 
   useEffect(() => {
     setValue('status', projectStatus);
