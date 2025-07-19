@@ -118,8 +118,7 @@ export default function RegisterProfileSection({
       if (mode === 'register') {
         router.replace('/developersHub?type=resume&sort=popular');
       }
-    } catch (err) {
-      console.error(err);
+    } catch {
       toast.error('저장 실패');
     }
   };

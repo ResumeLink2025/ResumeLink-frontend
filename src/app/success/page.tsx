@@ -37,9 +37,8 @@ export default function SuccessPage() {
             router.replace('/developersHub?type=resume&sort=popular');
           }
         }
-      } catch (err) {
+      } catch {
         if (!cancelled) {
-          console.error('프로필 조회 실패:', err);
           setError('프로필 정보를 불러오는데 실패했습니다.');
         }
       }

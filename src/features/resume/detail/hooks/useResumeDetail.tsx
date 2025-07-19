@@ -64,9 +64,8 @@ const useResumeDetail = (theme?: string) => {
       }
 
       pdf.save('이력서.pdf');
-    } catch (error) {
+    } catch {
       toast.error('이력서 다운로드에 실패했어요.');
-      console.error(error);
     } finally {
       overlay.close();
     }

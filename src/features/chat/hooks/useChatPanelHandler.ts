@@ -197,12 +197,11 @@ export function useChatPanelHandler() {
       leaveRoom(selectedChatId, (response) => {
         if (response.success) {
           // 성공적으로 나간 경우
-          console.log('채팅방에서 성공적으로 나갔습니다.');
+
           queryClient.invalidateQueries({ queryKey: ['chatList'] });
           setSelectedChatId(null);
         } else {
           // 실패한 경우
-          console.error('채팅방 나가기 실패:', response.message);
         }
       });
     } catch (err) {

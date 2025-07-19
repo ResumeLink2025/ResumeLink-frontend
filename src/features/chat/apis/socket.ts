@@ -30,11 +30,9 @@ interface LeaveRoomResponse {
 
 export function leaveRoom(chatRoomId: string, callback?: (response: LeaveRoomResponse) => void) {
   if (!socket || !socket.connected) {
-    console.warn('소켓 연결이 없습니다. 방을 나갈 수 없습니다.');
     return;
   }
   if (!chatRoomId) {
-    console.warn('chatRoomId가 없습니다. 방을 나갈 수 없습니다.');
     return;
   }
 
@@ -53,7 +51,6 @@ export function sendRealtimeMessage(
   callback?: (response: SendMessageResult) => void,
 ) {
   if (!socket) {
-    console.error('Socket이 연결되지 않았습니다.');
     return;
   }
 
