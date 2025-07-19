@@ -1,13 +1,24 @@
-import ProjectProfileCard from '../components/ProjectProfileCard';
-import ResumeProfileCard from '../components/ResumeProfileCard';
+import { ProjectProfileCard,ResumeProfileCard } from '../components';
 import useProfileList from './hooks/useProfileList';
+import ProfileListSkeleton from './ProfileListSkeleton';
 
 interface ProfileListProps {
   listType: string;
 }
 
 const ProfileList = ({ listType }: ProfileListProps) => {
-  const { resumeList, projectList, onClickResumeHeart, onClickProjectHeart } = useProfileList(listType);
+  const {
+    resumeList,
+    projectList,
+    isResumeListLoading,
+    isProjectListLoading,
+    onClickResumeHeart,
+    onClickProjectHeart,
+  } = useProfileList(listType);
+
+  if (isResumeListLoading || isProjectListLoading) {
+    return <ProfileListSkeleton />;
+  }
 
   return (
     <div className="grid grid-cols-5 gap-4 py-15">

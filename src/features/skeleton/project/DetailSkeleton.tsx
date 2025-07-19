@@ -24,7 +24,7 @@ const SkeletonText = ({ type = 'title2', className = '' }) => {
 };
 
 const SkeletonImage = () => (
-  <div className="w-[230px] h-[230px] bg-gray-200 rounded-[10px] shrink-0 animate-pulse" />
+  <div className="size-[190px] bg-gray-200 rounded-[10px] shrink-0 animate-pulse" />
 );
 
 const SkeletonTagField = () => (

@@ -52,6 +52,7 @@ const ResumeProfileCard = ({
           height={200}
           placeholder="blur"
           blurDataURL={IMAGE_BLUR}
+          priority
           className="w-full h-50 object-cover rounded-t-[10px] box-border"
         />
       ) : (
