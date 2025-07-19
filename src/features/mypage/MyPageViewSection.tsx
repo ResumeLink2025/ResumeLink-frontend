@@ -185,9 +185,9 @@ export default function ViewProfileSection({
             프로젝트
           </button>
         </section>
-        <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-5 w-full max-w-4xl justify-items-center">
+        <div className="w-full flex justify-center">
           <MyPortfolio activeTab={activeTab} />
-        </section>
+        </div>
       </div>
     </div>
   );
