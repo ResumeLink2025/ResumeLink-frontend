@@ -32,10 +32,10 @@ const ProjectDetail = ({ id }: ProjectDetailProps) => {
         {projectDetail?.imgUrl ? (
           <Image
             src={projectDetail.imgUrl}
-            width={230}
-            height={230}
+            width={190}
+            height={190}
             alt={projectDetail.imgUrl}
-            className="rounded-[10px] shrink-0 h-[230px] object-cover"
+            className="rounded-[10px] shrink-0 h-[190px] object-cover"
             placeholder="blur"
             blurDataURL={IMAGE_BLUR}
           />

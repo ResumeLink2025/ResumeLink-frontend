@@ -11,6 +11,7 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
   if (loading) return <div>로딩중...</div>;
 
   return (
+
     <div
       className="
         grid w-full max-w-6xl px-2
@@ -22,6 +23,7 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
         gap-6
       "
     >
+
       {activeTab === 'resume'
         ? resumeList?.map((resume) => <ResumeProfileCard key={resume.id} {...resume} />)
         : projectList?.map((project) => <ProjectProfileCard key={project.id} {...project} />)}

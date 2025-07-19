@@ -2,7 +2,7 @@ import { z } from 'zod';
 
 export const resumeFormSchema = z.object({
   title: z.string().min(1, '제목을 입력해야 합니다.'),
-  summary: z.string().min(50, '자기 소개는 최소 50글자 이상이어야 합니다.'),
+  summary: z.string().min(10, '자기 소개는 최소 10글자 이상이어야 합니다.'),
   resumeImgUrl: z
     .union([
       z.instanceof(File).refine((file) => ['image/jpeg', 'image/jpg', 'image/png'].includes(file.type), {
@@ -12,7 +12,7 @@ export const resumeFormSchema = z.object({
       z.null(),
     ])
     .optional(),
-  experienceNote: z.string().min(50, '개발 관련 경험은 최소 50글자 이상이어야 합니다.'),
+  experienceNote: z.string().min(10, '개발 관련 경험은 최소 10글자 이상이어야 합니다.'),
   categories: z
     .array(z.string())
     .min(1, '개발자 카테고리는 1개 이상 선택해야 합니다.')
