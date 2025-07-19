@@ -185,6 +185,7 @@ export default function ViewProfileSection({
             프로젝트
           </button>
         </section>
+
         <div className="w-full flex justify-center">
           <MyPortfolio activeTab={activeTab} />
         </div>
