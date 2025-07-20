@@ -9,7 +9,7 @@ const SortProfileSection = () => {
   const { currentType, sortProfile, onClickChangeType, onChangeSortProfile } = useSortProfileSection();
 
   return (
-    <div className="w-114 flex gap-3 mt-6">
+    <div className="w-auto flex gap-3 mt-6 flex-col input-sm:flex-row input-sm:w-114">
       <Button
         onClick={() => onClickChangeType('resume')}
         styleType={currentType === 'resume' ? 'primary' : 'outline'}

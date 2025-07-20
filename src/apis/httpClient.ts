@@ -17,10 +17,10 @@ httpClient.interceptors.request.use(
       config.headers.authorization = `Bearer ${accessToken}`;
     }
 
-    // if (config.method?.toLowerCase() === 'get') {
-    //   config.headers['ngrok-skip-browser-warning'] = '69420';
-    //   config.headers['Accept'] = 'application/json';
-    // }
+    if (config.method?.toLowerCase() === 'get') {
+      config.headers['ngrok-skip-browser-warning'] = '69420';
+      config.headers['Accept'] = 'application/json';
+    }
 
     return config;
   },
@@ -33,11 +33,32 @@ httpClient.interceptors.response.use(
   (response: AxiosResponse) => {
     return response;
   },
-  (error: AxiosError) => {
+  async (error) => {
+    const request = error.config;
+
+    if (error.response?.status === 401 && !request._retry) {
+      request._retry = true;
+
+      try {
+        const refreshResponse = await httpClient.post(
+          `${process.env.NEXT_PUBLIC_SERVER_URL}/api/auth/refresh`,
+        );
+
+        const newAccessToken = refreshResponse.data.accessToken;
+
+        LocalStorage.setItem(ACCESS_TOKEN, newAccessToken);
+        request.headers.authorization = `Bearer ${newAccessToken}`;
+
+        return httpClient(request);
+      } catch {
+        localStorage.clear();
+        window.location.replace('/');
+      }
+    }
+
     return Promise.reject(error);
   },
 );
-
 const getResult = (response: AxiosResponse) => response.data;
 
 export const get = async <T>(...args: Parameters<typeof httpClient.get>) => {

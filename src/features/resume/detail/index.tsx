@@ -31,7 +31,7 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
   }
 
   return (
-    <PageWrapper className="max-w-4xl my-12">
+    <PageWrapper className="max-w-4xl my-12 px-4">
       <ActionButtons
         resumeId={id}
         userId={resumeDetail?.userId}
@@ -43,7 +43,7 @@ const ResumeDetail = ({ id }: ResumeDetailProps) => {
       />
       <div className={cn('border rounded-xl', isThemeBlack ? 'bg-gray-70' : 'border-gray-40')}>
         <div ref={resumeRef} className={cn('p-8 flex flex-col gap-14', isThemeBlack && 'dark')}>
-          <div className="flex gap-8">
+          <div className="flex flex-col gap-8 input-lg:flex-row">
             {resumeDetail?.resumeImgUrl ? (
               <Image
                 src={resumeDetail.resumeImgUrl}
