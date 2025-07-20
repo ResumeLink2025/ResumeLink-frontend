@@ -8,10 +8,10 @@ interface ChatListProps {
   chats: CoffeeChat[];
   onSelectChat: (id: string) => void;
   profile: ProfileType;
-  setIsFlag: React.Dispatch<React.SetStateAction<boolean>>;
+  isFetching?: boolean; // 추가: 서버 fetch 중 뱃지 숨김용
 }
 
-export default function ChatList({ chats, onSelectChat, profile, setIsFlag }: ChatListProps) {
+export default function ChatList({ chats, onSelectChat, profile, isFetching = false }: ChatListProps) {
   const updateStatus = useUpdateChatStatus();
   const queryClient = useQueryClient();
 
@@ -20,14 +20,6 @@ export default function ChatList({ chats, onSelectChat, profile, setIsFlag }: Ch
       { id: chat.id, status },
       {
         onSuccess: () => {
-          setIsFlag(false);
-
-          // 2. 1초 뒤 reconnect
-          setTimeout(() => {
-            setIsFlag(true);
-          }, 1000);
-
-          // 3. 쿼리도 갱신
           queryClient.invalidateQueries({ queryKey: ['chatList'] });
         },
       },
@@ -61,7 +53,7 @@ export default function ChatList({ chats, onSelectChat, profile, setIsFlag }: Ch
                 </div>
                 <p className="font-medium">{opponentNickname ?? '알 수 없음'}</p>
                 {/* 닉네임 옆 미읽음 뱃지 */}
-                {unreadCount > 0 && (
+                {unreadCount > 0 && !isFetching && (
                   <span className="ml-2 min-w-5 h-5 px-2 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
                     {unreadCount > 99 ? '99+' : unreadCount}
                   </span>

@@ -51,11 +51,11 @@ export default function ViewProfileSection({
       <Typography type="title1" className="text-black mb-8 font-bold text-2xl">
         마이페이지
       </Typography>
-      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-lg p-10 mb-10">
-        {/* 위쪽: 사진 + 기본정보(닉네임/성별/생일) */}
-        <div className="grid grid-cols-2 gap-x-24 mb-10">
-          <div className="flex items-start">
-            <div className="w-[200px] h-[200px] bg-gray-100 rounded-2xl flex items-center justify-center overflow-hidden shadow-md">
+      <div className="w-full max-w-4xl bg-white rounded-3xl shadow-lg p-6 sm:p-10 mb-10">
+        {/* 반응형: 모바일 flex-col, 데스크탑 grid-cols-2 */}
+        <div className="flex flex-col gap-y-8 md:grid md:grid-cols-2 md:gap-x-24 md:gap-y-0 mb-10">
+          <div className="flex items-center justify-center">
+            <div className="w-[140px] h-[140px] sm:w-[200px] sm:h-[200px] bg-gray-100 rounded-2xl flex items-center justify-center overflow-hidden shadow-md">
               {profile.imageUrl ? (
                 <Image
                   src={profile.imageUrl}
@@ -70,7 +70,7 @@ export default function ViewProfileSection({
               )}
             </div>
           </div>
-          <div className="flex flex-col gap-5 justify-start">
+          <div className="flex flex-col gap-5 justify-center">
             <div>
               <Typography type="body4" className="text-gray-700 font-semibold">
                 닉네임
@@ -100,7 +100,7 @@ export default function ViewProfileSection({
           </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-x-24 mb-10">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-12 gap-y-4 mb-10">
           <div>
             <Typography type="body4" className="text-gray-700 font-semibold">
               희망 직무
@@ -126,7 +126,7 @@ export default function ViewProfileSection({
             </div>
           </div>
         </div>
-        {/* 기술스택 - 왼쪽정렬로 전체폭 */}
+
         <div className="mb-10">
           <Typography type="body4" className="text-gray-700 font-semibold mb-1">
             기술 스택
@@ -146,7 +146,7 @@ export default function ViewProfileSection({
             <span className="text-gray-400 mt-2">기술 스택 없음</span>
           )}
         </div>
-        {/* 자기소개 - 왼쪽정렬로 전체폭 */}
+
         <div>
           <Typography type="body4" className="text-gray-700 font-semibold mb-1">
             자기소개

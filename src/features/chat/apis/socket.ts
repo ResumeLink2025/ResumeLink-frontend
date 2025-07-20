@@ -95,6 +95,5 @@ export function subscribeMessageReadAfterConnect(
 export function disconnectSocket() {
   if (socket) {
     socket.disconnect();
-    // 필요하다면 socket = null; // <- 연결 끊고 변수 초기화도 가능
   }
 }

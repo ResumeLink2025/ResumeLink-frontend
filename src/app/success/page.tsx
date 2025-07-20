@@ -4,6 +4,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import ErrorModal from '@/components/common/ErrorModal/ErrorModal';
+import { fetchTotalUnreadCount } from '@/features/chat/hooks/fetchTotalUnreadCount';
 import { getMyProfile } from '@/features/register/hooks/userApi';
 
 import { useAuthStore } from '../store/useAuthStore';
@@ -12,11 +13,11 @@ export default function SuccessPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const setLogin = useAuthStore((state) => state.setLogin);
+  const setTotalUnreadCount = useAuthStore((state) => state.setTotalUnreadCount);
 
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     const accessToken = params.get('accessToken');
-
     if (!accessToken) {
       setError('로그인 정보가 유효하지 않습니다. 다시 시도해주세요.');
       return;
@@ -28,6 +29,13 @@ export default function SuccessPage() {
       try {
         localStorage.setItem('accessToken', accessToken);
         setLogin(accessToken);
+
+        try {
+          const totalUnread = await fetchTotalUnreadCount();
+          setTotalUnreadCount(totalUnread);
+        } catch {
+          setTotalUnreadCount(0); // 실패 시 0으로 초기화(옵션)
+        }
 
         const profile = await getMyProfile(accessToken);
         if (!cancelled) {

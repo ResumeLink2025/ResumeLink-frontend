@@ -69,7 +69,6 @@ export async function authFetch(url: string, options: RequestInit = {}) {
 
     return retryRes;
   } catch (err) {
-    console.error('[authFetch] Error:', err);
     throw err;
   }
 }

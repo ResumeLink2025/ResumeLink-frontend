@@ -67,7 +67,6 @@ export default function RegisterProfileSection({
       methods.reset({
         ...defaultProfile,
         ...initialProfile,
-        // birthday 초기값도 항상 YYYY-MM-DD로 세팅!
         birthday: initialProfile.birthday ? initialProfile.birthday.split('T')[0] : null,
       });
     }
@@ -97,7 +96,6 @@ export default function RegisterProfileSection({
       customSkill = 'customSkill' in data && data.customSkill ? data.customSkill : {};
     }
 
-    // birthday가 ISO string이라면 YYYY-MM-DD로 변환해서 보냄
     let birthday: string | null = null;
     if (data.birthday) {
       birthday = typeof data.birthday === 'string' ? data.birthday.split('T')[0] : null;
@@ -108,7 +106,7 @@ export default function RegisterProfileSection({
       userSkills,
       customSkill,
       imageUrl,
-      birthday, // 변환한 값으로 덮어씀!
+      birthday,
     };
 
     try {
@@ -140,6 +138,7 @@ export default function RegisterProfileSection({
   );
 }
 
+// 반응형 적용: 모바일에서는 세로, md 이상은 가로
 type FormBodyProps = {
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
   onCancel?: () => void;
@@ -151,17 +150,19 @@ function FormBody({ onSubmit, onCancel, defaultUserSkills, defaultCustomSkills }
   const { imageUrl, handleUploadImageFile } = useDefaultInfoField();
 
   return (
-    <form className="grid grid-cols-2 gap-4 w-full" onSubmit={onSubmit}>
-      <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadImageFile} />
-      <BasicInfoSection />
-      <AdditionalInfoSection jobOptions={DEVELOPERLIST} yearOptions={YEARLIST} />
-      <DevSkillField
-        defaultGeneralSkills={defaultUserSkills}
-        defaultCustomSkills={defaultCustomSkills}
-        className="col-span-2"
-      />
-      <SummarySection className="col-span-2" />
-      <ActionButtonSection onCancel={onCancel} />
+    <form className="flex flex-col gap-4 md:grid md:grid-cols-2 md:gap-x-8 w-full" onSubmit={onSubmit}>
+      <div className="flex flex-col items-center justify-center md:col-span-1">
+        <ProfileImageSection imageUrl={imageUrl} handleUploadFile={handleUploadImageFile} />
+      </div>
+      <div className="flex flex-col gap-3 md:col-span-1">
+        <BasicInfoSection />
+        <AdditionalInfoSection jobOptions={DEVELOPERLIST} yearOptions={YEARLIST} />
+      </div>
+      <div className="md:col-span-2">
+        <DevSkillField defaultGeneralSkills={defaultUserSkills} defaultCustomSkills={defaultCustomSkills} />
+        <SummarySection className="mt-4" />
+        <ActionButtonSection onCancel={onCancel} />
+      </div>
     </form>
   );
 }

@@ -15,10 +15,10 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
     <div
       className="
         w-full
-        max-w-7xl  /* 더 넓게 */
+        max-w-7xl 
         mx-auto
-        px-4        /* 양쪽 여백 증가 */
-        py-10       /* 위아래 여백 */
+        px-4        
+        py-10      
       "
     >
       <div
@@ -29,8 +29,8 @@ export default function MyPortfolio({ activeTab }: MyPortfolioProps) {
           md:grid-cols-3
           lg:grid-cols-4
           xl:grid-cols-5
-          gap-x-8      /* 좌우 간격 더 넓게 */
-          gap-y-12     /* 상하 간격 더 넓게 */
+          gap-x-8      
+          gap-y-12    
           justify-items-center
         "
       >

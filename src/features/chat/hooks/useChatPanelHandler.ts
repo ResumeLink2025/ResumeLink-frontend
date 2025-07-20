@@ -1,6 +1,7 @@
 import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { useCallback, useEffect, useRef, useState } from 'react';
 
+import { useAuthStore } from '@/app/store/useAuthStore';
 import type { ChatRoom, CoffeeChat, NewMessageNotification, RequesterUser, User } from '@/constants/chat';
 import type { ProfileType } from '@/constants/profile';
 import {
@@ -28,6 +29,7 @@ async function fetchAllChatsWithDetails(): Promise<CoffeeChat[]> {
     getCoffeeChats(),
     getChatRooms(),
   ]);
+
   const pendingChats: CoffeeChat[] = rawCoffeeChats.filter((c) => c.status === 'pending');
 
   const acceptedChatsWithRoom = (rawCoffeeChats as CoffeeChatWithRoom[]).filter(
@@ -48,7 +50,7 @@ async function fetchAllChatsWithDetails(): Promise<CoffeeChat[]> {
         sender: detail.participants[0]?.user,
         receiver: detail.participants[1]?.user,
         message: detail.lastMessage?.text ?? '',
-        unreadCount: unreadRes.data?.unreadCount ?? 0,
+        unreadCount: unreadRes.unreadCount ?? 0,
         createdAt: detail.createdAt,
         updatedAt: detail.updatedAt,
         requester: {} as RequesterUser,
@@ -82,11 +84,13 @@ async function fetchAllChatsWithDetails(): Promise<CoffeeChat[]> {
 
 export function useChatPanelHandler() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isFlag, setIsFlag] = useState(false);
   const [selectedChatId, setSelectedChatId] = useState<string | null>(null);
   const [chatRoomInfo, setChatRoomInfo] = useState<ChatRoom | null>(null);
   const [profile, setProfile] = useState<ProfileType>();
   const prevRoomId = useRef<string | null>(null);
+
+  const setTotalUnreadCount = useAuthStore((s) => s.setTotalUnreadCount);
+  const prevTotalUnreadCount = useRef(0);
 
   const selectedChatIdRef = useRef<string | null>(null);
   useEffect(() => {
@@ -95,58 +99,66 @@ export function useChatPanelHandler() {
 
   const queryClient = useQueryClient();
 
-  const { data: chatList = [], refetch: refetchChatList } = useQuery({
+  // isFetching 추가!
+  const {
+    data: chatList = [],
+    refetch: refetchChatList,
+    isFetching,
+  } = useQuery({
     queryKey: ['chatList'],
     queryFn: fetchAllChatsWithDetails,
-    enabled: isFlag && isOpen,
+    enabled: isOpen,
     staleTime: 0,
   });
 
+  // socket 메시지: message만 즉시 반영, unreadCount는 서버값만!
   const handleNewMessage = useCallback(
     (msg: NewMessageNotification) => {
-      queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) => {
-        const updated = old.map((chat) =>
-          chat.id === msg.chatRoomId
-            ? {
-                ...chat,
-                unreadCount: selectedChatId === msg.chatRoomId ? 0 : (chat.unreadCount ?? 0) + 1,
-                message: msg.content,
-              }
-            : chat,
-        );
-
-        return updated;
-      });
+      queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
+        old.map((chat) => (chat.id === msg.chatRoomId ? { ...chat, message: msg.content } : chat)),
+      );
     },
-    [queryClient, selectedChatId],
+    [queryClient],
   );
 
+  // 리스너 ref & 중복방지
+  const handlerRef = useRef(handleNewMessage);
   useEffect(() => {
-    subscribeNewMessage(handleNewMessage);
-    return () => {
-      unsubscribeNewMessage(handleNewMessage);
-    };
+    handlerRef.current = handleNewMessage;
   }, [handleNewMessage]);
+
+  useEffect(() => {
+    const handler = (msg: NewMessageNotification) => handlerRef.current(msg);
+    subscribeNewMessage(handler);
+    return () => {
+      unsubscribeNewMessage(handler);
+    };
+  }, []);
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken');
     if (!token) return;
     connectSocket(token);
-    setIsFlag(true);
+
     const fetchProfile = async () => {
       try {
         const res = await getMyProfile();
         setProfile(res);
-      } catch (e) {
-        // 에러 핸들링
-        console.error(e);
-      }
+      } catch {}
     };
 
     fetchProfile();
   }, []);
 
-  // 채팅방 진입하면 unreadCount 0 처리
+  // 마지막 정상 unreadCount만 badge에 노출 (isFetching 중엔 badge 갱신X)
+  useEffect(() => {
+    const total = chatList.reduce((sum, chat) => sum + (chat.unreadCount ?? 0), 0);
+    if (!isFetching && prevTotalUnreadCount.current !== total) {
+      setTotalUnreadCount(total);
+      prevTotalUnreadCount.current = total;
+    }
+  }, [chatList, setTotalUnreadCount, isFetching]);
+
   useEffect(() => {
     if (!selectedChatId) {
       prevRoomId.current = null;
@@ -172,11 +184,6 @@ export function useChatPanelHandler() {
         prevRoomId.current = selectedChatId;
 
         subscribeMessageReadAfterConnect(handleMessageRead);
-
-        // // 입장시 unreadCount 0 처리
-        // queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
-        //   old.map((chat) => (chat.id === selectedChatId ? { ...chat, unreadCount: 0 } : chat)),
-        // );
       } catch {
         setChatRoomInfo(null);
       }
@@ -188,20 +195,14 @@ export function useChatPanelHandler() {
     };
   }, [selectedChatId, queryClient]);
 
-  // 채팅방 나가기
   const handleLeaveChat = async () => {
     if (!selectedChatId) return;
 
     try {
-      // leaveRoom 호출 시, 콜백으로 성공/실패 처리
       leaveRoom(selectedChatId, (response) => {
         if (response.success) {
-          // 성공적으로 나간 경우
-
           queryClient.invalidateQueries({ queryKey: ['chatList'] });
           setSelectedChatId(null);
-        } else {
-          // 실패한 경우
         }
       });
     } catch (err) {
@@ -209,7 +210,6 @@ export function useChatPanelHandler() {
     }
   };
 
-  // 뒤로가기
   const handleBackEvent = async () => {
     await queryClient.invalidateQueries({ queryKey: ['chatList'] });
     setSelectedChatId(null);
@@ -218,8 +218,6 @@ export function useChatPanelHandler() {
   return {
     isOpen,
     setIsOpen,
-    isFlag,
-    setIsFlag,
     selectedChatId,
     setSelectedChatId,
     chatList,
@@ -228,5 +226,6 @@ export function useChatPanelHandler() {
     handleLeaveChat,
     handleBackEvent,
     profile,
+    isFetching, // 추가!
   };
 }

@@ -3,6 +3,8 @@ import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 
 import { post } from '@/apis/httpClient';
+import { useAuthStore } from '@/app/store/useAuthStore';
+import { fetchTotalUnreadCount } from '@/features/chat/hooks/fetchTotalUnreadCount';
 
 type LoginParams = {
   email: string;
@@ -13,6 +15,8 @@ export default function useLogin(setLogin: (token: string) => void) {
   const router = useRouter();
   const [globalError, setGlobalError] = useState<string>('');
   const [isLoading, setIsLoading] = useState(false);
+
+  const setTotalUnreadCount = useAuthStore((state) => state.setTotalUnreadCount);
 
   const handleLogin = async ({ email, password }: LoginParams) => {
     setIsLoading(true);
@@ -31,6 +35,13 @@ export default function useLogin(setLogin: (token: string) => void) {
 
       localStorage.setItem('accessToken', accessToken);
       setLogin(accessToken);
+
+      try {
+        const totalUnread = await fetchTotalUnreadCount();
+        setTotalUnreadCount(totalUnread);
+      } catch {
+        setTotalUnreadCount(0); // 실패 시 0으로 초기화(옵션)
+      }
 
       router.replace('/developersHub?type=resume&sort=popular');
     } catch (err) {
