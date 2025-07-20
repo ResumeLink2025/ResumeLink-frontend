@@ -77,7 +77,7 @@ export default function LoginSection() {
         </div>
       )}
 
-      <form className="w-full max-w-sm flex flex-col gap-3" onSubmit={handleSubmit}>
+      <form className="w-full max-w-sm flex flex-col gap-3 px-4 sm:px-0" onSubmit={handleSubmit}>
         <Input
           label="아이디"
           name="id"

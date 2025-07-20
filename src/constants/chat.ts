@@ -143,9 +143,7 @@ export interface NewMessageNotification {
 }
 
 export interface UnreadCountInner {
-  data: {
-    unreadCount: number;
-  };
+  unreadCount: number;
 }
 export interface UnreadCountResponse {
   data: UnreadCountInner;

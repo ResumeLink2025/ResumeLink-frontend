@@ -17,12 +17,10 @@ export default function RegisterSection() {
 
   const [userInfo, setUserInfo] = useState({ id: '', password: '' });
 
-
   const togglePasswordType = () => setIsTypePassword((prev) => !prev);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
 
     const { id, password } = userInfo;
 
@@ -34,9 +32,7 @@ export default function RegisterSection() {
 
     if (emailError || pwError) return;
 
-
     await handleRegister({ email: id, password });
-
   };
 
   return (
@@ -53,7 +49,7 @@ export default function RegisterSection() {
         </div>
       )}
 
-      <form className="w-full max-w-sm flex flex-col gap-4" onSubmit={handleSubmit}>
+      <form className="w-full max-w-sm flex flex-col gap-4 px-4 sm:px-0" onSubmit={handleSubmit}>
         <Input
           label="아이디"
           name="id"

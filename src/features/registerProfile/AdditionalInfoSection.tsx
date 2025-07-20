@@ -13,9 +13,8 @@ interface Props {
 export default function AdditionalInfoSection({ jobOptions, yearOptions }: Props) {
   const { setValue, watch } = useFormContext<UserProfileType>();
 
-  // string[]로 watch!
   const desirePositions: string[] = watch('desirePositions') ?? [];
-  // 선택된 직무(단일 선택)
+
   const selectedJob = desirePositions.length > 0 ? desirePositions[0] : jobOptions[0].value;
 
   const experienceYears = watch('experienceYears');

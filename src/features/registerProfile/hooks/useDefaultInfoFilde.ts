@@ -13,7 +13,6 @@ const useDefaultInfoField = () => {
     watch,
   } = useFormContext<UserProfileType>();
 
-  // imageUrl(미리보기 용), 닉네임, 생일, 성별, 희망직무(배열), 연차
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [nickName, setNickName] = useState<string>('');
   const [birthday, setBirthday] = useState<string | null>(null);
@@ -47,34 +46,24 @@ const useDefaultInfoField = () => {
     setValue('nickname', value, { shouldDirty: true, shouldValidate: false });
   };
 
-  // 생일
   const handleBirthday = (e: ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value || null;
     setBirthday(value);
     setValue('birthday', value, { shouldDirty: true, shouldValidate: true });
   };
 
-  // 성별
   const handleGender = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = e.target.value || null;
     setGender(value as UserProfileType['gender']);
     setValue('gender', value, { shouldDirty: true, shouldValidate: false });
   };
 
-  // 희망직무 (배열형, 단일 선택도 배열로)
   const handleDesirePosition = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = e.target.value;
     setDesirePositions([value]); // ★ 배열로 set
     setValue('desirePositions', [value], { shouldDirty: true, shouldValidate: false });
   };
 
-  // 만약 복수 선택 지원이면
-  // const handleDesirePositions = (values: string[]) => {
-  //   setDesirePositions(values);
-  //   setValue('desirePositions', values, { shouldDirty: true, shouldValidate: false });
-  // }
-
-  // 연차
   const handleExperienceYears = (e: ChangeEvent<HTMLSelectElement | HTMLInputElement>) => {
     const value = Number(e.target.value);
     setExperienceYears(value);
@@ -106,7 +95,7 @@ const useDefaultInfoField = () => {
     nickName,
     birthday,
     gender,
-    desirePositions, // ★ 배열 상태로 반환
+    desirePositions,
     experienceYears,
     handleUploadImageFile,
     handleNickName,
@@ -114,7 +103,7 @@ const useDefaultInfoField = () => {
     handleGender,
     handleDesirePosition,
     handleExperienceYears,
-    setValue, // 필요하면 외부에서도 set 가능
+    setValue,
   };
 };
 

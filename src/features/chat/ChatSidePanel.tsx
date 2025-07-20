@@ -2,6 +2,9 @@
 
 import { AnimatePresence, motion } from 'framer-motion';
 import Image from 'next/image';
+import { useEffect, useRef } from 'react';
+
+import { useAuthStore } from '@/app/store/useAuthStore';
 
 import ChatList from './ChatList';
 import ChatRoom from './ChatRoom';
@@ -18,11 +21,20 @@ export default function ChatSidePanel() {
     handleLeaveChat,
     handleBackEvent,
     profile,
-    setIsFlag,
+    isFetching, // <--- 추가: useChatPanelHandler에서 isFetching도 반환하도록
   } = useChatPanelHandler();
 
-  const totalUnreadCount = chatList.reduce((sum, chat) => sum + (chat.unreadCount ?? 0), 0);
-  if (!profile) return;
+  // 뱃지 마지막 정상값 기억
+  const totalUnreadCount = useAuthStore((s) => s.totalUnreadCount);
+  const lastUnreadRef = useRef(0);
+
+  useEffect(() => {
+    if (!isFetching) {
+      lastUnreadRef.current = totalUnreadCount;
+    }
+  }, [isFetching, totalUnreadCount]);
+
+  if (!profile) return null;
 
   return (
     <>
@@ -31,10 +43,10 @@ export default function ChatSidePanel() {
           onClick={() => setIsOpen(true)}
           className="fixed bottom-16 right-4 z-[60] rounded-md bg-primary p-4 shadow-lg"
         >
-          {/* 뱃지 */}
-          {totalUnreadCount > 0 && (
+          {/* isFetching 동안 badge 숨김, 정상값만 보여줌 */}
+          {lastUnreadRef.current > 0 && !isFetching && (
             <span className="absolute -top-2 -right-2 min-w-6 h-6 px-2 rounded-full bg-red-500 text-white text-xs flex items-center justify-center shadow">
-              {totalUnreadCount > 99 ? '99+' : totalUnreadCount}
+              {lastUnreadRef.current > 99 ? '99+' : lastUnreadRef.current}
             </span>
           )}
           💬
@@ -83,7 +95,7 @@ export default function ChatSidePanel() {
                   chats={chatList}
                   onSelectChat={setSelectedChatId}
                   profile={profile}
-                  setIsFlag={setIsFlag}
+                  isFetching={isFetching}
                 />
               )}
             </div>

@@ -43,12 +43,6 @@ export default function ChatRoomView({
 
       queryClient.invalidateQueries({ queryKey: ['chatRoomMessages', chatId] });
 
-      // queryClient.invalidateQueries({ queryKey: ['chatList'] });
-
-      // queryClient.setQueryData<CoffeeChat[]>(['chatList'], (old = []) =>
-      //   old.map((chat) => (chat.id === chatId ? { ...chat, message: inputValue, unreadCount: 0 } : chat)),
-      // );
-
       setInputValue('');
     } finally {
       setIsSending(false);
