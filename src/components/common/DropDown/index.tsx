@@ -14,7 +14,7 @@ const DropDown = ({ onClose, children }: DropDownProps) => {
   const dropDownRef = useClickOutside(onClose);
 
   return (
-    <div ref={dropDownRef} className="relative inline-block">
+    <div ref={dropDownRef} className="relative w-fit">
       {children}
     </div>
   );

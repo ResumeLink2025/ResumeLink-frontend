@@ -26,7 +26,7 @@ const UserInfoSection = ({ id, myProfile, resumeImageUrl }: UserInfoSectionProps
       </Typography>
       <div className="flex gap-6">
         <ImageUpload size="large" previewUrl={imageUrl} uploadFile={handleUploadImageFile} />
-        <div className="flex-1 grid grid-cols-2">
+        <div className="flex flex-1 flex-col gap-3 input-sm:grid input-sm:grid-cols-2">
           <UserInfoField label="이름" value={myProfile?.profile.nickname} />
           <UserInfoField
             label="관심 직군"

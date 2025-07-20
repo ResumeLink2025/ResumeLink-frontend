@@ -11,13 +11,15 @@ const HeroSection = () => {
 
   const routePath = useRedirectPath();
   return (
-    <div className="p-10">
+    <div className="px-8 py-10">
       <div className="relative h-150 p-5 rounded-lg overflow-hidden">
         <Image src="/images/landing-hero.avif" alt="hero" fill priority className="object-cover" />
         <div className="absolute inset-0 bg-black opacity-45 rounded-lg" />
         <div className="relative h-full z-5 flex flex-col gap-3 items-center justify-center text-white">
           <SlideUpMotion>
-            <Typography type="hero1">AI를 사용하여 이력서를 작성해보세요!</Typography>
+            <Typography type="hero1" className="inline-block text-center">
+              AI를 사용하여 이력서를 작성해보세요!
+            </Typography>
           </SlideUpMotion>
           <SlideUpMotion delay={0.5}>
             <Typography type="body1" className="inline-block text-center">

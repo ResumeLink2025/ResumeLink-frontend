@@ -9,9 +9,10 @@ import { cn } from '@/utils/styleMerge';
 interface NavLinkProps {
   navHref: string;
   title: string;
+  onClick?: () => void;
 }
 
-const NavLink = ({ navHref, title }: NavLinkProps) => {
+const NavLink = ({ navHref, title, onClick }: NavLinkProps) => {
   const pathname = usePathname();
   const router = useRouter();
   const [mount, setMount] = useState(false);
@@ -24,6 +25,7 @@ const NavLink = ({ navHref, title }: NavLinkProps) => {
 
   const onClickRouteHref = () => {
     router.push(navHref);
+    onClick?.();
   };
 
   if (!mount) return null;
