@@ -1,36 +1,58 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# ResumeLink-Frontend
 
-## Getting Started
+### ResumeLink는 AI 기반 이력서 생성, 프로젝트 포트폴리오 관리, 실시간 커뮤니케이션 기능을 제공하는 개발자 네트워킹 서비스입니다.
 
-First, run the development server:
+### 주요 기능 및 사용자 흐름
 
+- **랜딩 및 인증**
+    - ‘시작하기’ 또는 상단의 **로그인 / 회원가입** 버튼을 통해 서비스에 진입
+    - 로그인 후 **개발자 허브** 페이지로 자동으로 이동
+
+- **개발자 허브**
+    - 공개된 **이력서 및 프로젝트** 목록 열람 가능
+    - **검색**, **필터**(기술 스택, 개발자 카테고리), **정렬**(최신순 / 인기순) 기능 제공
+    - 마음에 드는 콘텐츠에 **좋아요** 기능 제공
+ 
+- **이력서 생성**
+    - **제목, 자기소개, 개발자 카테고리, 진행한 프로젝트, 경험** 등을 입력하면 **AI가 자동으로 이력서를 생성**
+      
+- **이력서 / 프로젝트 상세 보기**
+    - 상세 페이지에서 콘텐츠 열람 가능
+    - **커피챗 신청** 기능 제공
+      
+- **커피챗 및 채팅**
+    - 받은 커피챗 요청을 모달에서 확인 가능
+    - **수락 / 거절** 버튼 제공
+    - 수락 시 **채팅방이 자동 생성**,
+    - **진행 중인 채팅 목록**에서 대화 이어가기 가능
+      
+- **내 콘텐츠 관리**
+    - 작성한 **이력서 및 프로젝트 수정 / 삭제** 가능
+    - 이력서는 **PDF 파일로 다운로드** 가능
+      
+- **마이 페이지**
+    - 내가 작성한 **이력서, 프로젝트, 프로필 정보**를 통합 관리
+
+
+### 설치 및 실행
+
+1. 의존성 설치
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pnpm install
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. 환경 변수 설정
+```bash
+환경 변수 관련 설정은 @lsj0202, @seoku9에게 문의해 주세요.
+```
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+3. 개발 서버 실행
+```bash
+pnpm run dev
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 사용 가능한 스크립트
 
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm run dev`: 개발 서버 실행
+- `pnpm lint-fix`: 전체 코드에 eslint 규칙 적용
+- `pnpm run storybook`: 스토리북 서버 실행
